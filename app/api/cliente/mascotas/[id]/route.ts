@@ -1,47 +1,103 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import { User } from "@/models/User";
-import bcrypt from "bcryptjs";
+import connectDB from "@/lib/db";
+import { Pet } from "@/models/Pet";
+import { authMiddleware } from "@/middleware/auth.middleware";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+// =========================
+// GET MASCOTA POR ID
+// =========================
+export async function GET(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   await connectDB();
+
+  const user = await authMiddleware(req);
+  if (!user)
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
+  const { id } = await context.params;
+
   try {
-    const cliente = await User.findById(params.id).select("-password");
-    if (!cliente) return NextResponse.json({ error: "Cliente no encontrado" }, { status: 404 });
-    return NextResponse.json(cliente);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const pet = await Pet.findById(id).populate("propietario assignedVet");
+
+    if (!pet)
+      return NextResponse.json({ error: "Mascota no encontrada" }, { status: 404 });
+
+    return NextResponse.json(pet);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+// =========================
+// EDITAR MASCOTA
+// =========================
+export async function PUT(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   await connectDB();
-  let data;
-  try {
-    data = await req.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
-  }
 
-  const { name, email, password } = data;
+  const user = await authMiddleware(req);
+  if (!user)
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
+  const { id } = await context.params;
+
   try {
-    const updateData: any = { name, email };
-    if (password) updateData.password = await bcrypt.hash(password, 10);
-    const cliente = await User.findByIdAndUpdate(params.id, updateData, { new: true }).select("-password");
-    if (!cliente) return NextResponse.json({ error: "Cliente no encontrado" }, { status: 404 });
-    return NextResponse.json(cliente);
+    const body = await req.json();
+
+    const mascotaActualizada = await Pet.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+
+    if (!mascotaActualizada) {
+      return NextResponse.json(
+        { error: "Mascota no encontrada" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(mascotaActualizada, { status: 200 });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Error al actualizar" },
+      { status: 500 }
+    );
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+
+// =========================
+// ELIMINAR MASCOTA
+// =========================
+export async function DELETE(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   await connectDB();
+
+  const user = await authMiddleware(req);
+  if (!user)
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
+  const { id } = await context.params;
+
   try {
-    const cliente = await User.findByIdAndDelete(params.id);
-    if (!cliente) return NextResponse.json({ error: "Cliente no encontrado" }, { status: 404 });
-    return NextResponse.json({ message: "Cliente eliminado" });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const deleted = await Pet.findOneAndDelete({
+      _id: id,
+      propietario: user.id,
+    });
+
+    if (!deleted)
+      return NextResponse.json(
+        { error: "No puedes eliminar esta mascota" },
+        { status: 403 }
+      );
+
+    return NextResponse.json({ success: true });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

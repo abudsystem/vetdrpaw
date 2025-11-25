@@ -1,6 +1,6 @@
 // /app/api/veterinario/mascotas/route.ts
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
+import connectDB from "@/lib/db";
 import { Pet } from "@/models/Pet";
 import { authMiddleware } from "@/middleware/auth.middleware";
 import { User } from "@/models/User";
@@ -15,9 +15,9 @@ export async function GET(req: Request) {
 
   try {
     const pets = await Pet.find()
-  .populate({ path: "propietario", select: "name email" })
-  .populate({ path: "assignedVet", select: "name email" })
-  .lean();
+      .populate({ path: "propietario", select: "name email" })
+      .populate({ path: "assignedVet", select: "name email" })
+      .lean();
 
 
     return NextResponse.json(pets);

@@ -3,10 +3,16 @@ import { UserPayload } from "@/types/auth";
 
 export async function authMiddleware(req: Request): Promise<UserPayload | null> {
   const header = req.headers.get("authorization");
+  let token;
 
-  if (!header) return null;
+  if (header) {
+    token = header.split(" ")[1];
+  } else {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    token = cookieStore.get("token")?.value;
+  }
 
-  const token = header.split(" ")[1];
   if (!token) return null;
 
   try {

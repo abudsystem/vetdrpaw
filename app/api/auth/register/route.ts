@@ -1,24 +1,54 @@
-import { connectDB } from "@/lib/db";
+import connectDB from "@/lib/db";
 import { User } from "@/models/User";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const { email, password, role } = await req.json();
-  const hashed = await bcrypt.hash(password, 10);
+    // Obtener datos del body
+    const { name, email, password } = await req.json();
 
-  const user = await User.create({
-    email,
-    password: hashed,
-    role: role || "cliente",
-  });
+    // Validaciones básicas
+    if (!name || !email || !password) {
+      return Response.json(
+        { message: "Todos los campos son obligatorios" },
+        { status: 400 }
+      );
+    }
 
-  // Convertimos a objeto plano
-  const userObj = user.toObject();
+    // Validar si ya existe
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return Response.json(
+        { message: "El correo ya está registrado" },
+        { status: 400 }
+      );
+    }
 
-  // Quitamos el password
-  delete userObj.password;
+    // Encriptar contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  return Response.json(userObj, { status: 201 });
+    // Crear usuario sin role → usa el default del modelo
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    // Convertir a objeto plano
+    const userObj = newUser.toObject();
+
+    // Eliminar la contraseña antes de devolver
+    delete userObj.password;
+
+    return Response.json(userObj, { status: 201 });
+
+  } catch (error) {
+    console.error("REGISTER ERROR:", error);
+    return Response.json(
+      { message: "Error interno del servidor" },
+      { status: 500 }
+    );
+  }
 }

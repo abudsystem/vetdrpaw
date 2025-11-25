@@ -1,0 +1,3 @@
+### GET PROFILE
+GET http://localhost:3000/api/cliente/perfil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MWY3Y2UxZmRhNTU4MWRmMjRhZGI2YyIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzNjczMzk5LCJleHAiOjE3NjQyNzgxOTl9.HrME_SCt3IG4JuHxnN_hMwG7o4yE9U2A91rpLhrpnko

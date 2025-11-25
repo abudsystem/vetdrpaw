@@ -1,12 +1,13 @@
-// lib/permissions.ts
+import { AppError } from "./api-handler";
+import { TokenPayload } from "./jwt";
 
-export function requireRole(user: any, roles: string[]) {
+export function requireRole(user: TokenPayload | null, roles: string[]) {
   if (!user) {
-    throw new Error("Not authenticated");
+    throw new AppError("Not authenticated", 401);
   }
 
   if (!roles.includes(user.role)) {
-    throw new Error("Not authorized");
+    throw new AppError("Not authorized", 403);
   }
 
   return true;

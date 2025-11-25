@@ -1,48 +1,83 @@
-### 1. Crear una mascota
-POST http://localhost:3000/api/veterinario/mascotas
+@baseUrl = http://localhost:3000/api
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjFmNGU3YTRhYzViNmM4ZjJlOWQwYSIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzODMzMDk0LCJleHAiOjE3NjQ0Mzc4OTR9.9P0-forDX-I3rnf72DhYm3yikEM0gto0XmOLXWd3-rU
+
+### Crear mascota
+POST {{baseUrl}}/cliente/mascotas
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo
 
 {
-  "nombre": "Firulais",
+  "nombre": "Firulais prueba",
+  "especie": "perro",
   "edad": 3,
-  "especie": "Perro",
-  "raza": "Labrador",
-  "propietario": "6917468cb0ee354003eedb43"
+  "raza": "Labrador"
 }
 
-###
-
-### 2. Obtener todas las mascotas
-GET http://localhost:3000/api/veterinario/mascotas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo
-
-###
-
-### 3. Obtener una mascota por ID
-# Reemplaza :id con el ID real de una mascota
-GET http://localhost:3000/api/veterinario/mascotas/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo
-
-###
-
-### 4. Actualizar una mascota por ID
-# Reemplaza :id con el ID real de una mascota
-PUT http://localhost:3000/api/veterinario/mascotas/:id
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo
+### resultado
+<!--
 
 {
-  "nombre": "Firulais Actualizado",
+  "nombre": "Firulais prueba",
+  "especie": "perro",
+  "edad": 3,
+  "raza": "Labrador",
+  "propietario": "6921f4e7a4ac5b6c8f2e9d0a",
+  "assignedVet": null,
+  "_id": "6921f55aa4ac5b6c8f2e9d0d",
+  "createdAt": "2025-11-22T17:39:38.535Z",
+  "updatedAt": "2025-11-22T17:39:38.535Z",
+  "__v": 0
+}
+-->
+
+### Obtener mis mascotas
+GET {{baseUrl}}/cliente/mascotas
+Authorization: Bearer {{authToken}}
+
+### resutlado 
+<!--
+
+[
+  {
+    "_id": "6921f55aa4ac5b6c8f2e9d0d",
+    "nombre": "Firulais prueba",
+    "especie": "perro",
+    "edad": 3,
+    "raza": "Labrador",
+    "propietario": {
+      "_id": "6921f4e7a4ac5b6c8f2e9d0a",
+      "name": "Cliente",
+      "email": "cliente@gmail.com",
+      "password": "$2b$10$3fN07d13hT6U2vBBhKIQb.7ee034thubDW8mRgqYWICWIq0K6o/iC",
+      "role": "cliente",
+      "createdAt": "2025-11-22T17:37:43.571Z",
+      "updatedAt": "2025-11-22T17:37:43.571Z",
+      "__v": 0
+    },
+    "assignedVet": null,
+    "createdAt": "2025-11-22T17:39:38.535Z",
+    "updatedAt": "2025-11-22T17:39:38.535Z",
+    "__v": 0
+  }
+]
+-->
+
+### Obtener mascota por ID
+GET {{baseUrl}}/cliente/mascotas/6921f6e6a4ac5b6c8f2e9d1e
+Authorization: Bearer {{authToken}}
+
+### Editar mascota (FUNCIONA)
+PUT {{baseUrl}}/cliente/mascotas/6921f6e6a4ac5b6c8f2e9d1e
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "nombre": "Nuevo nombre por rest",
+  "especie": "gato",
   "edad": 4,
-  "especie": "Perro",
-  "raza": "Golden Retriever",
-  "propietario": "6917468cb0ee354003eedb43"
+  "raza": "Siames"
 }
 
-###
-
-### 5. Eliminar una mascota por ID
-# Reemplaza :id con el ID real de una mascota
-DELETE http://localhost:3000/api/veterinario/mascotas/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo
+### Eliminar mascota
+DELETE {{baseUrl}}/cliente/mascotas/6921c95f6c5b518382548aa0
+Authorization: Bearer {{authToken}}

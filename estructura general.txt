@@ -1,0 +1,149 @@
+Aplicacion web para veterinaria
+
+mira la mejor forma de organizarlo para que sea facil de mantener y actualizar.
+
+Sera desarrollada en TypeScript con Next.js, MongoDB y Node.js.
+
+Funcionalidades
+Tendra 3 roles de usuarios:
+    Veterinarios: pueden modificar los datos de cada mascota del cliente.
+    Clientes: pueden visualizar los datos de sus mascotas y las citas que el veterinario cree. 
+    administradoristrador: puede gestionar los roles de cada cliente y asignar el role de cliente  a veterinario y de veterinario a cliente
+ 
+Pagina de inicio
+    sector de bienvenida. 
+    Filosofia de la clinica.
+    Servicios.
+    comentarios sobre la clinica.
+    politica de bienestar animal.
+    Historia
+    valores 
+
+pagina sobre nosotros
+    mision
+    redes sociales (con iconos), facebook, instagram, whatsapp, correo electronico
+    equipo veterinario
+    veterinario especializado sobre el dueno
+
+    
+pagina contacto
+    formulario de contacto para enviar a un correo electronico
+    formalario de envio de mensaje a whatsapp
+
+
+pagina servicios
+    servicios veterinarios
+        consulta general
+        consulta de urgencias (24 horas)
+        control crecimiento y peso
+        control geriatrico (mascotas mayores)
+        control postoperatorio
+        seguimietno de tratamientos
+        vacunaciones
+            planes de vacunaciones
+        desparasitaciones
+            internas
+            externas
+        programas preventivos
+        productos antiparasitarios
+        cirugias
+            esterilizaciones / castraciones
+            cirugias tejidos blandos
+            cirugias traumatologicas
+            cirugias oculares
+            cirugias de emergencia
+        hospitalizaciones
+            monitoreo 24h
+            alimentacion y control de fluidos
+    
+    servicios complementarios
+        alimentos clinicos
+        productos veterinarios
+        alimentos para mascotas
+        cortes de pelo
+        banos medicados
+        corte de unas y limpieza de oidos
+        juguetes y accesorios
+        productos de higiene
+        collares de rastreo
+        camas , correas
+        medicamentos y suplementos
+        dia de spa (bano + corte de pelo + corte de unas)
+    certificados 
+        certicados de vacunaciones
+        certificados de desparasitaciones
+        certificados de cirugias
+        certificados de hospitalizaciones
+        certificados de adopcion
+        tramites sanitarios para traslados o exportacion de mascotas
+
+
+
+boton agendar cita -> login
+    si no esta logueado -> Register
+    
+
+
+Navbar
+    Logo
+    buscar (busca en todo el sitio lo que busque el usuario)
+    Inicio
+    Cuidado tu mascota
+    Servicios
+    Contacto
+    register
+    login
+
+Footer
+    Informacion de la clinica.
+    Redes sociales.
+    Politica de privacidad.
+    Terminos y condiciones.
+    
+pagina /cliente un Dashboard
+    cliente/citas
+        (solo si eres cliente puedes entrar (debes estar logueado))
+        citas que crea el veterinario, pero solo tu puedes verlas.
+    cliente/mascotas
+        (solo si eres cliente puedes entrar (debes estar logueado))
+        tus mascotas, puedes crear, editar y eliminar. 
+    cliente/perfil
+        (solo si eres cliente puedes entrar (debes estar logueado))
+        tu perfil. el numero de telefono y el correo electronico. el cual puedes editar. 
+        historial de citas.
+
+ pagina /veterinario un Dashboard
+    veterinario/citas
+        (solo si eres veterinario puedes entrar (debes estar logueado))
+        citas que crea el veterinario y selecciona el cliente que le corresponde.
+    veterinario/mascotas
+        (solo si eres veterinario puedes entrar (debes estar logueado))
+        listado de mascotas, puedes crear, editar y eliminar. la de todos los clientes 
+        puedes ver los datos de cada mascota. junto a su dueno
+        listado de clientes.
+        puedes ver los datos de cada cliente. junto a sus mascotas.
+        puedes crear citas 
+    veterinario/perfil
+        (solo si eres veterinario puedes entrar (debes estar logueado))
+        tu perfil. el numero de telefono y el correo electronico. el cual puedes editar. 
+    veterinario/dashboard
+        (solo si eres veterinario puedes entrar (debes estar logueado))
+        dashboard con informacion general de la clinica.
+
+    administradoristrador/dashboard
+        (solo si eres administradoristrador puedes entrar (debes estar logueado))
+        dashboard con informacion general de la clinica.
+        administradoristrador/roles
+            (solo si eres administradoristrador puedes entrar (debes estar logueado))
+            roles de cada cliente y asignar el role de cliente  a veterinario y de veterinario a cliente
+        administradoristrador/usuarios
+            (solo si eres administradoristrador puedes entr el numero de telefono y el correo electronico. el cual puedes editar. 
+ar (debes estar logueado))
+            listado de usuarios, puedes crear, editar y eliminar.
+            puedes ver los datos de cada usuario. junto a su role.
+            puedes ver los datos de cada usuario. junto a su role.
+
+Cuidado tu mascota
+    Contenido informativo
+    Blogs y articulos sobre cuidado de mascotas.
+

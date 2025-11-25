@@ -1,21 +1,30 @@
+### LOGIN
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "restuser1@test.com",
-  "password": "restuser1"
+  "email": "cliente@gmail.com",
+  "password": "cliente"
 }
 
-<!---
-
+###
+<!-- BORRAR ANTES
+HTTP/1.1 200 OK
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+content-type: application/json
+Date: Thu, 20 Nov 2025 21:07:24 GMT
+Connection: close
+Transfer-Encoding: chunked
 {
   "user": {
-    "_id": "6917f6f44416ba9bcff5a058",
-    "email": "restuser1@test.com",
+    "_id": "6921f4e7a4ac5b6c8f2e9d0a",
+    "name": "Cliente",
+    "email": "cliente@gmail.com",
     "role": "cliente",
-    "createdAt": "2025-11-15T03:43:48.399Z",
-    "updatedAt": "2025-11-15T03:43:48.399Z",
+    "createdAt": "2025-11-22T17:37:43.571Z",
+    "updatedAt": "2025-11-22T17:37:43.571Z",
     "__v": 0
   },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTdmNmY0NDQxNmJhOWJjZmY1YTA1OCIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzMjMwNDMyLCJleHAiOjE3NjM4MzUyMzJ9.rRBapbb9NI6vywIEFqTivz4fXjoOKepmubgMpH0PCLo"
-}-->
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjFmNGU3YTRhYzViNmM4ZjJlOWQwYSIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzODMzMDk0LCJleHAiOjE3NjQ0Mzc4OTR9.9P0-forDX-I3rnf72DhYm3yikEM0gto0XmOLXWd3-rU"
+}
+-->

@@ -2,7 +2,17 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "restuser3@test.com",
-  "password": "restuser3",
-  "role": "veterinario"
+  "name": "Veterinario",
+  "email": "veterinario@gmail.com",
+  "password": "veterinario"
+}
+
+###
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Cliente",
+  "email": "cliente@gmail.com",
+  "password": "cliente"
 }

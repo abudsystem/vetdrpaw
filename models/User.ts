@@ -1,18 +1,31 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password?: string;
+  role: "cliente" | "veterinario" | "administrador";
+  telefono?: string;
+  direccion?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema = new Schema<IUser>(
   {
-    name: String,
-    email: { type: String, unique: true },
-    password: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, select: true }, // Select true by default, handle exclusion in service/repo
     role: {
       type: String,
-      enum: ["cliente", "veterinario", "admin"],
+      enum: ["cliente", "veterinario", "administrador"],
       default: "cliente",
     },
+    telefono: { type: String, required: false },
+    direccion: { type: String, required: false },
   },
   { timestamps: true }
 );
 
-export const User =
-  mongoose.models.User || mongoose.model("User", userSchema);
+export const User: Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>("User", userSchema);

@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3000/api
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjFmNGU3YTRhYzViNmM4ZjJlOWQwYSIsInJvbGUiOiJjbGllbnRlIiwiaWF0IjoxNzYzODMzMDk0LCJleHAiOjE3NjQ0Mzc4OTR9.9P0-forDX-I3rnf72DhYm3yikEM0gto0XmOLXWd3-rU
+
+### Crear cita
+POST {{baseUrl}}/cliente/citas
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "pet": "6921d63d7cf4193fa0e02bd9",
+  "veterinarian": "691f7ce1fda5581df24adb6c",
+  "date": "2025-11-23T10:30:00.000Z",
+  "reason": "Chequeo general"
+}
+### resultado
+<!--
+HTTP/1.1 201 Created
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+content-type: application/json
+Date: Sat, 22 Nov 2025 17:45:06 GMT
+Connection: close
+Transfer-Encoding: chunked
+
+{
+  "pet": null,
+  "veterinarian": null,
+  "date": "2025-11-23T10:30:00.000Z",
+  "reason": "Chequeo general",
+  "status": "pendiente",
+  "_id": "6921f6a2a4ac5b6c8f2e9d18",
+  "createdAt": "2025-11-22T17:45:06.099Z",
+  "updatedAt": "2025-11-22T17:45:06.099Z",
+  "__v": 0
+}
+-->
+
+### Listar citas
+GET {{baseUrl}}/cliente/citas
+Authorization: Bearer {{authToken}}
+
+### Buscar cita individual (solo cuando implementes)
+GET {{baseUrl}}/cliente/citas/6922157080f8196f37bdfae7
+Authorization: Bearer {{authToken}}
+
+### Actualizar cita (solo cuando implementes)
+PUT {{baseUrl}}/cliente/citas/6922157080f8196f37bdfae7
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "date": "2025-11-24T11:00:00.000Z",
+  "reason": "Chequeo actualizado",
+  "status": "aceptada"
+}
+
+### Eliminar cita (solo cuando implementes)
+DELETE {{baseUrl}}/cliente/citas/6922157080f8196f37bdfae7
+Authorization: Bearer {{authToken}}

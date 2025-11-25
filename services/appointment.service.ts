@@ -1,8 +1,9 @@
 import { AppointmentRepository } from "@/repositories/appointment.repo";
+import { IAppointment } from "@/models/Appointment";
 import { UpdateQuery } from "mongoose";
 
 export const AppointmentService = {
-  create: (data: any) => AppointmentRepository.create(data),
+  create: (data: Partial<IAppointment>) => AppointmentRepository.create(data),
   list: () => AppointmentRepository.list(),
-  update: (id: any, data: UpdateQuery<any> | undefined) => AppointmentRepository.updateById(id, data),
+  update: (id: string, data: UpdateQuery<IAppointment>) => AppointmentRepository.updateById(id, data),
 };

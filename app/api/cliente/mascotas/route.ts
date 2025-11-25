@@ -1,35 +1,58 @@
-// /app/api/cliente/route.ts
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import { User } from "@/models/User";
-import bcrypt from "bcryptjs";
+import connectDB from "@/lib/db";
+import { Pet } from "@/models/Pet";
+import { authMiddleware } from "@/middleware/auth.middleware";
 
+export async function GET(req: Request) {
+  await connectDB();
+
+  const user = await authMiddleware(req);
+  if (!user) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
+  try {
+    let pets;
+
+    // Si es un cliente, solo ver sus mascotas
+    if (user.role === "cliente") {
+      pets = await Pet.find({ propietario: user.id }).populate("propietario assignedVet");
+    } else {
+      // Veterinarios ven todas
+      pets = await Pet.find().populate("propietario assignedVet");
+    }
+
+    return NextResponse.json(pets);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
 export async function POST(req: Request) {
   await connectDB();
-  let data;
 
-  try {
-    data = await req.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
+  const user = await authMiddleware(req);
+  if (!user) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
-  const { name, email, password } = data;
-  if (!name || !email || !password) {
-    return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 });
+  const data = await req.json();
+
+  const petData: any = {
+    nombre: data.nombre,
+    especie: data.especie,
+    edad: data.edad,
+    raza: data.raza,
+    propietario: user.id
+  };
+
+  // Aquí está la magia
+  if (data.assignedVet && data.assignedVet.trim() !== "") {
+    petData.assignedVet = data.assignedVet;
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: "cliente",
-    });
-
-    return NextResponse.json({ user }, { status: 201 });
+    const newPet = await Pet.create(petData);
+    return NextResponse.json(newPet, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
