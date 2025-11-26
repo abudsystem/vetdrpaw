@@ -29,7 +29,7 @@ export default function NewCashFlowPage() {
             const newCategory = value === 'INGRESO' ? 'SERVICIO' : 'GASTO'; // Changed from VENTA
             setFormData(prev => ({
                 ...prev,
-                [name]: value,
+                [name]: value as 'INGRESO' | 'EGRESO',
                 category: newCategory
             }));
         } else {

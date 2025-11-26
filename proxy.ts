@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyEdgeToken } from "@/lib/edge-jwt";
 
-export async function middleware(req: NextRequest) {
+// 🚨 Ahora el handler debe llamarse "proxy"
+export async function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     // Rutas protegidas por rol
@@ -15,8 +16,8 @@ export async function middleware(req: NextRequest) {
     const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));
 
     if (isClientRoute || isVetRoute || isAdminRoute) {
-        // Verificar token desde cookie (mejor práctica) o header (si es API)
-        // Aquí asumimos cookie 'token' para la navegación del dashboard
+
+        // Leer token desde cookies (Next 16 sigue soportando esto)
         const token = req.cookies.get("token")?.value;
 
         if (!token) {
@@ -25,7 +26,10 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(url);
         }
 
-        const payload = await verifyEdgeToken(token, process.env.JWT_SECRET || "secret");
+        const payload = await verifyEdgeToken(
+            token,
+            process.env.JWT_SECRET || "secret"
+        );
 
         if (!payload) {
             const url = req.nextUrl.clone();
@@ -35,6 +39,7 @@ export async function middleware(req: NextRequest) {
 
         const role = payload.role;
 
+        // Validación por roles
         if (isClientRoute && role !== "cliente") {
             return NextResponse.redirect(new URL("/", req.url));
         }
@@ -51,6 +56,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
 }
 
+// 🔥 El config sigue igual
 export const config = {
     matcher: [
         "/cliente/:path*",

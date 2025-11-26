@@ -1,15 +1,16 @@
-import { Request, Response } from "express";
+import { NextResponse } from "next/server";
 import { Sale } from "../models/Sale";
 import { Product } from "../models/Product";
 import { InventoryMovement } from "../models/InventoryMovement";
 import mongoose from "mongoose";
 
 // Create Sale (with Products AND Services support)
-export const createSale = async (req: Request, res: Response) => {
+export const createSale = async (req: Request) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const { products = [], services = [], paymentMethod, client, userId } = req.body;
+        const body = await req.json();
+        const { products = [], services = [], paymentMethod, client, userId } = body;
 
         let total = 0;
         const saleProducts = [];
@@ -104,25 +105,25 @@ export const createSale = async (req: Request, res: Response) => {
             date: new Date(),
             type: 'INGRESO',
             category: 'VENTA',
-            description: `Venta #${newSale._id.toString().slice(-8)} - ${paymentMethod} - ${itemsDescription.join(' + ')}`,
+            description: `Venta #${(newSale as any)._id.toString().slice(-8)} - ${paymentMethod} - ${itemsDescription.join(' + ')}`,
             amount: total,
-            relatedDocument: newSale._id.toString(),
+            relatedDocument: (newSale as any)._id.toString(),
             createdBy: userId || 'Sistema'
         }], { session });
 
         await session.commitTransaction();
         session.endSession();
 
-        return res.status(201).json(newSale);
+        return NextResponse.json(newSale, { status: 201 });
     } catch (error: any) {
         await session.abortTransaction();
         session.endSession();
-        return res.status(400).json({ message: error.message || "Error al registrar la venta" });
+        return NextResponse.json({ message: error.message || "Error al registrar la venta" }, { status: 400 });
     }
 };
 
 // Get all sales
-export const getSales = async (req: Request, res: Response) => {
+export const getSales = async (req: Request) => {
     try {
         const sales = await Sale.find()
             .populate("client", "name email")
@@ -130,16 +131,16 @@ export const getSales = async (req: Request, res: Response) => {
             .populate("products.product", "name")
             .populate("services.service", "name")
             .sort({ createdAt: -1 });
-        return res.status(200).json(sales);
+        return NextResponse.json(sales, { status: 200 });
     } catch (error) {
-        return res.status(500).json({ message: "Error al obtener ventas", error });
+        return NextResponse.json({ message: "Error al obtener ventas", error }, { status: 500 });
     }
 };
 
 // Get sale by ID
-export const getSaleById = async (req: Request, res: Response) => {
+export const getSaleById = async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
     try {
-        const { id } = req.params;
+        const { id } = await params;
         const sale = await Sale.findById(id)
             .populate("client", "name email")
             .populate("user", "name")
@@ -147,11 +148,11 @@ export const getSaleById = async (req: Request, res: Response) => {
             .populate("services.service", "name");
 
         if (!sale) {
-            return res.status(404).json({ message: "Venta no encontrada" });
+            return NextResponse.json({ message: "Venta no encontrada" }, { status: 404 });
         }
 
-        return res.status(200).json(sale);
+        return NextResponse.json(sale, { status: 200 });
     } catch (error) {
-        return res.status(500).json({ message: "Error al obtener la venta", error });
+        return NextResponse.json({ message: "Error al obtener la venta", error }, { status: 500 });
     }
 };

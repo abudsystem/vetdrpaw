@@ -23,7 +23,7 @@ export async function GET(req: Request) {
 
         // Security: If client, ensure they own the pet
         if (user.role === "cliente") {
-            const filtered = appointments.filter(a => a.pet && a.pet.propietario.toString() === user.id);
+            const filtered = appointments.filter(a => a.pet && (a.pet as any).propietario.toString() === user.id);
             return NextResponse.json(filtered);
         }
 
