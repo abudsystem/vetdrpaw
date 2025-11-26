@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPet } from "@/services/cliente/pet.service";
 
 export default function NuevaMascota() {
@@ -11,7 +11,13 @@ export default function NuevaMascota() {
     raza: "",
   });
 
-  const token = localStorage.getItem("token") || "";
+  const [token, setToken] = useState("");
+
+  // ✅ Solo se ejecuta en el navegador (fix SSR build)
+  useEffect(() => {
+    const t = localStorage.getItem("token") || "";
+    setToken(t);
+  }, []);
 
   function handleChange(e: any) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,6 +25,12 @@ export default function NuevaMascota() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
+
+    if (!token) {
+      alert("No hay token. Inicia sesión primero.");
+      return;
+    }
+
     await createPet(
       { ...form, edad: Number(form.edad) },
       token

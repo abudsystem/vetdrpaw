@@ -1,29 +1,55 @@
 import { Pet, IPet } from "@/models/Pet";
 import dbConnect from "@/lib/db";
-import { UpdateQuery } from "mongoose";
+import {
+  UpdateQuery,
+  HydratedDocument,
+  InferSchemaType
+} from "mongoose";
+
+// Tipo lean para resultados .lean()
+type PetLean = InferSchemaType<typeof Pet.schema>;
 
 export const PetRepository = {
-  create: async (data: Partial<IPet>): Promise<IPet> => {
+  // Crea una mascota → retorna documento de mongoose (NO lean)
+  create: async (data: Partial<IPet>): Promise<HydratedDocument<IPet>> => {
     await dbConnect();
     return Pet.create(data);
   },
-  findByOwner: async (ownerId: string): Promise<IPet[]> => {
+
+  // Mascotas por propietario → documento mongoose (NO lean)
+  findByOwner: async (ownerId: string): Promise<HydratedDocument<IPet>[]> => {
     await dbConnect();
-    return Pet.find({ propietario: ownerId }).populate("propietario assignedVet");
+    return Pet.find({ propietario: ownerId })
+      .populate("propietario assignedVet");
   },
-  findAll: async (): Promise<IPet[]> => {
+
+  // Todas las mascotas → AQUÍ SI ES LEAN
+  findAll: async (): Promise<PetLean[]> => {
     await dbConnect();
-    return Pet.find().populate("propietario assignedVet").lean();
+    return Pet.find()
+      .populate("propietario assignedVet")
+      .lean<PetLean[]>();
   },
-  findById: async (id: string): Promise<IPet | null> => {
+
+  // Buscar una por ID → lean
+  findById: async (id: string): Promise<PetLean | null> => {
     await dbConnect();
-    return Pet.findById(id).populate("propietario assignedVet").lean();
+    return Pet.findById(id)
+      .populate("propietario assignedVet")
+      .lean<PetLean | null>();
   },
-  updateById: async (id: string, data: UpdateQuery<IPet>): Promise<IPet | null> => {
+
+  // Actualizar → documento mongoose
+  updateById: async (
+    id: string,
+    data: UpdateQuery<IPet>
+  ): Promise<HydratedDocument<IPet> | null> => {
     await dbConnect();
     return Pet.findByIdAndUpdate(id, data, { new: true });
   },
-  deleteById: async (id: string): Promise<IPet | null> => {
+
+  // Eliminar → documento mongoose
+  deleteById: async (id: string): Promise<HydratedDocument<IPet> | null> => {
     await dbConnect();
     return Pet.findByIdAndDelete(id);
   },
