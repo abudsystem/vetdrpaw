@@ -10,9 +10,9 @@ export const createSale = async (req: Request) => {
     session.startTransaction();
     try {
         const body = await req.json();
-        const { products = [], services = [], paymentMethod, client, userId } = body;
+        const { products = [], services = [], paymentMethod, client, pet, appointment, userId } = body;
 
-        let total = 0;
+        let subtotal = 0;
         const saleProducts = [];
         const saleServices = [];
 
@@ -50,7 +50,7 @@ export const createSale = async (req: Request) => {
                 price: priceToUse
             });
 
-            total += priceToUse * item.quantity;
+            subtotal += priceToUse * item.quantity;
         }
 
         // Process Services
@@ -74,19 +74,30 @@ export const createSale = async (req: Request) => {
                 price: priceToUse
             });
 
-            total += priceToUse * item.quantity;
+            subtotal += priceToUse * item.quantity;
+        }
 
-            // TODO: Deduct supplies from inventory if needed
-            // This would require processing service.supplies and deducting quantities
+        // Calculate IVA (Ecuador 15%)
+        const iva = subtotal * 0.15;
+        const total = subtotal + iva;
+
+        // If an appointment is provided, mark it as completed
+        if (appointment) {
+            const { Appointment } = await import("../models/Appointment");
+            await Appointment.findByIdAndUpdate(appointment, { status: "completada" }).session(session);
         }
 
         // Create the sale
         const newSale = new Sale({
             products: saleProducts,
             services: saleServices,
+            subtotal,
+            iva,
             total,
             paymentMethod,
             client: client || null,
+            pet: pet || null,
+            appointment: appointment || null,
             user: userId,
             date: new Date()
         });
@@ -127,6 +138,8 @@ export const getSales = async (req: Request) => {
     try {
         const sales = await Sale.find()
             .populate("client", "name email")
+            .populate("pet", "nombre especie")
+            .populate("appointment", "reason date")
             .populate("user", "name")
             .populate("products.product", "name")
             .populate("services.service", "name")
@@ -143,6 +156,8 @@ export const getSaleById = async (req: Request, { params }: { params: Promise<{ 
         const { id } = await params;
         const sale = await Sale.findById(id)
             .populate("client", "name email")
+            .populate("pet", "nombre especie")
+            .populate("appointment", "reason date")
             .populate("user", "name")
             .populate("products.product", "name")
             .populate("services.service", "name");

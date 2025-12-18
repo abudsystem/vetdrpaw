@@ -21,7 +21,11 @@ export interface ISale extends Document {
     paymentMethod: "Efectivo" | "Tarjeta" | "Transferencia" | "Otro";
     date: Date;
     client?: mongoose.Types.ObjectId;
+    pet?: mongoose.Types.ObjectId; // NEW: Linked pet
+    appointment?: mongoose.Types.ObjectId; // NEW: Linked appointment
     user: mongoose.Types.ObjectId; // Admin/Vet who registered the sale
+    subtotal: number; // NEW: Subtotal without IVA
+    iva: number; // NEW: IVA amount
     createdAt: Date;
     updatedAt: Date;
 }
@@ -45,6 +49,8 @@ const saleSchema = new Schema<ISale>(
             },
         ],
         total: { type: Number, required: true },
+        subtotal: { type: Number, required: true },
+        iva: { type: Number, required: true },
         paymentMethod: {
             type: String,
             enum: ["Efectivo", "Tarjeta", "Transferencia", "Otro"],
@@ -52,6 +58,8 @@ const saleSchema = new Schema<ISale>(
         },
         date: { type: Date, default: Date.now },
         client: { type: Schema.Types.ObjectId, ref: "User" },
+        pet: { type: Schema.Types.ObjectId, ref: "Pet" },
+        appointment: { type: Schema.Types.ObjectId, ref: "Appointment" },
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     },
     { timestamps: true }

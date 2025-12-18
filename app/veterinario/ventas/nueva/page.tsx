@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 interface IProduct {
@@ -32,6 +32,21 @@ interface IUser {
     email: string;
 }
 
+interface IPet {
+    _id: string;
+    nombre: string;
+    propietario: string;
+}
+
+interface IAppointment {
+    _id: string;
+    pet: any; // populated or ID
+    createdBy: string;
+    reason: string;
+    status: string;
+    date: string;
+}
+
 export default function NewSalePage() {
     const router = useRouter();
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -44,17 +59,28 @@ export default function NewSalePage() {
 
     const [cart, setCart] = useState<ICartItem[]>([]);
     const [selectedClient, setSelectedClient] = useState("");
+    const [selectedPet, setSelectedPet] = useState("");
+    const [selectedAppointment, setSelectedAppointment] = useState("");
+    const [pets, setPets] = useState<IPet[]>([]);
+    const [appointments, setAppointments] = useState<IAppointment[]>([]);
     const [paymentMethod, setPaymentMethod] = useState("Efectivo");
     const [loading, setLoading] = useState(false);
+
+    const getId = useCallback((item: any) => {
+        if (!item) return "";
+        return typeof item === 'object' ? item._id : item;
+    }, []);
 
     // Fetch initial data
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [prodRes, servRes, userRes] = await Promise.all([
+                const [prodRes, servRes, userRes, petRes, appRes] = await Promise.all([
                     fetch("/api/inventory"),
                     fetch("/api/services?activeOnly=true"),
-                    fetch("/api/users?role=cliente")
+                    fetch("/api/users?role=cliente"),
+                    fetch("/api/pets"),
+                    fetch("/api/appointments")
                 ]);
 
                 if (prodRes.ok) {
@@ -71,12 +97,46 @@ export default function NewSalePage() {
                     const userData = await userRes.json();
                     setClients(userData);
                 }
+                if (petRes.ok) {
+                    const petData = await petRes.json();
+                    setPets(petData);
+                }
+                if (appRes.ok) {
+                    const appData = await appRes.json();
+                    // Solo citas aceptadas o pendientes que no estén canceladas ni completadas
+                    setAppointments(appData.filter((a: any) => a.status === 'aceptada' || a.status === 'pendiente'));
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
     }, []);
+
+    // Filter appointments and pets when client changes
+    useEffect(() => {
+        if (selectedAppointment) {
+            const app = appointments.find(a => a._id === selectedAppointment);
+            if (app) {
+                const petId = getId(app.pet);
+                setSelectedPet(petId);
+
+                // Try to get owner from pet first, then from app.createdBy
+                const ownerId = (app.pet && typeof app.pet === 'object')
+                    ? getId(app.pet.propietario)
+                    : getId(app.createdBy);
+
+                setSelectedClient(ownerId);
+            }
+        }
+    }, [selectedAppointment, appointments, getId]);
+
+    useEffect(() => {
+        if (!selectedClient) {
+            setSelectedPet("");
+            setSelectedAppointment("");
+        }
+    }, [selectedClient]);
 
     // Filter products and services
     useEffect(() => {
@@ -160,8 +220,16 @@ export default function NewSalePage() {
         ));
     };
 
-    const calculateTotal = () => {
+    const calculateSubtotal = () => {
         return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    };
+
+    const calculateIVA = () => {
+        return calculateSubtotal() * 0.15;
+    };
+
+    const calculateTotal = () => {
+        return calculateSubtotal() + calculateIVA();
     };
 
     const handleCompleteSale = async () => {
@@ -191,6 +259,8 @@ export default function NewSalePage() {
                 })),
                 paymentMethod,
                 client: selectedClient || null,
+                pet: selectedPet || null,
+                appointment: selectedAppointment || null,
                 userId: me._id
             };
 
@@ -216,9 +286,9 @@ export default function NewSalePage() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row gap-6 h-[calc(100vh-100px)]">
+        <div className="flex flex-col md:flex-row gap-6 md:h-[calc(100vh-140px)] pb-10">
             {/* Left: Catalog */}
-            <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-md flex flex-col">
+            <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-md flex flex-col min-h-[500px] md:min-h-0 md:h-full">
                 <div className="flex gap-4 mb-4 border-b">
                     <button
                         onClick={() => setActiveTab('products')}
@@ -248,7 +318,7 @@ export default function NewSalePage() {
                     className="w-full border border-gray-300 rounded-md p-2 mb-4 text-black"
                 />
 
-                <div className="flex-1 overflow-y-auto gap-4 content-start">
+                <div className="md:flex-1 md:overflow-y-auto min-h-[300px] p-1">
                     {activeTab === 'products' ? (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {filteredProducts.map(product => (
@@ -283,7 +353,7 @@ export default function NewSalePage() {
             </div>
 
             {/* Right: Cart & Checkout */}
-            <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md flex flex-col">
+            <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md flex flex-col min-h-[400px] md:min-h-0 md:h-full">
                 <h2 className="text-xl font-bold mb-4 text-gray-800">Nueva Venta</h2>
 
                 {/* Client Select */}
@@ -301,8 +371,52 @@ export default function NewSalePage() {
                     </select>
                 </div>
 
+                {/* Pet Select */}
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Mascota (Opcional)</label>
+                    <select
+                        value={selectedPet}
+                        onChange={(e) => setSelectedPet(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md p-2 text-black"
+                    >
+                        <option value="">-- Seleccionar Mascota --</option>
+                        {pets
+                            .filter(p => !selectedClient || getId(p.propietario) === selectedClient)
+                            .map(p => (
+                                <option key={p._id} value={p._id}>{p.nombre}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+
+                {/* Appointment Select */}
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Vincular Cita (Opcional)</label>
+                    <select
+                        value={selectedAppointment}
+                        onChange={(e) => setSelectedAppointment(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md p-2 text-black"
+                    >
+                        <option value="">-- Seleccionar Cita --</option>
+                        {appointments
+                            .filter(a => {
+                                if (selectedPet) {
+                                    return getId(a.pet) === selectedPet;
+                                }
+                                if (selectedClient) return getId(a.createdBy) === selectedClient || (a.pet && getId(a.pet.propietario) === selectedClient);
+                                return true;
+                            })
+                            .map(a => (
+                                <option key={a._id} value={a._id}>
+                                    {new Date(a.date).toLocaleDateString()} - {a.reason}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </div>
+
                 {/* Cart Items */}
-                <div className="flex-1 overflow-y-auto mb-4 border-t border-b border-gray-200 py-2">
+                <div className="md:flex-1 md:overflow-y-auto min-h-[200px] mb-4 border-t border-b border-gray-200 py-2">
                     {cart.length === 0 ? (
                         <p className="text-gray-700 text-center py-4">Carrito vacío</p>
                     ) : (
@@ -341,11 +455,20 @@ export default function NewSalePage() {
                     )}
                 </div>
 
-                {/* Totals & Payment */}
                 <div className="space-y-4">
-                    <div className="flex justify-between text-lg font-bold text-gray-900">
-                        <span>Total:</span>
-                        <span>${calculateTotal().toFixed(2)}</span>
+                    <div className="border-t pt-4 space-y-2">
+                        <div className="flex justify-between text-sm text-gray-600">
+                            <span>Subtotal:</span>
+                            <span>${calculateSubtotal().toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-600">
+                            <span>IVA (15%):</span>
+                            <span>${calculateIVA().toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-2">
+                            <span>Total:</span>
+                            <span>${calculateTotal().toFixed(2)}</span>
+                        </div>
                     </div>
 
                     <div>
@@ -365,7 +488,7 @@ export default function NewSalePage() {
                     <button
                         onClick={handleCompleteSale}
                         disabled={cart.length === 0 || loading}
-                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4"
                     >
                         {loading ? "Procesando..." : "Completar Venta"}
                     </button>

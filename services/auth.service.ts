@@ -28,7 +28,7 @@ export const AuthService = {
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) throw new AppError("Credenciales incorrectas", 401);
 
-    const token = signToken({ id: user._id.toString(), role: user.role });
+    const token = signToken({ id: (user._id as any).toString(), role: user.role });
 
     const userObj = user.toObject();
     const { password: _, ...safeUser } = userObj;

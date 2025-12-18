@@ -35,7 +35,7 @@ export default function Sidebar({
     return (
         <>
             {/* Mobile Header */}
-            <div className={`md:hidden flex items-center justify-between p-4 ${bgColor} text-white`}>
+            <div className={`md:hidden flex items-center justify-between p-4 ${bgColor} text-white print:hidden`}>
                 <h2 className="text-xl font-bold">{title}</h2>
                 <button onClick={toggleSidebar} className="p-2 focus:outline-none">
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -55,7 +55,7 @@ export default function Sidebar({
                 className={`
                     fixed inset-y-0 left-0 z-50 w-64 ${bgColor} text-white transform transition-transform duration-300 ease-in-out
                     ${isOpen ? "translate-x-0" : "-translate-x-full"}
-                    md:relative md:translate-x-0 md:block
+                    md:relative md:translate-x-0 md:block print:hidden
                 `}
             >
                 <div className="p-6 flex justify-between items-center">

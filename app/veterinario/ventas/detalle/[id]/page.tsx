@@ -39,7 +39,7 @@ export default function SaleDetailPage() {
     if (!sale) return null;
 
     return (
-        <div className="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg my-8 print:shadow-none print:w-full print:max-w-none">
+        <div className="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg my-8 print:shadow-none print:w-full print:max-w-none print:my-0 print:rounded-none">
             {/* Header */}
             <div className="text-center border-b pb-6 mb-6">
                 <h1 className="text-3xl font-bold text-gray-800">VetDrPaw</h1>
@@ -56,6 +56,12 @@ export default function SaleDetailPage() {
                 </div>
                 <div className="text-right">
                     <p><span className="font-bold">Cliente:</span> {sale.client?.name || "Público General"}</p>
+                    {/* {sale.pet && (
+                        <p><span className="font-bold">Paciente:</span> {sale.pet.nombre} ({sale.pet.especie})</p>
+                    )} */}
+                    {/* {sale.appointment && (
+                        <p><span className="font-bold">Cita:</span> {sale.appointment.reason}</p>
+                    )} */}
                     <p><span className="font-bold">Método Pago:</span> {sale.paymentMethod}</p>
                 </div>
             </div>
@@ -67,7 +73,7 @@ export default function SaleDetailPage() {
                         <th className="py-2">Producto</th>
                         <th className="py-2 text-center">Cant.</th>
                         <th className="py-2 text-right">Precio</th>
-                        <th className="py-2 text-right">Subtotal</th>
+                        <th className="py-2 text-right">Sub</th>
                     </tr>
                 </thead>
                 <tbody className="text-gray-800 text-sm">
@@ -79,13 +85,23 @@ export default function SaleDetailPage() {
                             <td className="py-2 text-right">${(item.price * item.quantity).toFixed(2)}</td>
                         </tr>
                     ))}
+                    {sale.services && sale.services.map((item: any, index: number) => (
+                        <tr key={`svc-${index}`} className="border-b border-gray-100 italic">
+                            <td className="py-2">{item.name} 🩺</td>
+                            <td className="py-2 text-center">{item.quantity}</td>
+                            <td className="py-2 text-right">${item.price.toFixed(2)}</td>
+                            <td className="py-2 text-right">${(item.price * item.quantity).toFixed(2)}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
             {/* Total */}
             <div className="flex justify-end border-t pt-4">
-                <div className="text-right">
-                    <p className="text-2xl font-bold text-gray-900">Total: ${sale.total.toFixed(2)}</p>
+                <div className="text-right space-y-1">
+                    <p className="text-sm text-gray-600">Subtotal: ${(sale.subtotal || (sale.total / 1.15)).toFixed(2)}</p>
+                    <p className="text-sm text-gray-600">IVA (15%): ${(sale.iva || (sale.total - (sale.total / 1.15))).toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-gray-900 pt-2 border-t">Total: ${sale.total.toFixed(2)}</p>
                 </div>
             </div>
 

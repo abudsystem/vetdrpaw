@@ -87,7 +87,7 @@ export default function VetAppointmentsPage() {
                                         key={app._id}
                                         appointment={app}
                                         onUpdateStatus={updateStatus}
-                                        onViewReason={handleViewReason}
+
                                     />
                                 ))}
                             </div>

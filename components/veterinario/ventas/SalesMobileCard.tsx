@@ -6,6 +6,8 @@ export interface ISale {
     paymentMethod: string;
     date: string;
     client?: { name: string };
+    pet?: { nombre: string; especie: string };
+    appointment?: { reason: string; date: string };
     user: { name: string };
     products: any[];
 }
@@ -13,6 +15,10 @@ export interface ISale {
 interface SalesMobileCardProps {
     sale: ISale;
 }
+
+const truncate = (text: string, limit: number = 20) => {
+    return text.length > limit ? text.substring(0, limit) + "..." : text;
+};
 
 export const SalesMobileCard = ({ sale }: SalesMobileCardProps) => {
     return (
@@ -33,6 +39,18 @@ export const SalesMobileCard = ({ sale }: SalesMobileCardProps) => {
             </div>
 
             <div className="grid grid-cols-2 gap-2 mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
+                {sale.pet && (
+                    <div className="flex flex-col col-span-2 mb-2 border-b border-gray-200 pb-2" title={`${sale.pet.nombre} (${sale.pet.especie})`}>
+                        <span className="text-xs text-gray-700">Paciente</span>
+                        <span className="font-medium text-indigo-700">{truncate(`${sale.pet.nombre} (${sale.pet.especie})`)}</span>
+                    </div>
+                )}
+                {sale.appointment && (
+                    <div className="flex flex-col col-span-2 mb-2 border-b border-gray-200 pb-2" title={sale.appointment.reason}>
+                        <span className="text-xs text-gray-700">Cita Vinculada</span>
+                        <span className="font-medium text-emerald-700">{truncate(sale.appointment.reason)}</span>
+                    </div>
+                )}
                 <div className="flex flex-col">
                     <span className="text-xs text-gray-700">Método Pago</span>
                     <span className="font-medium">{sale.paymentMethod}</span>

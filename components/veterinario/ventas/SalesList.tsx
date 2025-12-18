@@ -10,6 +10,10 @@ interface SalesListProps {
     sales: ISale[];
 }
 
+const truncate = (text: string, limit: number = 20) => {
+    return text.length > limit ? text.substring(0, limit) + "..." : text;
+};
+
 export const SalesList = ({ sales }: SalesListProps) => {
     const {
         paginatedItems: paginatedSales,
@@ -46,6 +50,9 @@ export const SalesList = ({ sales }: SalesListProps) => {
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">Total</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">Método Pago</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">Registrado Por</th>
+
+                            <th className="py-3 px-4 border-b font-semibold text-gray-700">Paciente</th>
+                            <th className="py-3 px-4 border-b font-semibold text-gray-700">Cita</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">Acciones</th>
                         </tr>
                     </thead>
@@ -67,7 +74,13 @@ export const SalesList = ({ sales }: SalesListProps) => {
                                 <td className="py-3 px-4 border-b text-gray-800">
                                     {sale.user?.name || "N/A"}
                                 </td>
-                                <td className="py-3 px-4 border-b">
+
+                                <td className="py-3 px-4 border-b text-gray-800" title={sale.pet ? `${sale.pet.nombre} (${sale.pet.especie})` : ""}>
+                                    {sale.pet ? truncate(`${sale.pet.nombre} (${sale.pet.especie})`) : "-"}
+                                </td>
+                                <td className="py-3 px-4 border-b text-gray-800" title={sale.appointment?.reason || ""}>
+                                    {sale.appointment ? truncate(sale.appointment.reason) : "-"}
+                                </td><td className="py-3 px-4 border-b">
                                     <Link
                                         href={`/veterinario/ventas/detalle/${sale._id}`}
                                         className="text-blue-600 hover:underline"
