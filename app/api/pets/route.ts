@@ -8,7 +8,12 @@ import { authMiddleware } from "@/middleware/auth.middleware";
 // Supports ?my_pets=true to filter by logged in user
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
     const myPets = searchParams.get("my_pets");
+
+    if (id) {
+        return PetController.getOne(req);
+    }
 
     if (myPets === "true") {
         // Custom logic for "my pets" using auth middleware

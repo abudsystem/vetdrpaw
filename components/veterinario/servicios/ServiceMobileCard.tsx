@@ -18,17 +18,28 @@ interface ServiceMobileCardProps {
 export const ServiceMobileCard = ({ service, onToggleStatus }: ServiceMobileCardProps) => {
     return (
         <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
-            <div className="flex justify-between items-start mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                 <div>
                     <h3 className="font-semibold text-gray-900">{service.name}</h3>
+
+                    {/* Precio en mobile: debajo del nombre */}
+                    <p className="sm:hidden text-lg font-bold text-gray-900 mt-1">
+                        ${service.basePrice.toFixed(2)}
+                    </p>
+
                     <p className="text-sm text-gray-700 mt-1 truncate max-w-[200px]">
                         {service.description}
                     </p>
                 </div>
-                <div className="text-right">
-                    <p className="text-lg font-bold text-gray-900">${service.basePrice.toFixed(2)}</p>
+
+                {/* Precio en desktop: a la derecha */}
+                <div className="hidden sm:block text-right">
+                    <p className="text-lg font-bold text-gray-900">
+                        ${service.basePrice.toFixed(2)}
+                    </p>
                 </div>
             </div>
+
 
             <div className="grid grid-cols-2 gap-2 mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
                 <div className="flex flex-col">
