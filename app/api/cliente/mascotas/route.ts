@@ -38,16 +38,13 @@ export async function POST(req: Request) {
   const data = await req.json();
 
   const petData: any = {
-    nombre: data.nombre,
-    especie: data.especie,
-    edad: data.edad,
-    raza: data.raza,
+    ...data,
     propietario: user.id
   };
 
-  // Aquí está la magia
-  if (data.assignedVet && data.assignedVet.trim() !== "") {
-    petData.assignedVet = data.assignedVet;
+  // Limpiar assignedVet si viene vacío
+  if (petData.assignedVet && petData.assignedVet.trim() === "") {
+    delete petData.assignedVet;
   }
 
   try {

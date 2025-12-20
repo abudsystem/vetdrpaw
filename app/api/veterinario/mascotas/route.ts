@@ -50,11 +50,7 @@ export async function POST(req: Request) {
 
   try {
     const pet = await Pet.create({
-      nombre,
-      especie,
-      raza,
-      edad,
-      propietario,
+      ...data,
       assignedVet: user.id, // veterinario logueado
     });
 

@@ -6,9 +6,17 @@ import { z } from "zod";
 const createPetSchema = z.object({
   nombre: z.string().min(1),
   especie: z.string().min(1),
-  edad: z.number().min(0),
+  edad: z.number().min(0).optional(),
   raza: z.string().min(1),
   assignedVet: z.string().optional().nullable(),
+  peso: z.number().optional(),
+  sexo: z.enum(['macho', 'hembra', '']).optional(),
+  fechaNacimiento: z.string().optional().nullable(),
+  color: z.string().optional(),
+  alergias: z.array(z.string()).optional(),
+  esterilizado: z.boolean().optional(),
+  microchip: z.string().optional(),
+  notasEspeciales: z.string().optional(),
 });
 
 export const PetController = {

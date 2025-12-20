@@ -59,7 +59,8 @@ export const InventoryController = {
         if (expiring === "true") {
             const thirtyDaysFromNow = new Date();
             thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
-            query.expiryDate = { $lte: thirtyDaysFromNow, $gte: new Date() };
+            thirtyDaysFromNow.setHours(23, 59, 59, 999);
+            query.expiryDate = { $lte: thirtyDaysFromNow };
         }
 
         const products = await Product.find(query).sort({ createdAt: -1 });

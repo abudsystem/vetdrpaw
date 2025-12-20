@@ -38,7 +38,9 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                 edad: initialData.edad || 0,
                 peso: initialData.peso || 0,
                 sexo: initialData.sexo || "",
-                fechaNacimiento: initialData.fechaNacimiento || "",
+                fechaNacimiento: initialData.fechaNacimiento
+                    ? new Date(initialData.fechaNacimiento).toISOString().split('T')[0]
+                    : "",
                 color: initialData.color || "",
                 alergias: initialData.alergias || [],
                 esterilizado: initialData.esterilizado || false,
@@ -67,7 +69,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
     return (
         <Card className="mb-8">
             <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-4">{isEditing ? "Editar Mascota" : "Registrar Mascota"}</h2>
+                <h2 className="text-xl font-semibold text-black mb-4">{isEditing ? "Editar Mascota" : "Registrar Mascota"}</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Información Básica */}
                     <div>
