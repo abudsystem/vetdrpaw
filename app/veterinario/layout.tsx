@@ -1,24 +1,27 @@
 import Sidebar from "@/components/layout/Sidebar";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const vetLinks = [
-    { href: "/veterinario/dashboard", label: "Dashboard" },
-    { href: "/veterinario/mascotas", label: "Pacientes y Clientes" },
-    { href: "/veterinario/citas", label: "Gestión de Citas" },
-    { href: "/veterinario/perfil", label: "Mi Perfil" },
-    { href: "/veterinario/servicios", label: "Servicios Veterinarios" },
-    { href: "/veterinario/ventas", label: "Ventas" },
-];
+import { useTranslations } from "next-intl";
 
 export default function VetLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const t = useTranslations("Sidebar.vet");
+
+    const vetLinks = [
+        { href: "/veterinario/dashboard", label: t("dashboard") },
+        { href: "/veterinario/mascotas", label: t("pets") },
+        { href: "/veterinario/citas", label: t("appointments") },
+        { href: "/veterinario/perfil", label: t("profile") },
+        { href: "/veterinario/servicios", label: t("services") },
+        { href: "/veterinario/ventas", label: t("sales") },
+    ];
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row print:bg-white print:block">
             <Sidebar
-                title="Panel Veterinario"
+                title={t("title")}
                 links={vetLinks}
                 bgColor="bg-indigo-900"
                 hoverColor="hover:bg-indigo-800"

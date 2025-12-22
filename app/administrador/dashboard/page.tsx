@@ -5,8 +5,10 @@ import { User } from "@/types/user";
 import { AdminDashboardStats } from "@/types/dashboard";
 import { DashboardStatsCards } from "@/components/administrador/dashboard/DashboardStatsCards";
 import { RecentUsers } from "@/components/administrador/dashboard/RecentUsers";
+import { useTranslations } from "next-intl";
 
 export default function AdministradorDashboardPage() {
+    const t = useTranslations("AdminDashboard");
     const [stats, setStats] = useState<AdminDashboardStats>({
         totalUsers: 0,
         vets: 0,
@@ -52,11 +54,11 @@ export default function AdministradorDashboardPage() {
         }
     };
 
-    if (loading) return <div className="p-6">Cargando panel de administración...</div>;
+    if (loading) return <div className="p-6">{t("loading")}</div>;
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Panel de Administración</h1>
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">{t("title")}</h1>
             <DashboardStatsCards stats={stats} />
             <RecentUsers users={recentUsers} />
         </div>

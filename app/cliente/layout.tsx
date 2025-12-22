@@ -1,22 +1,25 @@
 import Sidebar from "@/components/layout/Sidebar";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const clientLinks = [
-    { href: "/cliente/dashboard", label: "🏠 Dashboard" },
-    { href: "/cliente/mascotas", label: "🐾 Mis Mascotas" },
-    { href: "/cliente/citas", label: "📅 Mis Citas" },
-    { href: "/cliente/perfil", label: "👤 Mi Perfil" },
-];
+import { useTranslations } from "next-intl";
 
 export default function ClientLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const t = useTranslations("Sidebar.client");
+
+    const clientLinks = [
+        { href: "/cliente/dashboard", label: t("dashboard") },
+        { href: "/cliente/mascotas", label: t("pets") },
+        { href: "/cliente/citas", label: t("appointments") },
+        { href: "/cliente/perfil", label: t("profile") },
+    ];
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
             <Sidebar
-                title="Mi Panel"
+                title={t("title")}
                 links={clientLinks}
                 bgColor="bg-teal-800"
                 hoverColor="hover:bg-teal-700"

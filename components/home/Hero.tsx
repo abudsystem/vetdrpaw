@@ -1,7 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function Hero() {
+    const t = useTranslations("Hero");
+
     return (
         <div className="relative overflow-hidden isolate">
             <Image
@@ -16,23 +21,23 @@ export default function Hero() {
             </div>
             <div className="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                    Cuidado Veterinario <br className="hidden sm:inline" />
+                    {t("title")}
                 </h1>
                 <p className="mt-6 text-xl text-teal-100 max-w-3xl">
-                    En VetDrPaw, combinamos tecnología de vanguardia con un trato compasivo para asegurar que tu mascota tenga la vida más larga y feliz posible.
+                    {t("description")}
                 </p>
                 <div className="mt-10 flex space-x-4">
                     <Link
                         href="/contacto"
                         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-teal-900 bg-teal-100 hover:bg-teal-200 transition-colors"
                     >
-                        Contáctanos
+                        {t("contact")}
                     </Link>
                     <Link
                         href="/sobre"
                         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-800 hover:bg-teal-700 transition-colors"
                     >
-                        Conócenos
+                        {t("about")}
                     </Link>
                 </div>
             </div>

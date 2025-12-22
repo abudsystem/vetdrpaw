@@ -1,16 +1,18 @@
 import Link from 'next/link';
 import React from 'react';
 import { Appointment } from '@/types/appointment';
+import { useTranslations } from 'next-intl';
 
 export const UpcomingAppointments = ({ appointments }: { appointments: Appointment[] }) => {
+    const t = useTranslations('ClientPanel');
     if (appointments.length === 0) return null;
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Próximas Citas</h2>
+                <h2 className="text-xl font-bold text-gray-800">{t('dashboard.upcomingAppts')}</h2>
                 <Link href="/cliente/citas" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
-                    Ver todas →
+                    {t('common.viewAll')}
                 </Link>
             </div>
             <div className="space-y-3">

@@ -1,27 +1,60 @@
-// hooks/useAppointments.ts
-import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+const fetchAppointments = async () => {
+  const res = await fetch("/api/appointments?my_appointments=true");
+  if (!res.ok) throw new Error("Failed to fetch appointments");
+  return res.json();
+};
+
+const fetchAppointmentById = async (id: string) => {
+  const res = await fetch(`/api/cliente/citas/${id}`);
+  const data = await res.json();
+  if (!data.success) throw new Error(data.message);
+  return data.data;
+};
+
+export function useAppointments() {
+  const queryClient = useQueryClient();
+
+  const { data: appointments = [], isLoading, error } = useQuery({
+    queryKey: ['appointments'],
+    queryFn: fetchAppointments
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/appointments?id=${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "cancelada" }),
+      });
+      if (!res.ok) throw new Error("Failed to cancel");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    }
+  });
+
+  return {
+    appointments,
+    loading: isLoading,
+    error,
+    cancelAppointment: cancelMutation.mutateAsync
+  };
+}
 
 export function useAppointment(id: string) {
-  const [appointment, setAppointment] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const fetchAppointment = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/cliente/citas/${id}`);
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message);
-      setAppointment(data.data);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: appointment, isLoading, error } = useQuery({
+    queryKey: ['appointment', id],
+    queryFn: () => fetchAppointmentById(id),
+    enabled: !!id
+  });
 
-  const updateAppointment = async (updateData: any) => {
-    try {
+  const updateMutation = useMutation({
+    mutationFn: async (updateData: any) => {
       const res = await fetch(`/api/cliente/citas/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -29,30 +62,31 @@ export function useAppointment(id: string) {
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
-      setAppointment(data.data);
-      return true;
-    } catch (err: any) {
-      setError(err.message);
-      return false;
+      return data.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['appointment', id], data);
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
     }
-  };
+  });
 
-  const deleteAppointment = async () => {
-    try {
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
       const res = await fetch(`/api/cliente/citas/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
-      setAppointment(null);
-      return true;
-    } catch (err: any) {
-      setError(err.message);
-      return false;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
     }
+  });
+
+  return {
+    appointment,
+    loading: isLoading,
+    error,
+    updateAppointment: updateMutation.mutateAsync,
+    deleteAppointment: deleteMutation.mutateAsync
   };
-
-  useEffect(() => {
-    fetchAppointment();
-  }, [id]);
-
-  return { appointment, loading, error, fetchAppointment, updateAppointment, deleteAppointment };
 }

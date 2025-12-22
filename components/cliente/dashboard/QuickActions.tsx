@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export const QuickActions = () => {
+    const t = useTranslations('ClientPanel.dashboard.quickActions');
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Acciones Rápidas</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">{t('title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Link
                     href="/cliente/mascotas"
@@ -12,8 +15,8 @@ export const QuickActions = () => {
                 >
                     <div className="text-4xl">🐕</div>
                     <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800 group-hover:text-teal-600">Nueva Mascota</h3>
-                        <p className="text-sm text-gray-600">Registra una nueva mascota</p>
+                        <h3 className="font-semibold text-gray-800 group-hover:text-teal-600">{t('newPet')}</h3>
+                        <p className="text-sm text-gray-600">{t('newPetDesc')}</p>
                     </div>
                 </Link>
 
@@ -23,8 +26,8 @@ export const QuickActions = () => {
                 >
                     <div className="text-4xl">📅</div>
                     <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800 group-hover:text-blue-600">Nueva Cita</h3>
-                        <p className="text-sm text-gray-600">Agenda una consulta veterinaria</p>
+                        <h3 className="font-semibold text-gray-800 group-hover:text-blue-600">{t('newAppt')}</h3>
+                        <p className="text-sm text-gray-600">{t('newApptDesc')}</p>
                     </div>
                 </Link>
             </div>

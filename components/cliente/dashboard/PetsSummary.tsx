@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
 import { Pet } from '@/types/pet';
+import { useTranslations } from 'next-intl';
 
 export const PetsSummary = ({ pets }: { pets: Pet[] }) => {
+    const t = useTranslations('ClientPanel');
+
     const getSpeciesEmoji = (especie: string) => {
         const especieLower = especie.toLowerCase();
         if (especieLower.includes('perro')) return '🐕';
@@ -13,20 +16,20 @@ export const PetsSummary = ({ pets }: { pets: Pet[] }) => {
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Mis Mascotas</h2>
+                <h2 className="text-xl font-bold text-gray-800">{t('dashboard.stats.pets')}</h2>
                 <Link href="/cliente/mascotas" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
-                    Ver todas →
+                    {t('common.viewAll')}
                 </Link>
             </div>
 
             {pets.length === 0 ? (
                 <div className="text-center py-8 text-gray-700">
-                    <p className="mb-4">Aún no has registrado ninguna mascota</p>
+                    <p className="mb-4">{t('dashboard.noPets')}</p>
                     <Link
                         href="/cliente/mascotas"
                         className="inline-block bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors"
                     >
-                        Registrar mi primera mascota
+                        {t('dashboard.registerFirst')}
                     </Link>
                 </div>
             ) : (

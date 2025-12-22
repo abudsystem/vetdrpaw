@@ -1,0 +1,336 @@
+{
+    "Navbar": {
+        "home": "Home",
+        "about": "About Us",
+        "services": "Services",
+        "care": "Pet Care",
+        "contact": "Contact",
+        "profile": "Profile",
+        "logout": "Logout",
+        "bookAppointment": "Book Appointment"
+    },
+    "HomePage": {
+        "welcome": "Welcome to VetDrPaw",
+        "description": "Professional care for your pets"
+    },
+    "Hero": {
+        "title": "Premium Veterinary Care",
+        "description": "At VetDrPaw, we combine cutting-edge technology with compassionate care to ensure your pet has the longest, happiest life possible.",
+        "contact": "Contact Us",
+        "about": "About Us"
+    },
+    "WelfarePolicy": {
+        "title": "Welfare Policy",
+        "description": "\"We are committed to minimizing stress and pain in every procedure. We are a 'Fear Free' certified clinic, where your pet's emotional comfort is as important as their physical health.\""
+    },
+    "History": {
+        "title": "Our History",
+        "subtitle": "From a small office to an integrated center.",
+        "event2010": "Foundation of VetDrPaw by Dr. Abud. A dream of bringing quality medicine to the community.",
+        "event2015": "Expansion to new facilities with advanced operating room and own laboratory.",
+        "event2023": "Implementation of telemedicine and integrated digital management system."
+    },
+    "Philosophy": {
+        "title": "Our Philosophy",
+        "description": "We believe that animal health is integral. We don't just treat diseases, we promote the physical and emotional well-being of each patient.",
+        "preventiveTitle": "Preventive Medicine",
+        "preventiveText": "Focus on preventing before curing.",
+        "techTitle": "Human Technology",
+        "techText": "Modern equipment with warm treatment."
+    },
+    "Values": {
+        "sectionTitle": "Our Values",
+        "subtitle": "What defines us",
+        "compassionTitle": "Compassion",
+        "compassionText": "We treat every pet as if they were our own family, with gentleness and empathy.",
+        "excellenceTitle": "Excellence",
+        "excellenceText": "We stay at the forefront of veterinary medicine to offer the best treatments.",
+        "integrityTitle": "Integrity",
+        "integrityText": "We believe in transparency and honesty in every diagnosis and recommendation."
+    },
+    "Calendar": {
+        "title": "Events and Campaigns",
+        "loading": "Loading calendar..."
+    },
+    "Footer": {
+        "description": "Excellent veterinary care with a compassionate and modern approach. Your pet, our priority.",
+        "quickLinks": "Quick Links",
+        "contactTitle": "Contact",
+        "address": "Calle Cacha and Fundadores, Quito",
+        "hours": "Operating Hours: Monday to Saturday from 9:00 to 18:30",
+        "emergency": "Urgency/Emergency Hours: 24 Hours",
+        "rights": "All rights reserved."
+    },
+    "About": {
+        "headerTitle": "About Us",
+        "headerDescription": "Dedicated to elevating the standard of veterinary care through compassion, innovation, and excellence.",
+        "missionTitle": "Our Mission",
+        "missionDescription": "Our mission is to provide veterinary medical care of the highest quality, treating each patient with the same love and respect as we would treat our own pets. We strive to educate our clients and foster the human-animal bond.",
+        "teamTitle": "The Team",
+        "teamDescription": "We have a multidisciplinary team of specialist veterinarians, technicians, and passionate support staff for animals. Each member is constantly trained to keep up with the latest medical advances.",
+        "achievementsTitle": "Our Achievements",
+        "yearsExp": "Years of experience",
+        "petsServed": "Pets served",
+        "profTraining": "Professional Training",
+        "historyDesc": "Veterinaria Dr. Paw was born from a deep love for animals and the desire to offer a professional, human, and modern service in the country. With training at the Technical University of Ambato and several years of practical experience, our team has grown and evolved, always guided by passion and service.",
+        "whyTitle": "Why choose us?",
+        "customCare": "Personalized Attention",
+        "customCareDesc": "Every pet is treated as a member of our family.",
+        "trainedProf": "Trained Professionals",
+        "trainedProfDesc": "Veterinarians trained and updated with modern technology.",
+        "passion": "Passion for Animals",
+        "passionDesc": "We work by vocation, not just by profession.",
+        "galleryTitle": "Our Gallery",
+        "galleryDesc": "A look at our facilities and happy patients.",
+        "loadingGallery": "Loading gallery...",
+        "noImages": "No images available at this moment."
+    },
+    "Services": {
+        "title": "Our Services",
+        "subtitle": "Integrated Care for your Pet",
+        "description": "Medical, preventive, and complementary services to ensure the health and well-being of your best friend.",
+        "categories": {
+            "veterinary": "🐾 Veterinary Services",
+            "vaccination": "💉 Vaccinations and Deworming",
+            "surgery": "🔪 Surgeries",
+            "hospitalization": "🏥 Hospitalization",
+            "complementary": "🎀 Complementary Services",
+            "certificates": "📄 Certificates and Procedures"
+        },
+        "items": {
+            "general": "👨‍⚕️ General consultation",
+            "emergency": "🚨 Emergency consultation (24 hours)",
+            "growth": "📈 Growth and weight control",
+            "geriatric": "🐶👵 Geriatric control (older pets)",
+            "postop": "🩺 Postoperative control",
+            "followup": "💊 Treatment follow-up",
+            "vaccines": "📅 Vaccination plans",
+            "internal": "🦠 Internal deworming",
+            "external": "🐜 External deworming",
+            "preventive": "🛡️ Preventive programs",
+            "products": "🐾 Parasiticidal products",
+            "sterilization": "✂️ Sterilizations / Castrations",
+            "softTissue": "🧵 Soft tissue surgeries",
+            "trauma": "🦴 Traumatological surgeries",
+            "eye": "👁️ Eye surgeries",
+            "emergencySurgery": "🚑 Emergency surgeries",
+            "monitoring": "📡 24h Monitoring",
+            "fluids": "🥣 Feeding and fluid control",
+            "food": "🥗 Clinical and pet food",
+            "vetProducts": "🛍️ Veterinary products",
+            "grooming": "✂️🐕 Haircuts and medicated baths",
+            "nails": "🐾 Nail clipping and ear cleaning",
+            "toys": "🧸 Toys, accessories, beds, and leashes",
+            "spa": "💆‍♂️ Spa Day (Bath + Cut + Nails)",
+            "certVaccines": "💉 Vaccination certificates",
+            "certInternal": "🦠 Deworming certificates",
+            "certSurgery": "🔪 Surgery certificates",
+            "certHospital": "🏥 Hospitalization certificates",
+            "certAdoption": "🐶❤️ Adoption certificates",
+            "travel": "✈️ Sanitary procedures for transfers/export"
+        }
+    },
+    "PetCare": {
+        "title": "Pet Care",
+        "description": "Tips, guides, and articles based on real studies and scientific evidence.",
+        "loading": "Loading articles...",
+        "noArticles": "No articles available at this moment."
+    },
+    "Contact": {
+        "title": "Contact Us",
+        "description": "We are here to help you with the health and well-being of your pet.",
+        "sendMessage": "Send us a message",
+        "generalQuery": "General query",
+        "bookCita": "Book appointment",
+        "emergency": "⚠ Emergency",
+        "mobile": "WhatsApp (Mobile)",
+        "pc": "WhatsApp Web (PC)",
+        "address": "Calle Cacha and Fundadores, Quito",
+        "hoursTitle": "🕒 Hours",
+        "regularHours": "Regular attention",
+        "regularHoursDetail": "Monday to Saturday from 9:00 to 18:30",
+        "emergencyHours": "Veterinary emergency",
+        "emergencyHoursDetail": "24 Hours"
+    },
+    "Auth": {
+        "login": {
+            "title": "Log in to your account",
+            "noAccount": "Don't have an account?",
+            "registerLink": "Register here",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Login",
+            "loading": "Loading...",
+            "errorDefault": "Error logging in"
+        },
+        "register": {
+            "title": "Create your account",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Log in",
+            "name": "Full Name",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Register",
+            "loading": "Loading...",
+            "errorDefault": "Error registering"
+        }
+    },
+    "Sidebar": {
+        "goHome": "Go Home",
+        "admin": {
+            "title": "Administrator Panel",
+            "dashboard": "Dashboard",
+            "users": "User Management",
+            "roles": "Role Management",
+            "inventory": "Inventory",
+            "services": "Veterinary Services",
+            "assets": "Assets",
+            "liabilities": "Liabilities",
+            "balance": "General Balance",
+            "cashFlow": "Cash Flow",
+            "inventoryBackup": "Inventory Backups",
+            "business": "Business",
+            "petCare": "Pet Care",
+            "calendar": "Calendar",
+            "gallery": "Gallery"
+        },
+        "vet": {
+            "title": "Veterinary Panel",
+            "dashboard": "Dashboard",
+            "pets": "Patients and Clients",
+            "appointments": "Appointment Management",
+            "profile": "My Profile",
+            "services": "Veterinary Services",
+            "sales": "Sales"
+        },
+        "client": {
+            "title": "My Panel",
+            "dashboard": "🏠 Dashboard",
+            "pets": "🐾 My Pets",
+            "appointments": "📅 My Appointments",
+            "profile": "👤 My Profile"
+        }
+    },
+    "ClientPanel": {
+        "common": {
+            "loading": "Loading...",
+            "cancel": "Cancel",
+            "save": "Save",
+            "update": "Update",
+            "edit": "Edit",
+            "delete": "Delete",
+            "actions": "Actions",
+            "viewAll": "View all →",
+            "yes": "Yes",
+            "no": "No"
+        },
+        "dashboard": {
+            "title": "My Panel",
+            "welcome": "Welcome to your dashboard",
+            "stats": {
+                "pets": "My Pets",
+                "upcoming": "Upcoming Appointments",
+                "pending": "Pending Appointments",
+                "waiting": "Waiting for confirmation"
+            },
+            "quickActions": {
+                "title": "Quick Actions",
+                "newPet": "New Pet",
+                "newPetDesc": "Register a new pet",
+                "newAppt": "New Appointment",
+                "newApptDesc": "Book a veterinary consultation"
+            },
+            "upcomingAppts": "Upcoming Appointments",
+            "noPets": "You haven't registered any pets yet",
+            "registerFirst": "Register my first pet"
+        },
+        "pets": {
+            "title": "My Pets",
+            "newPet": "New Pet",
+            "noPets": "You don't have any pets registered yet.",
+            "form": {
+                "registerTitle": "Register Pet",
+                "editTitle": "Edit Pet",
+                "basicInfo": "Basic Information",
+                "physicalDetails": "Physical Details",
+                "medicalInfo": "Medical Information",
+                "name": "Name",
+                "species": "Species",
+                "breed": "Breed",
+                "sex": "Sex",
+                "select": "Select",
+                "male": "Male",
+                "female": "Female",
+                "birthDate": "Date of Birth",
+                "weight": "Weight (kg)",
+                "color": "Color/Markings",
+                "allergies": "Known Allergies",
+                "add": "Add",
+                "sterilized": "Sterilized/Neutered",
+                "microchip": "Microchip Number",
+                "notes": "Special Notes",
+                "other": "Other"
+            },
+            "table": {
+                "pet": "Pet",
+                "details": "Details",
+                "features": "Features",
+                "health": "Health",
+                "breed": "Breed",
+                "age": "Age",
+                "sterilized": "Sterilized",
+                "allergies": "allergy(ies)"
+            }
+        },
+        "appointments": {
+            "title": "My Appointments",
+            "newAppt": "New Appointment",
+            "noAppts": "You don't have any scheduled appointments.",
+            "requestFirst": "Request your first appointment →",
+            "table": {
+                "dateTime": "Date and Time",
+                "pet": "Pet",
+                "vet": "Veterinarian",
+                "reason": "Reason",
+                "status": "Status",
+                "unassigned": "Unassigned",
+                "unknown": "Unknown",
+                "notes": "Notes"
+            },
+            "cancelConfirm": "Are you sure you want to cancel this appointment?",
+            "cancelError": "Error canceling appointment",
+            "cancelSuccess": "Appointment canceled successfully"
+        },
+        "profile": {
+            "title": "My Profile",
+            "edit": "Edit Profile",
+            "changePassword": "Change Password",
+            "personalInfo": "Personal Information",
+            "details": "Account details.",
+            "fullName": "Full Name",
+            "email": "Email",
+            "phone": "Phone",
+            "address": "Address",
+            "role": "Role",
+            "notAvailable": "Not available",
+            "notRegistered": "Not registered",
+            "notRegisteredFem": "Not registered"
+        }
+    },
+    "AdminDashboard": {
+        "title": "Administrator Dashboard",
+        "loading": "Loading administrator dashboard...",
+        "stats": {
+            "totalUsers": "Total Users",
+            "vets": "Veterinarians",
+            "clients": "Clients"
+        },
+        "recentUsers": {
+            "title": "Recent Registrations",
+            "name": "Name",
+            "email": "Email",
+            "role": "Role",
+            "date": "Date"
+        }
+    }
+}

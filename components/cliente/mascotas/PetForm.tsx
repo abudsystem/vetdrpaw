@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
+import { useTranslations } from 'next-intl';
 
 interface PetFormProps {
     initialData?: Pet | null;
@@ -13,6 +14,7 @@ interface PetFormProps {
 }
 
 export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormProps) => {
+    const t = useTranslations('ClientPanel');
     const [formData, setFormData] = useState({
         nombre: "",
         especie: "Perro",
@@ -69,14 +71,16 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
     return (
         <Card className="mb-8">
             <CardContent className="p-6">
-                <h2 className="text-xl font-semibold text-black mb-4">{isEditing ? "Editar Mascota" : "Registrar Mascota"}</h2>
+                <h2 className="text-xl font-semibold text-black mb-4">
+                    {isEditing ? t('pets.form.editTitle') : t('pets.form.registerTitle')}
+                </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Información Básica */}
                     <div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-3">Información Básica</h3>
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">{t('pets.form.basicInfo')}</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <Label>Nombre *</Label>
+                                <Label>{t('pets.form.name')} *</Label>
                                 <Input
                                     type="text"
                                     required
@@ -85,7 +89,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 />
                             </div>
                             <div>
-                                <Label>Especie *</Label>
+                                <Label>{t('pets.form.species')} *</Label>
                                 <select
                                     className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 text-black"
                                     value={formData.especie}
@@ -93,11 +97,11 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 >
                                     <option value="Perro">Perro</option>
                                     <option value="Gato">Gato</option>
-                                    <option value="Otro">Otro</option>
+                                    <option value="Otro">{t('pets.form.other')}</option>
                                 </select>
                             </div>
                             <div>
-                                <Label>Raza *</Label>
+                                <Label>{t('pets.form.breed')} *</Label>
                                 <Input
                                     type="text"
                                     required
@@ -106,15 +110,15 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 />
                             </div>
                             <div>
-                                <Label>Sexo</Label>
+                                <Label>{t('pets.form.sex')}</Label>
                                 <select
                                     className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 text-black"
                                     value={formData.sexo}
                                     onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}
                                 >
-                                    <option value="">Seleccionar</option>
-                                    <option value="macho">Macho</option>
-                                    <option value="hembra">Hembra</option>
+                                    <option value="">{t('pets.form.select')}</option>
+                                    <option value="macho">{t('pets.form.male')}</option>
+                                    <option value="hembra">{t('pets.form.female')}</option>
                                 </select>
                             </div>
                         </div>
@@ -122,10 +126,10 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
 
                     {/* Detalles Físicos */}
                     <div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-3">Detalles Físicos</h3>
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">{t('pets.form.physicalDetails')}</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <Label>Fecha de Nacimiento</Label>
+                                <Label>{t('pets.form.birthDate')}</Label>
                                 <Input
                                     type="date"
                                     value={formData.fechaNacimiento}
@@ -133,7 +137,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 />
                             </div>
                             <div>
-                                <Label>Peso (kg)</Label>
+                                <Label>{t('pets.form.weight')}</Label>
                                 <Input
                                     type="number"
                                     min="0"
@@ -143,7 +147,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 />
                             </div>
                             <div>
-                                <Label>Color/Marcas</Label>
+                                <Label>{t('pets.form.color')}</Label>
                                 <Input
                                     type="text"
                                     value={formData.color}
@@ -156,10 +160,10 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
 
                     {/* Información Médica */}
                     <div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-3">Información Médica</h3>
+                        <h3 className="text-lg font-medium text-gray-900 mb-3">{t('pets.form.medicalInfo')}</h3>
                         <div className="space-y-4">
                             <div>
-                                <Label className="mb-2">Alergias Conocidas</Label>
+                                <Label className="mb-2">{t('pets.form.allergies')}</Label>
                                 <div className="flex gap-2">
                                     <Input
                                         type="text"
@@ -174,7 +178,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                         onClick={addAlergia}
                                         className="bg-blue-500 hover:bg-blue-600"
                                     >
-                                        Agregar
+                                        {t('pets.form.add')}
                                     </Button>
                                 </div>
                                 {formData.alergias.length > 0 && (
@@ -204,12 +208,12 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                     className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
                                 />
                                 <Label htmlFor="esterilizado" className="ml-2">
-                                    Esterilizado/Castrado
+                                    {t('pets.form.sterilized')}
                                 </Label>
                             </div>
 
                             <div>
-                                <Label>Número de Microchip</Label>
+                                <Label>{t('pets.form.microchip')}</Label>
                                 <Input
                                     type="text"
                                     value={formData.microchip}
@@ -219,7 +223,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                             </div>
 
                             <div>
-                                <Label>Notas Especiales</Label>
+                                <Label>{t('pets.form.notes')}</Label>
                                 <textarea
                                     rows={3}
                                     className="flex min-h-[80px] w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 text-black"
@@ -236,7 +240,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                             type="submit"
                             className="w-full bg-teal-600 hover:bg-teal-700"
                         >
-                            {isEditing ? "Actualizar" : "Guardar"}
+                            {isEditing ? t('common.update') : t('common.save')}
                         </Button>
                         {isEditing && (
                             <Button
@@ -245,7 +249,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                 onClick={onCancel}
                                 className="w-full"
                             >
-                                Cancelar
+                                {t('common.cancel')}
                             </Button>
                         )}
                     </div>

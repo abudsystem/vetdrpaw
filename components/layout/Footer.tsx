@@ -1,4 +1,10 @@
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+
 export default function Footer() {
+    const t = useTranslations("Footer");
+    const navT = useTranslations("Navbar");
+
     return (
         <footer className="bg-teal-950 text-white print:hidden w-full">
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -6,34 +12,33 @@ export default function Footer() {
                     <div>
                         <h3 className="text-xl font-bold text-teal-400 mb-4">Veterinaria DrPaw</h3>
                         <p className="text-white text-sm">
-                            Cuidado veterinario de excelencia con un enfoque compasivo y moderno.
-                            Tu mascota, nuestra prioridad.
+                            {t("description")}
                         </p>
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t("quickLinks")}</h3>
                         <ul className="space-y-2 text-white text-sm">
-                            <li><a href="/" className="hover:text-teal-400 transition-colors">Inicio</a></li>
-                            <li><a href="/sobre" className="hover:text-teal-400 transition-colors">Sobre Nosotros</a></li>
-                            <li><a href="/cuidado-mascota" className="hover:text-teal-400 transition-colors">Cuidados</a></li>
-                            <li><a href="/contacto" className="hover:text-teal-400 transition-colors">Contacto</a></li>
-                            <li><a href="/servicios" className="hover:text-teal-400 transition-colors">Servicios</a></li>
-                            <li><a href="/login" className="hover:text-teal-400 transition-colors">Login</a></li>
-                            <li><a href="/register" className="hover:text-teal-400 transition-colors">Register</a></li>
+                            <li><Link href="/" className="hover:text-teal-400 transition-colors">{navT("home")}</Link></li>
+                            <li><Link href="/sobre" className="hover:text-teal-400 transition-colors">{navT("about")}</Link></li>
+                            <li><Link href="/cuidado-mascota" className="hover:text-teal-400 transition-colors">{navT("care")}</Link></li>
+                            <li><Link href="/contacto" className="hover:text-teal-400 transition-colors">{navT("contact")}</Link></li>
+                            <li><Link href="/servicios" className="hover:text-teal-400 transition-colors">{navT("services")}</Link></li>
+                            <li><Link href="/login" className="hover:text-teal-400 transition-colors">Login</Link></li>
+                            <li><Link href="/register" className="hover:text-teal-400 transition-colors">Register</Link></li>
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold mb-4">Contacto</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t("contactTitle")}</h3>
                         <ul className="space-y-2 text-white text-sm">
-                            <li>📍 Calle Cacha y Fundadores, Quito</li>
+                            <li>📍 {t("address")}</li>
                             <li>📞 (+593) 099 539 8645</li>
-                            <li>Horarios de Atención: Lunes a Sábado de 9:00 a 18:30</li>
-                            <li>Horarios de Urgencia/Emergencia: 24 Horas</li>
+                            <li>{t("hours")}</li>
+                            <li>{t("emergency")}</li>
                         </ul>
                     </div>
                 </div>
                 <div className="mt-8 border-t border-gray-800 pt-8 text-center text-white text-sm">
-                    &copy; {new Date().getFullYear()} Veterinaria DrPaw. Todos los derechos reservados.
+                    &copy; {new Date().getFullYear()} Veterinaria DrPaw. {t("rights")}
                 </div>
             </div>
         </footer>

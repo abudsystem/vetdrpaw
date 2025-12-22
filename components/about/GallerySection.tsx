@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import { GalleryService, GalleryImage } from "@/lib/api/gallery.service";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { useTranslations } from "next-intl";
 
 export const GallerySection = () => {
+    const t = useTranslations("About");
     const [images, setImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(true);
     const [hasFetched, setHasFetched] = useState(false);
@@ -28,16 +30,16 @@ export const GallerySection = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                        Nuestra Galería
+                        {t("galleryTitle")}
                     </h2>
                     <p className="mt-4 text-lg text-gray-700">
-                        Un vistazo a nuestras instalaciones y pacientes felices.
+                        {t("galleryDesc")}
                     </p>
                 </div>
 
                 {loading ? (
                     <div className="py-12 bg-gray-50 text-center animate-pulse">
-                        <p className="text-gray-700">Cargando galería...</p>
+                        <p className="text-gray-700">{t("loadingGallery")}</p>
                     </div>
                 ) : images.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -63,7 +65,7 @@ export const GallerySection = () => {
                     </div>
                 ) : (
                     <div className="py-12 text-center">
-                        <p className="text-gray-700">No hay imágenes disponibles en este momento.</p>
+                        <p className="text-gray-700">{t("noImages")}</p>
                     </div>
                 )}
             </div>

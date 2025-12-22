@@ -1,41 +1,44 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pet } from '@/types/pet';
 import { PetServices } from '@/lib/api/pet.service';
 
 export const usePets = () => {
-    const [pets, setPets] = useState<Pet[]>([]);
-    const [loading, setLoading] = useState(true);
+    const queryClient = useQueryClient();
 
-    const fetchPets = useCallback(async () => {
-        setLoading(true);
-        try {
-            const data = await PetServices.getClientPets();
-            setPets(data);
-        } catch (error) {
-            console.error("Error fetching pets:", error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+    const { data: pets = [], isLoading: loading, error } = useQuery({
+        queryKey: ['pets'],
+        queryFn: PetServices.getClientPets
+    });
 
-    useEffect(() => {
-        fetchPets();
-    }, [fetchPets]);
+    const createPetMutation = useMutation({
+        mutationFn: (petData: any) => PetServices.registerNewPet(petData),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['pets'] });
+        },
+    });
+
+    const updatePetMutation = useMutation({
+        mutationFn: ({ id, data }: { id: string; data: any }) => PetServices.updatePetDetails(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['pets'] });
+        },
+    });
+
+    const deletePetMutation = useMutation({
+        mutationFn: (id: string) => PetServices.removePet(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['pets'] });
+        },
+    });
 
     const savePet = async (petData: any, isEditing: boolean, petId?: string) => {
         try {
-            let success;
             if (isEditing && petId) {
-                success = await PetServices.updatePetDetails(petId, petData);
+                await updatePetMutation.mutateAsync({ id: petId, data: petData });
             } else {
-                success = await PetServices.registerNewPet(petData);
+                await createPetMutation.mutateAsync(petData);
             }
-
-            if (success) {
-                fetchPets();
-                return true;
-            }
-            return false;
+            return true;
         } catch (error) {
             console.error("Error saving pet:", error);
             return false;
@@ -46,13 +49,8 @@ export const usePets = () => {
         if (!confirm("¿Estás seguro de eliminar esta mascota?")) return false;
 
         try {
-            const success = await PetServices.removePet(id);
-
-            if (success) {
-                setPets(prev => prev.filter(p => p._id !== id));
-                return true;
-            }
-            return false;
+            await deletePetMutation.mutateAsync(id);
+            return true;
         } catch (error) {
             console.error("Error deleting pet:", error);
             return false;
@@ -64,6 +62,6 @@ export const usePets = () => {
         loading,
         savePet,
         deletePet,
-        refreshPets: fetchPets
+        refreshPets: () => queryClient.invalidateQueries({ queryKey: ['pets'] })
     };
 };

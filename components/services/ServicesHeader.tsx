@@ -1,17 +1,19 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export const ServicesHeader = () => {
+    const t = useTranslations("Services");
+
     return (
         <div className="text-center">
             <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">
-                Nuestros Servicios
+                {t("title")}
             </h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                Cuidado Integral para tu Mascota
+                {t("subtitle")}
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-700 mx-auto">
-                Servicios médicos, preventivos y complementarios para asegurar
-                la salud y bienestar de tu mejor amigo.
+                {t("description")}
             </p>
         </div>
     );

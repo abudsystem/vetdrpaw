@@ -1,0 +1,336 @@
+{
+    "Navbar": {
+        "home": "Inicio",
+        "about": "Sobre Nosotros",
+        "services": "Servicios",
+        "care": "Cuidados",
+        "contact": "Contacto",
+        "profile": "Perfil",
+        "logout": "Cerrar Sesión",
+        "bookAppointment": "Agendar Cita"
+    },
+    "HomePage": {
+        "welcome": "Bienvenido a VetDrPaw",
+        "description": "Cuidado profesional para tus mascotas"
+    },
+    "Hero": {
+        "title": "Cuidado Veterinario Premium",
+        "description": "En VetDrPaw, combinamos tecnología de vanguardia con un trato compasivo para asegurar que tu mascota tenga la vida más larga y feliz posible.",
+        "contact": "Contáctanos",
+        "about": "Conócenos"
+    },
+    "WelfarePolicy": {
+        "title": "Política de Bienestar",
+        "description": "\"Nos comprometemos a minimizar el estrés y el dolor en cada procedimiento. Somos una clínica certificada 'Fear Free', donde la comodidad emocional de tu mascota es tan importante como su salud física.\""
+    },
+    "History": {
+        "title": "Nuestra Historia",
+        "subtitle": "De un pequeño consultorio a un centro integral.",
+        "event2010": "Fundación de VetDrPaw por el Dr. Abud. Un sueño de traer medicina de calidad a la comunidad.",
+        "event2015": "Expansión a nuevas instalaciones con quirófano avanzado y laboratorio propio.",
+        "event2023": "Implementación de telemedicina y sistema de gestión digital integral."
+    },
+    "Philosophy": {
+        "title": "Nuestra Filosofía",
+        "description": "Creemos que la salud animal es integral. No solo tratamos enfermedades, sino que promovemos el bienestar físico y emocional de cada paciente.",
+        "preventiveTitle": "Medicina Preventiva",
+        "preventiveText": "Enfoque en prevenir antes que curar.",
+        "techTitle": "Tecnología Humana",
+        "techText": "Equipos modernos con trato cálido."
+    },
+    "Values": {
+        "sectionTitle": "Nuestros Valores",
+        "subtitle": "Lo que nos define",
+        "compassionTitle": "Compasión",
+        "compassionText": "Tratamos a cada mascota como si fuera nuestra propia familia, con gentileza y empatía.",
+        "excellenceTitle": "Excelencia",
+        "excellenceText": "Nos mantenemos a la vanguardia de la medicina veterinaria para ofrecer los mejores tratamientos.",
+        "integrityTitle": "Integridad",
+        "integrityText": "Creemos en la transparencia y la honestidad en cada diagnóstico y recomendación."
+    },
+    "Calendar": {
+        "title": "Eventos y Campañas",
+        "loading": "Cargando calendario..."
+    },
+    "Footer": {
+        "description": "Cuidado veterinario de excelencia con un enfoque compasivo y moderno. Tu mascota, nuestra prioridad.",
+        "quickLinks": "Enlaces Rápidos",
+        "contactTitle": "Contacto",
+        "address": "Calle Cacha y Fundadores, Quito",
+        "hours": "Horarios de Atención: Lunes a Sábado de 9:00 a 18:30",
+        "emergency": "Horarios de Urgencia/Emergencia: 24 Horas",
+        "rights": "Todos los derechos reservados."
+    },
+    "About": {
+        "headerTitle": "Sobre Nosotros",
+        "headerDescription": "Dedicados a elevar el estándar del cuidado veterinario a través de la compasión, la innovación y la excelencia.",
+        "missionTitle": "Nuestra Misión",
+        "missionDescription": "Nuestra misión es proporcionar atención médica veterinaria de la más alta calidad, tratando a cada paciente con el mismo amor y respeto que trataríamos a nuestras propias mascotas. Nos esforzamos por educar a nuestros clientes y fomentar el vínculo humano-animal.",
+        "teamTitle": "El Equipo",
+        "teamDescription": "Contamos con un equipo multidisciplinario de veterinarios especialistas, técnicos y personal de apoyo apasionados por los animales. Cada miembro se capacita constantemente para estar al día con los últimos avances médicos.",
+        "achievementsTitle": "Nuestros Logros",
+        "yearsExp": "Años de experiencia",
+        "petsServed": "Mascotas atendidas",
+        "profTraining": "Formación Profesional",
+        "historyDesc": "La Veterinaria Dr. Paw nació de un profundo amor por los animales y el deseo de ofrecer un servicio profesional, humano y actualizado en el país. Con formación en la Universidad Técnica de Ambato y varios años de experiencia practica, nuestro equipo ha crecido y evolucionado, siempre guiado por la pasión y el servicio.",
+        "whyTitle": "¿Por qué elegirnos?",
+        "customCare": "Atención Personalizada",
+        "customCareDesc": "Cada mascota es tratada como un miembro de nuestra familia.",
+        "trainedProf": "Profesionales Capacitados",
+        "trainedProfDesc": "Veterinarios formados y actualizados con tecnología moderna.",
+        "passion": "Pasión por los Animales",
+        "passionDesc": "Trabajamos por vocación, no solo por profesión.",
+        "galleryTitle": "Nuestra Galería",
+        "galleryDesc": "Un vistazo a nuestras instalaciones y pacientes felices.",
+        "loadingGallery": "Cargando galería...",
+        "noImages": "No hay imágenes disponibles en este momento."
+    },
+    "Services": {
+        "title": "Nuestros Servicios",
+        "subtitle": "Cuidado Integral para tu Mascota",
+        "description": "Servicios médicos, preventivos y complementarios para asegurar la salud y bienestar de tu mejor amigo.",
+        "categories": {
+            "veterinary": "🐾 Servicios Veterinarios",
+            "vaccination": "💉 Vacunaciones y Desparasitaciones",
+            "surgery": "🔪 Cirugías",
+            "hospitalization": "🏥 Hospitalización",
+            "complementary": "🎀 Servicios Complementarios",
+            "certificates": "📄 Certificados y Trámites"
+        },
+        "items": {
+            "general": "👨‍⚕️ Consulta general",
+            "emergency": "🚨 Consulta de urgencias (24 horas)",
+            "growth": "📈 Control crecimiento y peso",
+            "geriatric": "🐶👵 Control geriátrico (mascotas mayores)",
+            "postop": "🩺 Control postoperatorio",
+            "followup": "💊 Seguimiento de tratamientos",
+            "vaccines": "📅 Planes de vacunaciones",
+            "internal": "🦠 Desparasitaciones internas",
+            "external": "🐜 Desparasitaciones externas",
+            "preventive": "🛡️ Programas preventivos",
+            "products": "🐾 Productos antiparasitarios",
+            "sterilization": "✂️ Esterilizaciones / Castraciones",
+            "softTissue": "🧵 Cirugías tejidos blandos",
+            "trauma": "🦴 Cirugías traumatológicas",
+            "eye": "👁️ Cirugías oculares",
+            "emergencySurgery": "🚑 Cirugías de emergencia",
+            "monitoring": "📡 Monitoreo 24h",
+            "fluids": "🥣 Alimentación y control de fluidos",
+            "food": "🥗 Alimentos clínicos y para mascotas",
+            "vetProducts": "🛍️ Productos veterinarios",
+            "grooming": "✂️🐕 Cortes de pelo y baños medicados",
+            "nails": "🐾 Corte de uñas y limpieza de oídos",
+            "toys": "🧸 Juguetes, accesorios, camas y correas",
+            "spa": "💆‍♂️ Día de Spa (Baño + Corte + Uñas)",
+            "certVaccines": "💉 Certificados de vacunaciones",
+            "certInternal": "🦠 Certificados de desparasitaciones",
+            "certSurgery": "🔪 Certificados de cirugías",
+            "certHospital": "🏥 Certificados de hospitalizaciones",
+            "certAdoption": "🐶❤️ Certificados de adopción",
+            "travel": "✈️ Trámites sanitarios para traslados/exportación"
+        }
+    },
+    "PetCare": {
+        "title": "Cuidado de tu Mascota",
+        "description": "Consejos, guías y artículos basados en estudios reales y evidencia científica.",
+        "loading": "Cargando artículos...",
+        "noArticles": "No hay artículos disponibles en este momento."
+    },
+    "Contact": {
+        "title": "Contáctanos",
+        "description": "Estamos aquí para ayudarte con la salud y bienestar de tu mascota.",
+        "sendMessage": "Envíanos un mensaje",
+        "generalQuery": "Consulta general",
+        "bookCita": "Pedir cita",
+        "emergency": "⚠ Emergencia",
+        "mobile": "WhatsApp (Móvil)",
+        "pc": "WhatsApp Web (PC)",
+        "address": "Calle Cacha y Fundadores, Quito",
+        "hoursTitle": "🕒 Horarios",
+        "regularHours": "Atención común",
+        "regularHoursDetail": "Lunes a Sábado de 9:00 a 18:30",
+        "emergencyHours": "Emergencia veterinaria",
+        "emergencyHoursDetail": "24 Horas"
+    },
+    "Auth": {
+        "login": {
+            "title": "Inicia sesión en tu cuenta",
+            "noAccount": "¿No tienes cuenta?",
+            "registerLink": "Regístrate aquí",
+            "email": "Email",
+            "password": "Contraseña",
+            "submit": "Ingresar",
+            "loading": "Cargando...",
+            "errorDefault": "Error al iniciar sesión"
+        },
+        "register": {
+            "title": "Crea tu cuenta",
+            "hasAccount": "¿Ya tienes cuenta?",
+            "loginLink": "Inicia sesión",
+            "name": "Nombre completo",
+            "email": "Email",
+            "password": "Contraseña",
+            "submit": "Registrarse",
+            "loading": "Cargando...",
+            "errorDefault": "Error al registrarse"
+        }
+    },
+    "Sidebar": {
+        "goHome": "Volver al Inicio",
+        "admin": {
+            "title": "Panel de Administrador",
+            "dashboard": "Dashboard",
+            "users": "Gestión de Usuarios",
+            "roles": "Gestión de Roles",
+            "inventory": "Inventario",
+            "services": "Servicios Veterinarios",
+            "assets": "Activos",
+            "liabilities": "Pasivos",
+            "balance": "Balance General",
+            "cashFlow": "Flujo de Caja",
+            "inventoryBackup": "Copias de Inventario",
+            "business": "Negocio",
+            "petCare": "Cuidado Mascota",
+            "calendar": "Calendario",
+            "gallery": "Galería"
+        },
+        "vet": {
+            "title": "Panel Veterinario",
+            "dashboard": "Dashboard",
+            "pets": "Pacientes y Clientes",
+            "appointments": "Gestión de Citas",
+            "profile": "Mi Perfil",
+            "services": "Servicios Veterinarios",
+            "sales": "Ventas"
+        },
+        "client": {
+            "title": "Mi Panel",
+            "dashboard": "🏠 Dashboard",
+            "pets": "🐾 Mis Mascotas",
+            "appointments": "📅 Mis Citas",
+            "profile": "👤 Mi Perfil"
+        }
+    },
+    "ClientPanel": {
+        "common": {
+            "loading": "Cargando...",
+            "cancel": "Cancelar",
+            "save": "Guardar",
+            "update": "Actualizar",
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "actions": "Acciones",
+            "viewAll": "Ver todas →",
+            "yes": "Sí",
+            "no": "No"
+        },
+        "dashboard": {
+            "title": "Mi Panel",
+            "welcome": "Bienvenido a tu panel de control",
+            "stats": {
+                "pets": "Mis Mascotas",
+                "upcoming": "Citas Próximas",
+                "pending": "Citas Pendientes",
+                "waiting": "Esperando confirmación"
+            },
+            "quickActions": {
+                "title": "Acciones Rápidas",
+                "newPet": "Nueva Mascota",
+                "newPetDesc": "Registra una nueva mascota",
+                "newAppt": "Nueva Cita",
+                "newApptDesc": "Agenda una consulta veterinaria"
+            },
+            "upcomingAppts": "Próximas Citas",
+            "noPets": "Aún no has registrado ninguna mascota",
+            "registerFirst": "Registrar mi primera mascota"
+        },
+        "pets": {
+            "title": "Mis Mascotas",
+            "newPet": "Nueva Mascota",
+            "noPets": "No tienes mascotas registradas aún.",
+            "form": {
+                "registerTitle": "Registrar Mascota",
+                "editTitle": "Editar Mascota",
+                "basicInfo": "Información Básica",
+                "physicalDetails": "Detalles Físicos",
+                "medicalInfo": "Información Médica",
+                "name": "Nombre",
+                "species": "Especie",
+                "breed": "Raza",
+                "sex": "Sexo",
+                "select": "Seleccionar",
+                "male": "Macho",
+                "female": "Hembra",
+                "birthDate": "Fecha de Nacimiento",
+                "weight": "Peso (kg)",
+                "color": "Color/Marcas",
+                "allergies": "Alergias Conocidas",
+                "add": "Agregar",
+                "sterilized": "Esterilizado/Castrado",
+                "microchip": "Número de Microchip",
+                "notes": "Notas Especiales",
+                "other": "Otro"
+            },
+            "table": {
+                "pet": "Mascota",
+                "details": "Detalles",
+                "features": "Características",
+                "health": "Salud",
+                "breed": "Raza",
+                "age": "Edad",
+                "sterilized": "Esterilizado",
+                "allergies": "alergia(s)"
+            }
+        },
+        "appointments": {
+            "title": "Mis Citas",
+            "newAppt": "Nueva Cita",
+            "noAppts": "No tienes citas programadas.",
+            "requestFirst": "Solicita tu primera cita →",
+            "table": {
+                "dateTime": "Fecha y Hora",
+                "pet": "Mascota",
+                "vet": "Veterinario",
+                "reason": "Motivo",
+                "status": "Estado",
+                "unassigned": "Por asignar",
+                "unknown": "Desconocida",
+                "notes": "Notas"
+            },
+            "cancelConfirm": "¿Estás seguro de cancelar esta cita?",
+            "cancelError": "Error al cancelar la cita",
+            "cancelSuccess": "Cita cancelada correctamente"
+        },
+        "profile": {
+            "title": "Mi Perfil",
+            "edit": "Editar Perfil",
+            "changePassword": "Cambiar Contraseña",
+            "personalInfo": "Información Personal",
+            "details": "Detalles de tu cuenta.",
+            "fullName": "Nombre completo",
+            "email": "Correo electrónico",
+            "phone": "Teléfono",
+            "address": "Dirección",
+            "role": "Rol",
+            "notAvailable": "No disponible",
+            "notRegistered": "No registrado",
+            "notRegisteredFem": "No registrada"
+        }
+    },
+    "AdminDashboard": {
+        "title": "Panel de Administración",
+        "loading": "Cargando panel de administración...",
+        "stats": {
+            "totalUsers": "Total de Usuarios",
+            "vets": "Veterinarios",
+            "clients": "Clientes"
+        },
+        "recentUsers": {
+            "title": "Registros Recientes",
+            "name": "Nombre",
+            "email": "Email",
+            "role": "Rol",
+            "date": "Fecha"
+        }
+    }
+}

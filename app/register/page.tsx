@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
+    const t = useTranslations("Auth.register");
     const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -27,7 +29,7 @@ export default function RegisterPage() {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || "Error al registrarse");
+                throw new Error(data.message || t("errorDefault"));
             }
 
             // Redirigir al login
@@ -45,12 +47,12 @@ export default function RegisterPage() {
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Crea tu cuenta
+                        {t("title")}
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
-                        ¿Ya tienes cuenta?{" "}
+                        {t("hasAccount")}{" "}
                         <Link href="/login" className="font-medium text-teal-600 hover:text-teal-500">
-                            Inicia sesión
+                            {t("loginLink")}
                         </Link>
                     </p>
                 </div>
@@ -58,7 +60,7 @@ export default function RegisterPage() {
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
                             <label htmlFor="name" className="sr-only">
-                                Nombre
+                                {t("name")}
                             </label>
                             <input
                                 id="name"
@@ -67,14 +69,14 @@ export default function RegisterPage() {
                                 autoComplete="name"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
-                                placeholder="Nombre completo"
+                                placeholder={t("name")}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                         <div>
                             <label htmlFor="email-address" className="sr-only">
-                                Email
+                                {t("email")}
                             </label>
                             <input
                                 id="email-address"
@@ -83,14 +85,14 @@ export default function RegisterPage() {
                                 autoComplete="email"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
-                                placeholder="Email"
+                                placeholder={t("email")}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">
-                                Contraseña
+                                {t("password")}
                             </label>
                             <input
                                 id="password"
@@ -99,7 +101,7 @@ export default function RegisterPage() {
                                 autoComplete="new-password"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
-                                placeholder="Contraseña"
+                                placeholder={t("password")}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -116,7 +118,7 @@ export default function RegisterPage() {
                             disabled={loading}
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50"
                         >
-                            {loading ? "Cargando..." : "Registrarse"}
+                            {loading ? t("loading") : t("submit")}
                         </button>
                     </div>
                 </form>

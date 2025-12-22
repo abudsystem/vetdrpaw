@@ -1,16 +1,19 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function Philosophy() {
+    const t = useTranslations("Philosophy");
+
     return (
         <div className="bg-teal-50 py-16 lg:py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
                     <div>
                         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                            Nuestra Filosofía
+                            {t("title")}
                         </h2>
                         <p className="mt-3 max-w-3xl text-lg text-gray-700">
-                            Creemos que la salud animal es integral. No solo tratamos enfermedades, sino que promovemos el bienestar físico y emocional de cada paciente.
+                            {t("description")}
                         </p>
                         <div className="mt-8 space-y-4">
                             <div className="flex items-center">
@@ -20,8 +23,8 @@ export default function Philosophy() {
                                     </div>
                                 </div>
                                 <div className="ml-4">
-                                    <h4 className="text-lg leading-6 font-medium text-gray-900">Medicina Preventiva</h4>
-                                    <p className="mt-2 text-base text-gray-700">Enfoque en prevenir antes que curar.</p>
+                                    <h4 className="text-lg leading-6 font-medium text-gray-900">{t("preventiveTitle")}</h4>
+                                    <p className="mt-2 text-base text-gray-700">{t("preventiveText")}</p>
                                 </div>
                             </div>
                             <div className="flex items-center">
@@ -31,8 +34,8 @@ export default function Philosophy() {
                                     </div>
                                 </div>
                                 <div className="ml-4">
-                                    <h4 className="text-lg leading-6 font-medium text-gray-900">Tecnología Humana</h4>
-                                    <p className="mt-2 text-base text-gray-700">Equipos modernos con trato cálido.</p>
+                                    <h4 className="text-lg leading-6 font-medium text-gray-900">{t("techTitle")}</h4>
+                                    <p className="mt-2 text-base text-gray-700">{t("techText")}</p>
                                 </div>
                             </div>
                         </div>

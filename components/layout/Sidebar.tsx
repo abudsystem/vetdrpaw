@@ -18,6 +18,8 @@ interface SidebarProps {
     borderColor?: string; // Tailwind class for border color, e.g., "border-gray-800"
 }
 
+import { useTranslations } from "next-intl";
+
 export default function Sidebar({
     title,
     links,
@@ -25,6 +27,7 @@ export default function Sidebar({
     hoverColor = "hover:bg-gray-800",
     borderColor = "border-gray-800",
 }: SidebarProps) {
+    const t = useTranslations("Sidebar");
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
@@ -83,7 +86,7 @@ export default function Sidebar({
                         href="/"
                         className={`block py-3 px-6 ${hoverColor} transition-colors mt-10 border-t ${borderColor}`}
                     >
-                        Volver al Inicio
+                        {t("goHome")}
                     </Link>
                 </nav>
             </aside>

@@ -6,6 +6,27 @@ import { verifyEdgeToken } from "@/lib/edge-jwt";
 export async function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
+    // --- I18N LOGIC ---
+    let locale = req.cookies.get("NEXT_LOCALE")?.value;
+    let localeSet = !!locale;
+    if (!locale) {
+        const acceptLanguage = req.headers.get("accept-language");
+        if (acceptLanguage) {
+            locale = acceptLanguage.split(",")[0].split("-")[0];
+        }
+        if (!locale || !["es", "en"].includes(locale)) {
+            locale = "es";
+        }
+    }
+    // --- END I18N LOGIC ---
+
+    let res = NextResponse.next();
+
+    // Set locale cookie if not present
+    if (!localeSet) {
+        res.cookies.set("NEXT_LOCALE", locale, { path: "/", maxAge: 31536000 });
+    }
+
     // Rutas protegidas por rol
     const clientRoutes = ["/cliente"];
     const vetRoutes = ["/veterinario"];
@@ -41,19 +62,22 @@ export async function proxy(req: NextRequest) {
 
         // Validación por roles
         if (isClientRoute && role !== "cliente") {
-            return NextResponse.redirect(new URL("/", req.url));
+            const resRedirect = NextResponse.redirect(new URL("/", req.url));
+            return resRedirect;
         }
 
         if (isVetRoute && role !== "veterinario") {
-            return NextResponse.redirect(new URL("/", req.url));
+            const resRedirect = NextResponse.redirect(new URL("/", req.url));
+            return resRedirect;
         }
 
         if (isAdminRoute && role !== "administrador") {
-            return NextResponse.redirect(new URL("/", req.url));
+            const resRedirect = NextResponse.redirect(new URL("/", req.url));
+            return resRedirect;
         }
     }
 
-    return NextResponse.next();
+    return res;
 }
 
 // 🔥 El config sigue igual

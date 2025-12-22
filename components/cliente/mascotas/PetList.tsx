@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { PetMobileCard } from './PetMobileCard';
 import { Pagination } from '@/components/ui/Pagination';
 import { usePagination } from '@/hooks/usePagination';
+import { useTranslations } from 'next-intl';
 
 interface PetListProps {
     pets: Pet[];
@@ -15,6 +16,7 @@ interface PetListProps {
 }
 
 export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
+    const t = useTranslations('ClientPanel');
     const {
         paginatedItems: paginatedPets,
         currentPage,
@@ -31,7 +33,7 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
     };
 
     if (pets.length === 0 && !showForm) {
-        return <p className="text-gray-700 text-center py-8">No tienes mascotas registradas aún.</p>;
+        return <p className="text-gray-700 text-center py-8">{t('pets.noPets')}</p>;
     }
 
     return (
@@ -53,11 +55,11 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Mascota</TableHead>
-                            <TableHead>Detalles</TableHead>
-                            <TableHead>Características</TableHead>
-                            <TableHead>Salud</TableHead>
-                            <TableHead>Acciones</TableHead>
+                            <TableHead>{t('pets.table.pet')}</TableHead>
+                            <TableHead>{t('pets.table.details')}</TableHead>
+                            <TableHead>{t('pets.table.features')}</TableHead>
+                            <TableHead>{t('pets.table.health')}</TableHead>
+                            <TableHead>{t('common.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -76,8 +78,8 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="text-sm text-gray-600">
-                                        <p><span className="font-medium">Raza:</span> {pet.raza}</p>
-                                        <p><span className="font-medium">Edad:</span> {pet.edad} años</p>
+                                        <p><span className="font-medium">{t('pets.table.breed')}:</span> {pet.raza}</p>
+                                        <p><span className="font-medium">{t('pets.table.age')}:</span> {pet.edad} años</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -89,10 +91,10 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="text-sm">
-                                        {pet.esterilizado && <p className="text-blue-600 text-xs">✓ Esterilizado</p>}
+                                        {pet.esterilizado && <p className="text-blue-600 text-xs">✓ {t('pets.table.sterilized')}</p>}
                                         {pet.alergias && pet.alergias.length > 0 && (
                                             <p className="text-red-600 text-xs truncate max-w-[150px]" title={pet.alergias.join(", ")}>
-                                                ⚠ {pet.alergias.length} alergia(s)
+                                                ⚠ {pet.alergias.length} {t('pets.table.allergies')}
                                             </p>
                                         )}
                                     </div>
@@ -105,7 +107,7 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                             onClick={() => onEdit(pet)}
                                             className="text-indigo-600 hover:text-indigo-900"
                                         >
-                                            Editar
+                                            {t('common.edit')}
                                         </Button>
                                         <Button
                                             variant="ghost"
@@ -113,7 +115,7 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                             onClick={() => onDelete(pet._id)}
                                             className="text-red-600 hover:text-red-900"
                                         >
-                                            Eliminar
+                                            {t('common.delete')}
                                         </Button>
                                     </div>
                                 </TableCell>

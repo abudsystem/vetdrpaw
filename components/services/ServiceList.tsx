@@ -1,66 +1,69 @@
 import React from "react";
 import { ServiceCard, ServiceSection } from "./ServiceCard";
+import { useTranslations } from "next-intl";
 
 export const ServiceList = () => {
+    const t = useTranslations("Services");
+
     const services: ServiceSection[] = [
         {
-            category: "🐾 Servicios Veterinarios",
+            category: t("categories.veterinary"),
             items: [
-                "👨‍⚕️ Consulta general",
-                "🚨 Consulta de urgencias (24 horas)",
-                "📈 Control crecimiento y peso",
-                "🐶👵 Control geriátrico (mascotas mayores)",
-                "🩺 Control postoperatorio",
-                "💊 Seguimiento de tratamientos",
+                t("items.general"),
+                t("items.emergency"),
+                t("items.growth"),
+                t("items.geriatric"),
+                t("items.postop"),
+                t("items.followup"),
             ],
         },
         {
-            category: "💉 Vacunaciones y Desparasitaciones",
+            category: t("categories.vaccination"),
             items: [
-                "📅 Planes de vacunaciones",
-                "🦠 Desparasitaciones internas",
-                "🐜 Desparasitaciones externas",
-                "🛡️ Programas preventivos",
-                "🐾 Productos antiparasitarios",
+                t("items.vaccines"),
+                t("items.internal"),
+                t("items.external"),
+                t("items.preventive"),
+                t("items.products"),
             ],
         },
         {
-            category: "🔪 Cirugías",
+            category: t("categories.surgery"),
             items: [
-                "✂️ Esterilizaciones / Castraciones",
-                "🧵 Cirugías tejidos blandos",
-                "🦴 Cirugías traumatológicas",
-                "👁️ Cirugías oculares",
-                "🚑 Cirugías de emergencia",
+                t("items.sterilization"),
+                t("items.softTissue"),
+                t("items.trauma"),
+                t("items.eye"),
+                t("items.emergencySurgery"),
             ],
         },
         {
-            category: "🏥 Hospitalización",
+            category: t("categories.hospitalization"),
             items: [
-                "📡 Monitoreo 24h",
-                "🥣 Alimentación y control de fluidos",
+                t("items.monitoring"),
+                t("items.fluids"),
             ],
         },
         {
-            category: "🎀 Servicios Complementarios",
+            category: t("categories.complementary"),
             items: [
-                "🥗 Alimentos clínicos y para mascotas",
-                "🛍️ Productos veterinarios",
-                "✂️🐕 Cortes de pelo y baños medicados",
-                "🐾 Corte de uñas y limpieza de oídos",
-                "🧸 Juguetes, accesorios, camas y correas",
-                "💆‍♂️ Día de Spa (Baño + Corte + Uñas)",
+                t("items.food"),
+                t("items.vetProducts"),
+                t("items.grooming"),
+                t("items.nails"),
+                t("items.toys"),
+                t("items.spa"),
             ],
         },
         {
-            category: "📄 Certificados y Trámites",
+            category: t("categories.certificates"),
             items: [
-                "💉 Certificados de vacunaciones",
-                "🦠 Certificados de desparasitaciones",
-                "🔪 Certificados de cirugías",
-                "🏥 Certificados de hospitalizaciones",
-                "🐶❤️ Certificados de adopción",
-                "✈️ Trámites sanitarios para traslados/exportación",
+                t("items.certVaccines"),
+                t("items.certInternal"),
+                t("items.certSurgery"),
+                t("items.certHospital"),
+                t("items.certAdoption"),
+                t("items.travel"),
             ],
         },
     ];

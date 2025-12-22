@@ -1,32 +1,35 @@
 import Sidebar from "@/components/layout/Sidebar";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const adminLinks = [
-    { href: "/administrador/dashboard", label: "Dashboard" },
-    { href: "/administrador/usuarios", label: "Gestión de Usuarios" },
-    { href: "/administrador/roles", label: "Gestión de Roles" },
-    { href: "/administrador/inventario", label: "Inventario" },
-    { href: "/administrador/servicios", label: "Servicios Veterinarios" },
-    { href: "/administrador/activos", label: "Activos" },
-    { href: "/administrador/pasivos", label: "Pasivos" },
-    { href: "/administrador/balance", label: "Balance General" },
-    { href: "/administrador/flujodecaja", label: "Flujo de Caja" },
-    { href: "/administrador/copiainventario", label: "Copias de Inventario" },
-    { href: "/administrador/negocio", label: "Negocio" },
-    { href: "/administrador/pet-care", label: "Cuidado Mascota" },
-    { href: "/administrador/calendario", label: "Calendario" },
-    { href: "/administrador/galeria", label: "Galería" },
-];
+import { useTranslations } from "next-intl";
 
 export default function administradorLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const t = useTranslations("Sidebar.admin");
+
+    const adminLinks = [
+        { href: "/administrador/dashboard", label: t("dashboard") },
+        { href: "/administrador/usuarios", label: t("users") },
+        { href: "/administrador/roles", label: t("roles") },
+        { href: "/administrador/inventario", label: t("inventory") },
+        { href: "/administrador/servicios", label: t("services") },
+        { href: "/administrador/activos", label: t("assets") },
+        { href: "/administrador/pasivos", label: t("liabilities") },
+        { href: "/administrador/balance", label: t("balance") },
+        { href: "/administrador/flujodecaja", label: t("cashFlow") },
+        { href: "/administrador/copiainventario", label: t("inventoryBackup") },
+        { href: "/administrador/negocio", label: t("business") },
+        { href: "/administrador/pet-care", label: t("petCare") },
+        { href: "/administrador/calendario", label: t("calendar") },
+        { href: "/administrador/galeria", label: t("gallery") },
+    ];
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row print:bg-white print:block">
             <Sidebar
-                title="Administrador Panel"
+                title={t("title")}
                 links={adminLinks}
                 bgColor="bg-gray-900"
                 hoverColor="hover:bg-gray-800"

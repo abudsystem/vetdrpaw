@@ -1,7 +1,10 @@
 import { MapPin, Phone, Instagram, Facebook } from "lucide-react";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export const ContactInfo = () => {
+    const t = useTranslations("Contact");
+
     return (
         <div className="bg-gray-100 p-6 sm:p-8 flex flex-col items-center justify-start space-y-6">
 
@@ -30,7 +33,7 @@ export const ContactInfo = () => {
                         rel="noopener noreferrer"
                         className="text-teal-600 font-semibold hover:underline"
                     >
-                        Calle Cacha y Fundadores, Quito
+                        {t("address")}
                     </a>
                 </div>
 
@@ -68,11 +71,11 @@ export const ContactInfo = () => {
 
                 {/* Horarios */}
                 <div className="mt-4 text-center">
-                    <p className="font-semibold text-gray-900">🕒 Horarios</p>
-                    <p>Atención común</p>
-                    <p>Lunes a Sábado de 9:00 a 18:30</p>
-                    <p>Emergencia veterinaria</p>
-                    <p>24 Horas</p>
+                    <p className="font-semibold text-gray-900">{t("hoursTitle")}</p>
+                    <p>{t("regularHours")}</p>
+                    <p>{t("regularHoursDetail")}</p>
+                    <p>{t("emergencyHours")}</p>
+                    <p>{t("emergencyHoursDetail")}</p>
                 </div>
 
             </div>

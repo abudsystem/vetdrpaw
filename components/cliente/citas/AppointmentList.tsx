@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { AppointmentMobileCard } from './AppointmentMobileCard';
 import { Pagination } from '@/components/ui/Pagination';
 import { usePagination } from '@/hooks/usePagination';
+import { useTranslations } from 'next-intl';
 
 interface AppointmentListProps {
     appointments: Appointment[];
@@ -15,6 +16,7 @@ interface AppointmentListProps {
 }
 
 export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps) => {
+    const t = useTranslations('ClientPanel');
     const {
         paginatedItems: paginatedAppointments,
         currentPage,
@@ -26,12 +28,12 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
     if (appointments.length === 0) {
         return (
             <div className="px-4 py-8 text-center text-gray-700 bg-white rounded-lg shadow">
-                <p className="mb-4">No tienes citas programadas.</p>
+                <p className="mb-4">{t('appointments.noAppts')}</p>
                 <Link
                     href="/cliente/citas/nueva"
                     className="text-teal-600 hover:text-teal-800 font-medium"
                 >
-                    Solicita tu primera cita →
+                    {t('appointments.requestFirst')}
                 </Link>
             </div>
         );
@@ -55,12 +57,12 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Fecha y Hora</TableHead>
-                            <TableHead>Mascota</TableHead>
-                            <TableHead>Veterinario</TableHead>
-                            <TableHead>Motivo</TableHead>
-                            <TableHead>Estado</TableHead>
-                            <TableHead>Acciones</TableHead>
+                            <TableHead>{t('appointments.table.dateTime')}</TableHead>
+                            <TableHead>{t('appointments.table.pet')}</TableHead>
+                            <TableHead>{t('appointments.table.vet')}</TableHead>
+                            <TableHead>{t('appointments.table.reason')}</TableHead>
+                            <TableHead>{t('appointments.table.status')}</TableHead>
+                            <TableHead>{t('common.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -83,16 +85,16 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
-                                    {appointment.pet?.nombre || 'Desconocida'}
+                                    {appointment.pet?.nombre || t('appointments.table.unknown')}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
-                                    {appointment.veterinarian?.name || 'Por asignar'}
+                                    {appointment.veterinarian?.name || t('appointments.table.unassigned')}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700 max-w-xs truncate">
                                     {appointment.reason}
                                     {appointment.notas && appointment.status === 'completada' && (
                                         <div className="mt-1 text-xs text-gray-600 italic">
-                                            Notas: {appointment.notas}
+                                            {t('appointments.table.notes')}: {appointment.notas}
                                         </div>
                                     )}
                                 </TableCell>
@@ -115,7 +117,7 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
                                             onClick={() => onCancel(appointment._id)}
                                             className="text-red-600 hover:text-red-800"
                                         >
-                                            Cancelar
+                                            {t('common.cancel')}
                                         </Button>
                                     )}
                                 </TableCell>
