@@ -7,6 +7,14 @@ export interface IUser extends Document {
   role: "cliente" | "veterinario" | "administrador";
   telefono?: string;
   direccion?: string;
+
+  // Guest user fields
+  isGuest?: boolean;
+  activationToken?: string;
+  activationExpires?: Date;
+  activatedAt?: Date;
+  createdBy?: mongoose.Types.ObjectId;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +31,13 @@ const userSchema = new Schema<IUser>(
     },
     telefono: { type: String, required: false },
     direccion: { type: String, required: false },
+
+    // Guest user fields
+    isGuest: { type: Boolean, default: false },
+    activationToken: { type: String, required: false },
+    activationExpires: { type: Date, required: false },
+    activatedAt: { type: Date, required: false },
+    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: false },
   },
   { timestamps: true }
 );

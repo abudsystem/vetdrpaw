@@ -12,6 +12,11 @@ export const UserRepository = {
     return User.findOne({ email });
   },
 
+  findOne: async (filter: any): Promise<IUser | null> => {
+    await dbConnect();
+    return User.findOne(filter);
+  },
+
   findById: async (id: string): Promise<IUser | null> => {
     await dbConnect();
     return User.findById(id).select("-password");
