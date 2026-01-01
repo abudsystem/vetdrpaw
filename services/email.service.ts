@@ -40,7 +40,7 @@ export const EmailService = {
 
     // Production mode with Resend
     try {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || "VetDrPaw <noreply@vetetinariadrpaw.com>";
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "Veterinaria DrPaw <noreply@vetetinariadrpaw.com>";
 
       await resend!.emails.send({
         from: fromEmail,
@@ -89,11 +89,11 @@ export const EmailService = {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🐾 Bienvenido a VetDrPaw</h1>
+              <h1>🐾 Bienvenido a Veterinaria DrPaw</h1>
             </div>
             <div class="content">
               <h2>Hola ${name},</h2>
-              <p>Tu veterinario ha creado una cuenta para ti en VetDrPaw. Ahora puedes acceder a toda la información médica de tus mascotas en un solo lugar.</p>
+              <p>Tu veterinario ha creado una cuenta para ti en Veterinaria DrPaw. Ahora puedes acceder a toda la información médica de tus mascotas en un solo lugar.</p>
               
               <p>Para activar tu cuenta y establecer tu contraseña, haz clic en el siguiente botón:</p>
               
@@ -110,7 +110,7 @@ export const EmailService = {
               
               <p>Si no solicitaste esta cuenta, puedes ignorar este correo.</p>
               
-              <p>Saludos,<br>El equipo de VetDrPaw</p>
+              <p>Saludos,<br>El equipo de Veterinaria DrPaw</p>
             </div>
             <div class="footer">
               <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
@@ -122,7 +122,7 @@ export const EmailService = {
 
     await EmailService.send({
       to: email,
-      subject: "Activa tu cuenta en VetDrPaw 🐾",
+      subject: "Activa tu cuenta en Veterinaria DrPaw 🐾",
       html,
     });
   },

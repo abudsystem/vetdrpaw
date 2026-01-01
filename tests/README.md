@@ -1,6 +1,6 @@
 # Pruebas E2E con Playwright
 
-Este directorio contiene todas las pruebas end-to-end (E2E) para la aplicación VetDrPaw.
+Este directorio contiene todas las pruebas end-to-end (E2E) para la aplicación Veterinaria DrPaw.
 
 ## 📁 Estructura de Pruebas
 

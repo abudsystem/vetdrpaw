@@ -11,12 +11,12 @@
         "language": "Language"
     },
     "HomePage": {
-        "welcome": "Welcome to VetDrPaw",
+        "welcome": "Welcome to Veterinaria DrPaw",
         "description": "Professional care for your pets"
     },
     "Hero": {
         "title": "Premium Veterinary Care",
-        "description": "At VetDrPaw, we combine cutting-edge technology with compassionate care to ensure your pet has the longest, happiest life possible.",
+        "description": "At Veterinaria DrPaw, we combine cutting-edge technology with compassionate care to ensure your pet has the longest, happiest life possible.",
         "contact": "Contact Us",
         "about": "About Us"
     },
@@ -27,9 +27,9 @@
     "History": {
         "title": "Our History",
         "subtitle": "From a small office to an integrated center.",
-        "event2010": "Foundation of VetDrPaw by Dr. Abud. A dream of bringing quality medicine to the community.",
-        "event2015": "Expansion to new facilities with advanced operating room and own laboratory.",
-        "event2023": "Implementation of telemedicine and integrated digital management system."
+        "event2018": "Commencement of professional training in veterinary medicine, integrating hands-on clinical practice from the initial stage as a foundation for professional development.",
+        "event2025": "Establishment of the DrPaw Veterinary Clinic, formalizing professional experience and reinforcing the commitment to delivering high-quality veterinary care to the community.",
+        "event2026": "Virtualization of veterinary services through the implementation of telemedicine and an integrated digital management system."
     },
     "Philosophy": {
         "title": "Our Philosophy",
@@ -79,7 +79,7 @@
         "achievementsTitle": "Our Achievements",
         "yearsExp": "Years of experience",
         "petsServed": "Pets served",
-        "profTraining": "Professional Training",
+        "profTraining": "Technical University of Ambato",
         "historyDesc": "Veterinaria Dr. Paw was born from a deep love for animals and the desire to offer a professional, human, and modern service in the country. With training at the Technical University of Ambato and several years of practical experience, our team has grown and evolved, always guided by passion and service.",
         "whyTitle": "Why choose us?",
         "customCare": "Personalized Attention",
@@ -228,7 +228,7 @@
             "edit": "Edit",
             "delete": "Delete",
             "actions": "Actions",
-            "viewAll": "View all →",
+            "viewAll": "View all",
             "yes": "Yes",
             "no": "No",
             "year": "year",

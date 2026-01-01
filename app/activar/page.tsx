@@ -131,7 +131,7 @@ function ActivationContent() {
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">Activa tu Cuenta</h1>
                     <p className="text-gray-600">
-                        Establece tu contraseña para acceder a VetDrPaw
+                        Establece tu contraseña para acceder a Veterinaria DrPaw
                     </p>
                 </div>
 
@@ -147,17 +147,17 @@ function ActivationContent() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Password Field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-black mb-2">
                             Nueva Contraseña
                         </label>
                         <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={20} />
                             <input
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-black"
                                 placeholder="Mínimo 6 caracteres"
                                 disabled={loading}
                             />
@@ -169,24 +169,24 @@ function ActivationContent() {
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
                         </div>
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-black">
                             Debe contener mayúsculas, minúsculas y números
                         </p>
                     </div>
 
                     {/* Confirm Password Field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-black mb-2">
                             Confirmar Contraseña
                         </label>
                         <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={20} />
                             <input
                                 type={showConfirmPassword ? "text" : "password"}
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
-                                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-black"
                                 placeholder="Repite tu contraseña"
                                 disabled={loading}
                             />

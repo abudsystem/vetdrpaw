@@ -11,12 +11,12 @@
         "language": "Idioma"
     },
     "HomePage": {
-        "welcome": "Bienvenido a VetDrPaw",
+        "welcome": "Bienvenido a Veterinaria DrPaw",
         "description": "Cuidado profesional para tus mascotas"
     },
     "Hero": {
         "title": "Cuidado Veterinario Premium",
-        "description": "En VetDrPaw, combinamos tecnología de vanguardia con un trato compasivo para asegurar que tu mascota tenga la vida más larga y feliz posible.",
+        "description": "En Veterinaria DrPaw, combinamos tecnología de vanguardia con un trato compasivo para asegurar que tu mascota tenga la vida más larga y feliz posible.",
         "contact": "Contáctanos",
         "about": "Conócenos"
     },
@@ -27,9 +27,9 @@
     "History": {
         "title": "Nuestra Historia",
         "subtitle": "De un pequeño consultorio a un centro integral.",
-        "event2010": "Fundación de VetDrPaw por el Dr. Abud. Un sueño de traer medicina de calidad a la comunidad.",
-        "event2015": "Expansión a nuevas instalaciones con quirófano avanzado y laboratorio propio.",
-        "event2023": "Implementación de telemedicina y sistema de gestión digital integral."
+        "event2018": "Inicio de la formación profesional en medicina veterinaria, integrando desde la etapa inicial la práctica clínica directa como base del desarrollo profesional.",
+        "event2025": "Fundación de la Clínica Veterinaria DrPaw, formalizando la trayectoria profesional y el compromiso con la atención veterinaria de calidad para la comunidad.",
+        "event2026": "Proceso de virtualización de los servicios veterinarios mediante la implementación de telemedicina y un sistema de gestión digital integral."
     },
     "Philosophy": {
         "title": "Nuestra Filosofía",
@@ -80,7 +80,7 @@
         "achievementsTitle": "Nuestros Logros",
         "yearsExp": "Años de experiencia",
         "petsServed": "Mascotas atendidas",
-        "profTraining": "Formación Profesional",
+        "profTraining": "Universidad Técnica de Ambato",
         "historyDesc": "La Veterinaria Dr. Paw nació de un profundo amor por los animales y el deseo de ofrecer un servicio profesional, humano y actualizado en el país. Con formación en la Universidad Técnica de Ambato y varios años de experiencia practica, nuestro equipo ha crecido y evolucionado, siempre guiado por la pasión y el servicio.",
         "whyTitle": "¿Por qué elegirnos?",
         "customCare": "Atención Personalizada",

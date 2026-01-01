@@ -11,7 +11,7 @@ import { MainProvider } from '@/components/providers/MainProvider';
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "VetDrPaw - Cuidado Veterinario Premium",
+  title: "Veterinaria DrPaw - Cuidado Veterinario Premium",
   description: "Clínica veterinaria de excelencia",
 };
 

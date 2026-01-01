@@ -6,9 +6,9 @@ export default function History() {
     const t = useTranslations('History');
 
     const timeline = [
-        { year: '2010', event: t('event2010') },
-        { year: '2015', event: t('event2015') },
-        { year: '2023', event: t('event2023') },
+        { year: '2018', event: t('event2018') },
+        { year: '2025', event: t('event2025') },
+        { year: '2026', event: t('event2026') },
     ];
 
     return (
