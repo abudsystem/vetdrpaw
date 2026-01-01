@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
-import { Appointment, User, AppointmentFormData, AppointmentStatus } from "@/components/veterinario/citas/types";
+import { useState } from "react";
+import { Appointment, AppointmentFormData, AppointmentStatus } from "@/components/veterinario/citas/types";
 import { filterByStatus, getPaginatedData, getTotalPages } from "@/components/veterinario/citas/utils";
 import { AppointmentServices } from "@/lib/api/appointment.service";
 import { UserServices } from "@/lib/api/user.service";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useVetAppointments = () => {
-    const [appointments, setAppointments] = useState<Appointment[]>([]);
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+    const queryClient = useQueryClient();
     const [activeTab, setActiveTab] = useState<AppointmentStatus>("pendiente");
     const [currentPage, setCurrentPage] = useState<{ [key in AppointmentStatus]: number }>({
         pendiente: 1,
@@ -15,36 +14,44 @@ export const useVetAppointments = () => {
         cancelada: 1,
     });
 
-    const fetchData = useCallback(async () => {
-        try {
-            // Parallel fetching using new services
-            const [apptData, userData] = await Promise.all([
-                AppointmentServices.getAllVeterinaryAppointments(),
-                UserServices.getUserVeterinarianProfile(),
-            ]);
+    // Valid data is expected from services.
+    const { data: appointments = [], isLoading: loadingAppointments } = useQuery({
+        queryKey: ['appointments', 'veterinarian'],
+        queryFn: () => AppointmentServices.getAllVeterinaryAppointments(),
+    });
 
-            setAppointments(apptData);
-            setCurrentUser(userData);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+    const { data: currentUser, isLoading: loadingUser } = useQuery({
+        queryKey: ['user', 'veterinarian'],
+        queryFn: () => UserServices.getUserVeterinarianProfile(),
+    });
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+    const loading = loadingAppointments || loadingUser;
 
-    const createAppointment = async (formData: AppointmentFormData) => {
-        if (!currentUser) return false;
-
-        try {
-            await AppointmentServices.createNewAppointment({
+    const createMutation = useMutation({
+        mutationFn: async (formData: AppointmentFormData) => {
+            if (!currentUser) throw new Error("No user");
+            return AppointmentServices.createNewAppointment({
                 ...formData,
                 veterinarian: currentUser._id,
             });
-            await fetchData();
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['appointments', 'veterinarian'] });
+        },
+    });
+
+    const updateStatusMutation = useMutation({
+        mutationFn: ({ id, status }: { id: string; status: string }) =>
+            AppointmentServices.updateAppointmentStatus(id, status),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['appointments', 'veterinarian'] });
+            queryClient.invalidateQueries({ queryKey: ['appointments', 'mine'] }); // Invalidate dashboard too
+        },
+    });
+
+    const createAppointment = async (formData: AppointmentFormData) => {
+        try {
+            await createMutation.mutateAsync(formData);
             return true;
         } catch (error) {
             console.error("Error creating appointment:", error);
@@ -55,9 +62,7 @@ export const useVetAppointments = () => {
 
     const updateStatus = async (id: string, status: string) => {
         try {
-            await AppointmentServices.updateAppointmentStatus(id, status);
-            // Optimistic or strict refresh check could be improved here, but strict for now
-            await fetchData();
+            await updateStatusMutation.mutateAsync({ id, status });
         } catch (error) {
             console.error("Error updating status:", error);
         }
@@ -88,6 +93,6 @@ export const useVetAppointments = () => {
         handlePageChange,
         updateStatus,
         createAppointment,
-        refreshAppointments: fetchData
+        refreshAppointments: () => queryClient.invalidateQueries({ queryKey: ['appointments', 'veterinarian'] })
     };
 };

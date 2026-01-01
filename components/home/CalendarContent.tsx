@@ -4,8 +4,10 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import esLocale from "@fullcalendar/core/locales/es";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocale } from 'next-intl';
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api-client";
 import { motion } from "framer-motion";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 
@@ -18,27 +20,12 @@ interface CalendarEvent {
 }
 
 export default function CalendarContent() {
-    const [events, setEvents] = useState<CalendarEvent[]>([]);
-    const [loading, setLoading] = useState(true);
     const locale = useLocale();
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const res = await fetch("/api/calendar-events");
-                if (res.ok) {
-                    const data = await res.json();
-                    setEvents(data);
-                }
-            } catch (error) {
-                console.error("Error fetching events:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchEvents();
-    }, []);
+    const { data: events = [], isLoading: loading } = useQuery({
+        queryKey: ['calendar-events'],
+        queryFn: () => apiClient<CalendarEvent[]>('/api/calendar-events'),
+    });
 
     const handleEventClick = (info: any) => {
         info.jsEvent.preventDefault();

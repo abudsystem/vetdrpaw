@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Appointment } from "@/types/appointment";
 import { VetDashboardStats } from "@/types/dashboard";
 import { DashboardStats } from "@/components/veterinario/dashboard/DashboardStats";
@@ -8,6 +7,8 @@ import { QuickActions } from "@/components/veterinario/dashboard/QuickActions";
 import { RecentActivity } from "@/components/veterinario/dashboard/RecentActivity";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api-client";
 
 interface Pet {
     _id: string;
@@ -15,50 +16,28 @@ interface Pet {
 
 export default function VeterinarianDashboard() {
     const t = useTranslations('VetPanel.dashboard');
-    const [stats, setStats] = useState<VetDashboardStats>({
-        appointmentsToday: 0,
-        activePatients: 0,
-        pendingAppointments: 0
+
+    // Queries
+    const { data: appointments = [], isLoading: loadingAppts } = useQuery({
+        queryKey: ['appointments', 'mine'],
+        queryFn: () => apiClient<Appointment[]>('/api/appointments?my_appointments=true'),
     });
-    const [recentActivity, setRecentActivity] = useState<Appointment[]>([]);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchDashboardData();
-    }, []);
+    const { data: pets = [], isLoading: loadingPets } = useQuery({
+        queryKey: ['pets'],
+        queryFn: () => apiClient<Pet[]>('/api/pets'),
+    });
 
-    const fetchDashboardData = async () => {
-        setLoading(true);
-        try {
-            const [apptRes, petsRes] = await Promise.all([
-                fetch("/api/appointments?my_appointments=true"),
-                fetch("/api/pets")
-            ]);
+    const loading = loadingAppts || loadingPets;
 
-            if (apptRes.ok && petsRes.ok) {
-                const appointments: Appointment[] = await apptRes.json();
-                const pets: Pet[] = await petsRes.json();
-
-                // Calculate Stats
-                const today = new Date().toDateString();
-                const todayAppts = appointments.filter(a => new Date(a.date).toDateString() === today);
-                const pendingAppts = appointments.filter(a => a.status === "pendiente");
-
-                setStats({
-                    appointmentsToday: todayAppts.length,
-                    activePatients: pets.length,
-                    pendingAppointments: pendingAppts.length
-                });
-
-                // Recent Activity (Last 5 appointments)
-                setRecentActivity(appointments.slice(0, 5));
-            }
-        } catch (error) {
-            console.error("Error fetching dashboard data:", error);
-        } finally {
-            setLoading(false);
-        }
+    // Derived State
+    const stats: VetDashboardStats = {
+        appointmentsToday: appointments.filter(a => new Date(a.date).toDateString() === new Date().toDateString()).length,
+        activePatients: pets.length,
+        pendingAppointments: appointments.filter(a => a.status === "pendiente").length
     };
+
+    const recentActivity = appointments.slice(0, 5);
 
     return (
         <motion.div

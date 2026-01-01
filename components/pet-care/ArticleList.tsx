@@ -1,32 +1,17 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api-client";
 import { ArticleCard, Article } from "./ArticleCard";
 import { useTranslations } from 'next-intl';
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 export const ArticleList = () => {
-    const [articles, setArticles] = useState<Article[]>([]);
-    const [loading, setLoading] = useState(true);
     const t = useTranslations('PetCare');
-
-    useEffect(() => {
-        const fetchArticles = async () => {
-            try {
-                const res = await fetch("/api/pet-care");
-                if (res.ok) {
-                    const data = await res.json();
-                    setArticles(data);
-                }
-            } catch (error) {
-                console.error("Error fetching articles:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchArticles();
-    }, []);
+    const { data: articles = [], isLoading: loading } = useQuery({
+        queryKey: ['pet-care-articles'],
+        queryFn: () => apiClient<Article[]>('/api/pet-care'),
+    });
 
     if (loading) {
         return (

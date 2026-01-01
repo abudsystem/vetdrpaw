@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Toaster } from 'sonner';
+import { MainProvider } from '@/components/providers/MainProvider';
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -26,14 +27,16 @@ export default async function RootLayout({
     <html lang={locale} className="h-full w-full">
       <body className={`${outfit.className} min-h-screen flex flex-col overflow-x-hidden w-full`}>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <Toaster position="top-right" richColors closeButton />
-          <Navbar />
+          <MainProvider>
+            <Toaster position="top-right" richColors closeButton />
+            <Navbar />
 
-          <main className="flex-1">
-            {children}
-          </main>
+            <main className="flex-1">
+              {children}
+            </main>
 
-          <Footer />
+            <Footer />
+          </MainProvider>
         </NextIntlClientProvider>
       </body>
     </html>
