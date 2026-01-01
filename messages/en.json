@@ -60,7 +60,14 @@
         "address": "Calle Cacha and Fundadores, Quito",
         "hours": "Operating Hours: Monday to Saturday from 9:00 to 18:30",
         "emergency": "Urgency/Emergency Hours: 24 Hours",
-        "rights": "All rights reserved."
+        "rights": "All rights reserved.",
+        "home": "Home",
+        "about": "About Us",
+        "services": "Services",
+        "petCare": "Pet Care",
+        "contact": "Contact",
+        "login": "Login",
+        "register": "Register"
     },
     "About": {
         "headerTitle": "About Us",

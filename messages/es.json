@@ -60,7 +60,15 @@
         "address": "Calle Cacha y Fundadores, Quito",
         "hours": "Horarios de Atención: Lunes a Sábado de 9:00 a 18:30",
         "emergency": "Horarios de Urgencia/Emergencia: 24 Horas",
-        "rights": "Todos los derechos reservados."
+        "rights": "Todos los derechos reservados.",
+        "home": "Inicio",
+        "about": "Sobre Nosotros",
+        "services": "Servicios",
+        "care": "Cuidados",
+        "contact": "Contacto",
+        "petCare": "Cuidado de Mascotas",
+        "login": "Iniciar Sesión",
+        "register": "Registrarse"
     },
     "About": {
         "headerTitle": "Sobre Nosotros",
