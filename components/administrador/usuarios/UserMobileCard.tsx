@@ -10,7 +10,7 @@ interface UserMobileCardProps {
 }
 
 export const UserMobileCard = ({ user, onEdit, onDelete }: UserMobileCardProps) => {
-    const tr = useTranslations('AdminDashboard.roles');
+    const tr = useTranslations('AdminDashboard.roleLabels');
     const tc = useTranslations('ClientPanel.common');
 
     return (
@@ -38,7 +38,7 @@ export const UserMobileCard = ({ user, onEdit, onDelete }: UserMobileCardProps) 
                     onClick={() => onEdit(user)}
                     className="text-black hover:text-black font-bold"
                 >
-                    {tc('actions.edit')}
+                    {tc('edit')}
                 </Button>
                 <Button
                     variant="ghost"
@@ -46,7 +46,7 @@ export const UserMobileCard = ({ user, onEdit, onDelete }: UserMobileCardProps) 
                     onClick={() => onDelete(user._id)}
                     className="text-red-600 hover:text-red-900 font-bold"
                 >
-                    {tc('actions.delete')}
+                    {tc('delete')}
                 </Button>
             </div>
         </div>

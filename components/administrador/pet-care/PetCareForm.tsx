@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { PetCareItem } from "@/hooks/usePetCare";
 import { useTranslations } from "next-intl";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { toast } from "sonner";
+import { BookOpen, Tag, AlignLeft, Link as LinkIcon, Calendar } from "lucide-react";
 
 interface PetCareFormProps {
     initialData?: Partial<PetCareItem>;
@@ -44,84 +48,86 @@ export default function PetCareForm({ initialData, onSubmit, onCancel, isEditing
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        await onSubmit(formData as any);
-        setLoading(false);
+        try {
+            await onSubmit(formData as any);
+            toast.success(isEditing ? "Artículo actualizado con éxito" : "Artículo creado con éxito", {
+                description: formData.title
+            });
+        } catch (error) {
+            toast.error("Error al guardar el artículo");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-                <label className="block text-sm font-bold text-gray-700">{t('titleLabel')}</label>
-                <input
-                    type="text"
+        <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input
+                    label={t('titleLabel')}
                     name="title"
                     required
+                    icon={<BookOpen className="w-5 h-5" />}
                     value={formData.title}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500 text-black font-bold"
                 />
-            </div>
-            <div>
-                <label className="block text-sm font-bold text-gray-700">{t('categoryLabel')}</label>
-                <input
-                    type="text"
+                <Input
+                    label={t('categoryLabel')}
                     name="category"
                     required
+                    icon={<Tag className="w-5 h-5" />}
                     placeholder={t('categoryPlaceholder')}
                     value={formData.category}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500 text-black font-bold"
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-bold text-gray-700">{t('excerptLabel')}</label>
-                <textarea
-                    name="excerpt"
-                    required
-                    rows={3}
-                    value={formData.excerpt}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500 text-black font-bold"
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-bold text-gray-700">{t('linkLabel')}</label>
-                <input
-                    type="url"
-                    name="link"
-                    required
-                    value={formData.link}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500 text-black font-bold"
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-bold text-gray-700">{t('dateLabel')}</label>
-                <input
-                    type="text"
-                    name="date"
-                    required
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500 text-black font-bold"
                 />
             </div>
 
-            <div className="flex justify-end space-x-4 pt-4">
-                <button
+            <Input
+                label={t('excerptLabel')}
+                name="excerpt"
+                required
+                multiline
+                rows={4}
+                icon={<AlignLeft className="w-5 h-5" />}
+                value={formData.excerpt}
+                onChange={handleChange}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input
+                    label={t('linkLabel')}
+                    name="link"
+                    type="url"
+                    required
+                    icon={<LinkIcon className="w-5 h-5" />}
+                    value={formData.link}
+                    onChange={handleChange}
+                />
+                <Input
+                    label={t('dateLabel')}
+                    name="date"
+                    required
+                    icon={<Calendar className="w-5 h-5" />}
+                    value={formData.date}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="flex justify-end space-x-4 pt-6 border-t border-gray-100">
+                <Button
                     type="button"
+                    variant="secondary"
                     onClick={onCancel}
-                    className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-bold"
                 >
-                    {tc('cancelar')}
-                </button>
-                <button
+                    {tc('cancel')}
+                </Button>
+                <Button
                     type="submit"
-                    disabled={loading}
-                    className="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors disabled:opacity-50 font-bold"
+                    variant="primary"
+                    isLoading={loading}
                 >
-                    {loading ? tc('guardando') : isEditing ? t('updateArticle') : t('createArticle')}
-                </button>
+                    {isEditing ? t('updateArticle') : t('createArticle')}
+                </Button>
             </div>
         </form>
     );

@@ -1,22 +1,37 @@
+"use client";
+
 import { ContactHeader } from "@/components/contact/ContactHeader";
 import { ContactInfo } from "@/components/contact/ContactInfo";
 import { ContactOptions } from "@/components/contact/ContactOptions";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { motion } from "framer-motion";
 
 export default function ContactPage() {
     return (
-        <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto">
-                <ScrollReveal>
-                    <ContactHeader />
-                </ScrollReveal>
+        <div className="bg-white min-h-screen py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            {/* Background Accents */}
+            <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-teal-50 rounded-full blur-3xl opacity-60 -z-10 -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-blue-50 rounded-full blur-3xl opacity-60 -z-10 translate-y-1/2 -translate-x-1/2" />
 
-                <ScrollReveal delay={200} className="mt-12 bg-white shadow sm:rounded-lg overflow-hidden">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="max-w-6xl mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <ContactHeader />
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="mt-16 bg-white shadow-2xl rounded-[2.5rem] overflow-hidden border border-gray-100/50"
+                >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                         <ContactOptions />
                         <ContactInfo />
                     </div>
-                </ScrollReveal>
+                </motion.div>
             </div>
         </div>
     );

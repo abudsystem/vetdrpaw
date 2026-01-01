@@ -227,10 +227,13 @@
             "year": "year",
             "years": "years",
             "pets": "My Pets",
-            "retry": "Retry"
+            "retry": "Retry",
+            "optional": "(Optional)",
+            "creating": "Creating..."
         },
         "dashboard": {
             "title": "My Panel",
+            "subtitle": "Overview of your activity and pets.",
             "welcome": "Welcome to your dashboard",
             "stats": {
                 "pets": "My Pets",
@@ -313,7 +316,8 @@
                 "pending": "pending",
                 "accepted": "accepted",
                 "cancelled": "cancelled",
-                "completed": "completed"
+                "completed": "completed",
+                "veterinarian": "Veterinarian"
             },
             "cancelConfirm": "Are you sure you want to cancel this appointment?",
             "cancelError": "Error canceling appointment",
@@ -322,6 +326,7 @@
         "profile": {
             "title": "My Profile",
             "edit": "Edit Profile",
+            "editProfile": "Edit Profile",
             "changePassword": "Change Password",
             "personalInfo": "Personal Information",
             "details": "Account details.",
@@ -338,6 +343,7 @@
     "VetPanel": {
         "dashboard": {
             "title": "Veterinarian Panel",
+            "subtitle": "Overview of your veterinary activity.",
             "stats": {
                 "appointmentsToday": "Appointments Today",
                 "activePatients": "Total Patients",
@@ -640,7 +646,8 @@
             "table": {
                 "user": "User",
                 "currentRole": "Current Role",
-                "newRole": "New Role"
+                "newRole": "New Role",
+                "actions": "Actions"
             },
             "updateRole": "Update Role"
         },

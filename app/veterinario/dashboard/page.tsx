@@ -6,12 +6,15 @@ import { VetDashboardStats } from "@/types/dashboard";
 import { DashboardStats } from "@/components/veterinario/dashboard/DashboardStats";
 import { QuickActions } from "@/components/veterinario/dashboard/QuickActions";
 import { RecentActivity } from "@/components/veterinario/dashboard/RecentActivity";
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface Pet {
     _id: string;
 }
 
 export default function VeterinarianDashboard() {
+    const t = useTranslations('VetPanel.dashboard');
     const [stats, setStats] = useState<VetDashboardStats>({
         appointmentsToday: 0,
         activePatients: 0,
@@ -25,6 +28,7 @@ export default function VeterinarianDashboard() {
     }, []);
 
     const fetchDashboardData = async () => {
+        setLoading(true);
         try {
             const [apptRes, petsRes] = await Promise.all([
                 fetch("/api/appointments?my_appointments=true"),
@@ -56,20 +60,30 @@ export default function VeterinarianDashboard() {
         }
     };
 
-    if (loading) return <div className="p-6">Cargando dashboard...</div>;
-
     return (
-        <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Resumen de la Clínica</h1>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-8"
+        >
+            <div>
+                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                    {t('title')}
+                </h1>
+                <p className="text-gray-500 font-medium mt-1">
+                    {t('subtitle')}
+                </p>
+            </div>
 
             {/* Stats Cards */}
-            <DashboardStats stats={stats} />
+            <DashboardStats stats={stats} loading={loading} />
 
-            {/* Quick Actions */}
+            {/* Quick Actions and Activity */}
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
                 <QuickActions />
-                <RecentActivity appointments={recentActivity} />
+                <RecentActivity appointments={recentActivity} loading={loading} />
             </div>
-        </div>
+        </motion.div>
     );
 }

@@ -67,7 +67,7 @@ export const AssetList = ({ assets, onDelete }: AssetListProps) => {
                             <TableHead className="font-bold">{t('table.unitCost')}</TableHead>
                             <TableHead className="font-bold">{t('table.totalValue')}</TableHead>
                             <TableHead className="font-bold">{t('table.acquisition')}</TableHead>
-                            <TableHead className="text-right font-bold">{tc('acciones')}</TableHead>
+                            <TableHead className="text-right font-bold">{tc('actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -98,13 +98,13 @@ export const AssetList = ({ assets, onDelete }: AssetListProps) => {
                                         href={`/administrador/activos/${asset._id}`}
                                         className="text-indigo-600 hover:text-indigo-900 mr-4"
                                     >
-                                        {tc('editar')}
+                                        {tc('edit')}
                                     </Link>
                                     <button
                                         onClick={() => onDelete(asset._id)}
                                         className="text-red-600 hover:text-red-900"
                                     >
-                                        {tc('eliminar')}
+                                        {tc('delete')}
                                     </button>
                                 </TableCell>
                             </TableRow>

@@ -42,7 +42,7 @@ export const GalleryMobileCard = ({ image, onDelete }: GalleryMobileCardProps) =
                     onClick={() => onDelete(image._id)}
                     className="text-red-600 hover:text-red-800 w-full justify-center font-bold"
                 >
-                    {tc('eliminar')}
+                    {tc('delete')}
                 </Button>
             </div>
         </div>

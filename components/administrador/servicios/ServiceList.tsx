@@ -90,7 +90,7 @@ export const ServiceList = ({ services, onToggleStatus }: ServiceListProps) => {
                                             href={`/administrador/servicios/editar/${service._id}`}
                                             className="text-sm font-bold text-indigo-600 hover:text-indigo-900"
                                         >
-                                            {tc('actions.edit')}
+                                            {tc('edit')}
                                         </Link>
                                         <Button
                                             variant="ghost"

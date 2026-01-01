@@ -14,7 +14,7 @@ interface UserModalProps {
 
 export const UserModal = ({ isOpen, onClose, onSave, initialData }: UserModalProps) => {
     const t = useTranslations('AdminDashboard.users.modal');
-    const tr = useTranslations('AdminDashboard.roles');
+    const tr = useTranslations('AdminDashboard.roleLabels');
     const tp = useTranslations('ClientPanel.profile');
     const tc = useTranslations('ClientPanel.common');
 
@@ -44,7 +44,7 @@ export const UserModal = ({ isOpen, onClose, onSave, initialData }: UserModalPro
                         {tc('cancel')}
                     </Button>
                     <Button onClick={handleSubmit} className="font-bold">
-                        {tc('actions.save')}
+                        {tc('save')}
                     </Button>
                 </>
             }
@@ -70,7 +70,7 @@ export const UserModal = ({ isOpen, onClose, onSave, initialData }: UserModalPro
                     />
                 </div>
                 <div className="text-black">
-                    <Label htmlFor="role" className="mb-1 font-bold">{tp('position')}</Label>
+                    <Label htmlFor="role" className="mb-1 font-bold">{tp('role')}</Label>
                     <select
                         id="role"
                         value={formData.role}

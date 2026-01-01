@@ -6,6 +6,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import esLocale from "@fullcalendar/core/locales/es";
 import { useState, useEffect } from "react";
 import { useLocale } from 'next-intl';
+import { motion } from "framer-motion";
+import { CardSkeleton } from "@/components/ui/Skeleton";
 
 interface CalendarEvent {
     _id: string;
@@ -66,14 +68,58 @@ export default function CalendarContent() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-lg flex items-center justify-center h-[500px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+            <div className="p-4">
+                <CardSkeleton className="h-[500px] rounded-3xl" />
             </div>
         );
     }
 
     return (
-        <div className="bg-white text-black shadow-lg rounded-xl p-4">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-white text-black shadow-2xl rounded-[2.5rem] p-6 sm:p-8 border border-gray-100"
+        >
+            <style jsx global>{`
+                .fc {
+                    --fc-button-bg-color: #0d9488;
+                    --fc-button-border-color: #0d9488;
+                    --fc-button-hover-bg-color: #0f766e;
+                    --fc-button-hover-border-color: #0f766e;
+                    --fc-button-active-bg-color: #115e59;
+                    --fc-button-active-border-color: #115e59;
+                    --fc-event-bg-color: #ccfbf1;
+                    --fc-event-border-color: #5eead4;
+                    --fc-event-text-color: #115e59;
+                    font-family: inherit;
+                }
+                .fc-toolbar-title {
+                    font-weight: 900 !important;
+                    font-size: 1.5rem !important;
+                    letter-spacing: -0.025em !important;
+                    color: #111827;
+                }
+                .fc-button {
+                    font-weight: 800 !important;
+                    text-transform: uppercase !important;
+                    font-size: 0.75rem !important;
+                    letter-spacing: 0.05em !important;
+                    border-radius: 1rem !important;
+                    padding: 0.6em 1.2em !important;
+                }
+                .fc-daygrid-day-number {
+                    font-weight: 700 !important;
+                    padding: 8px !important;
+                }
+                .fc-event {
+                    border-radius: 6px !important;
+                    padding: 2px 4px !important;
+                    font-weight: 700 !important;
+                    font-size: 0.85em !important;
+                }
+            `}</style>
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
@@ -94,6 +140,6 @@ export default function CalendarContent() {
                     info.el.style.cursor = 'pointer';
                 }}
             />
-        </div>
+        </motion.div>
     );
 }

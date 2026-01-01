@@ -72,7 +72,7 @@ export const LiabilityList = ({ liabilities, onDelete }: LiabilityListProps) => 
                             <TableHead className="font-bold">{t('table.pendingAmount')}</TableHead>
                             <TableHead className="font-bold">{t('table.monthlyPayment')}</TableHead>
                             <TableHead className="font-bold">{t('table.status')}</TableHead>
-                            <TableHead className="text-right font-bold">{tc('acciones')}</TableHead>
+                            <TableHead className="text-right font-bold">{tc('actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -120,13 +120,13 @@ export const LiabilityList = ({ liabilities, onDelete }: LiabilityListProps) => 
                                         href={`/administrador/pasivos/${liability._id}`}
                                         className="text-indigo-600 hover:text-indigo-900 mr-4"
                                     >
-                                        {tc('editar')}
+                                        {tc('edit')}
                                     </Link>
                                     <button
                                         onClick={() => onDelete(liability._id)}
                                         className="text-red-600 hover:text-red-900"
                                     >
-                                        {tc('eliminar')}
+                                        {tc('delete')}
                                     </button>
                                 </TableCell>
                             </TableRow>

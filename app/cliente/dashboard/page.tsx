@@ -8,8 +8,11 @@ import { StatsCards } from "@/components/cliente/dashboard/StatsCards";
 import { QuickActions } from "@/components/cliente/dashboard/QuickActions";
 import { UpcomingAppointments } from "@/components/cliente/dashboard/UpcomingAppointments";
 import { PetsSummary } from "@/components/cliente/dashboard/PetsSummary";
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function ClientDashboard() {
+    const t = useTranslations('ClientPanel.dashboard');
     const [stats, setStats] = useState<ClientDashboardStats>({ totalPets: 0, upcomingAppointments: 0, pendingAppointments: 0 });
     const [pets, setPets] = useState<Pet[]>([]);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -20,6 +23,7 @@ export default function ClientDashboard() {
     }, []);
 
     const fetchDashboardData = async () => {
+        setLoading(true);
         try {
             const [petsRes, appointmentsRes] = await Promise.all([
                 fetch("/api/pets?my_pets=true"),
@@ -56,28 +60,33 @@ export default function ClientDashboard() {
         }
     };
 
-    if (loading) {
-        return <div className="p-8">Cargando dashboard...</div>;
-    }
-
     return (
-        <div className="space-y-6">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-8"
+        >
             <div>
-                <h1 className="text-3xl font-bold text-gray-800">Mi Panel</h1>
-                <p className="text-gray-600 mt-1">Bienvenido a tu panel de control</p>
+                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                    {t('title')}
+                </h1>
+                <p className="text-gray-500 font-medium mt-1">
+                    {t('subtitle')}
+                </p>
             </div>
 
             {/* Statistics Cards */}
-            <StatsCards stats={stats} />
+            <StatsCards stats={stats} loading={loading} />
 
             {/* Quick Actions */}
             <QuickActions />
 
             {/* Upcoming Appointments */}
-            <UpcomingAppointments appointments={appointments} />
+            <UpcomingAppointments appointments={appointments} loading={loading} />
 
             {/* Pets Summary */}
-            <PetsSummary pets={pets} />
-        </div>
+            <PetsSummary pets={pets} loading={loading} />
+        </motion.div>
     );
 }

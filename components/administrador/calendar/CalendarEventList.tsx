@@ -31,7 +31,7 @@ export const CalendarEventList = ({ events, onEdit, onDelete }: CalendarEventLis
                         <th className="py-3 px-4 border-b font-bold text-gray-700">{t('table.title')}</th>
                         <th className="py-3 px-4 border-b font-bold text-gray-700">{t('table.date')}</th>
                         <th className="py-3 px-4 border-b font-bold text-gray-700">{t('table.description')}</th>
-                        <th className="py-3 px-4 border-b font-bold text-gray-700 text-right">{tc('acciones')}</th>
+                        <th className="py-3 px-4 border-b font-bold text-gray-700 text-right">{tc('actions')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@ export const CalendarEventList = ({ events, onEdit, onDelete }: CalendarEventLis
                                     <button
                                         onClick={() => onEdit(event)}
                                         className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                                        title={tc('editar')}
+                                        title={tc('edit')}
                                     >
                                         <Edit size={18} />
                                     </button>
@@ -65,7 +65,7 @@ export const CalendarEventList = ({ events, onEdit, onDelete }: CalendarEventLis
                                             }
                                         }}
                                         className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
-                                        title={tc('eliminar')}
+                                        title={tc('delete')}
                                     >
                                         <Trash2 size={18} />
                                     </button>

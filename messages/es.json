@@ -227,10 +227,13 @@
             "year": "año",
             "years": "años",
             "pets": "Mis Mascotas",
-            "retry": "Reintentar"
+            "retry": "Reintentar",
+            "optional": "(Opcional)",
+            "creating": "Creando..."
         },
         "dashboard": {
             "title": "Mi Panel",
+            "subtitle": "Resumen de tu actividad y mascotas.",
             "welcome": "Bienvenido a tu panel de control",
             "stats": {
                 "pets": "Mis Mascotas",
@@ -313,7 +316,8 @@
                 "pending": "pendiente",
                 "accepted": "aceptada",
                 "cancelled": "cancelada",
-                "completed": "completada"
+                "completed": "completada",
+                "veterinarian": "Veterinario"
             },
             "cancelConfirm": "¿Estás seguro de cancelar esta cita?",
             "cancelError": "Error al cancelar la cita",
@@ -322,6 +326,7 @@
         "profile": {
             "title": "Mi Perfil",
             "edit": "Editar Perfil",
+            "editProfile": "Editar Perfil",
             "changePassword": "Cambiar Contraseña",
             "personalInfo": "Información Personal",
             "details": "Detalles de tu cuenta.",
@@ -338,6 +343,7 @@
     "VetPanel": {
         "dashboard": {
             "title": "Panel Veterinario",
+            "subtitle": "Resumen de tu actividad veterinaria.",
             "stats": {
                 "appointmentsToday": "Citas Hoy",
                 "activePatients": "Pacientes Totales",
@@ -640,7 +646,8 @@
             "table": {
                 "user": "Usuario",
                 "currentRole": "Rol Actual",
-                "newRole": "Nuevo Rol"
+                "newRole": "Nuevo Rol",
+                "actions": "Acciones"
             },
             "updateRole": "Actualizar Rol"
         },

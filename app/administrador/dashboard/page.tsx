@@ -20,6 +20,7 @@ export default function AdministradorDashboardPage() {
     }, []);
 
     const fetchDashboardData = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/users");
             if (res.ok) {
@@ -28,7 +29,6 @@ export default function AdministradorDashboardPage() {
                 // Calculate Stats
                 const vets = users.filter(u => u.role === "veterinario").length;
                 const clients = users.filter(u => u.role === "cliente").length;
-                // const administradors = users.filter(u => u.role === "administrador").length; // Not used in stats currently
 
                 setStats({
                     totalUsers: users.length,
@@ -37,7 +37,6 @@ export default function AdministradorDashboardPage() {
                 });
 
                 // Recent Registrations (Last 5)
-                // Sort by createdAt desc if not already
                 const sorted = [...users].sort((a, b) => {
                     const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                     const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
@@ -52,13 +51,13 @@ export default function AdministradorDashboardPage() {
         }
     };
 
-    if (loading) return <div className="p-6">Cargando panel de administración...</div>;
-
     return (
-        <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Panel de Administración</h1>
-            <DashboardStatsCards stats={stats} />
-            <RecentUsers users={recentUsers} />
+        <div className="space-y-8">
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                Panel de Administración
+            </h1>
+            <DashboardStatsCards stats={stats} loading={loading} />
+            <RecentUsers users={recentUsers} loading={loading} />
         </div>
     );
 }

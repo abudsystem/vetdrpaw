@@ -45,7 +45,7 @@ export const ServiceMobileCard = ({ service, onToggleStatus }: ServiceMobileCard
                     href={`/administrador/servicios/editar/${service._id}`}
                     className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-bold rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
                 >
-                    {tc('actions.edit')}
+                    {tc('edit')}
                 </Link>
                 <Button
                     variant="ghost"

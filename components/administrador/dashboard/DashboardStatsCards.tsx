@@ -1,8 +1,9 @@
 import React from 'react';
 import { AdminDashboardStats } from '@/types/dashboard';
 import { useTranslations } from 'next-intl';
+import { Skeleton } from '@/components/ui/Skeleton';
 
-export const DashboardStatsCards = ({ stats }: { stats: AdminDashboardStats }) => {
+export const DashboardStatsCards = ({ stats, loading }: { stats: AdminDashboardStats, loading?: boolean }) => {
     const t = useTranslations('AdminDashboard.dashboard.stats');
 
     const statCards = [
@@ -28,17 +29,21 @@ export const DashboardStatsCards = ({ stats }: { stats: AdminDashboardStats }) =
             {statCards.map((stat, index) => (
                 <div
                     key={stat.label}
-                    className={`bg-white p-6 rounded-xl shadow-md border-t-4 transition-smooth hover:shadow-lg ${stat.color === 'teal' ? 'border-teal-500' :
+                    className={`bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 transition-all duration-300 hover:shadow-xl hover:translate-y-[-2px] ${stat.color === 'teal' ? 'border-teal-500' :
                         stat.color === 'cyan' ? 'border-cyan-500' :
                             'border-emerald-500'
                         }`}
                 >
-                    <h3 className="text-gray-600 text-sm font-medium uppercase tracking-wide">
+                    <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider">
                         {stat.label}
                     </h3>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">
-                        {stat.value}
-                    </p>
+                    {loading ? (
+                        <Skeleton className="h-10 w-20 mt-2" />
+                    ) : (
+                        <p className="text-3xl font-bold text-gray-900 mt-2">
+                            {stat.value}
+                        </p>
+                    )}
                 </div>
             ))}
         </div>

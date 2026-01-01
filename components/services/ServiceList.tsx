@@ -1,6 +1,7 @@
 import React from "react";
 import { ServiceCard, ServiceSection } from "./ServiceCard";
 import { useTranslations } from 'next-intl';
+import { motion } from "framer-motion";
 
 export const ServiceList = () => {
     const t = useTranslations('Services');
@@ -69,9 +70,17 @@ export const ServiceList = () => {
     ];
 
     return (
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((section) => (
-                <ServiceCard key={section.category} section={section} />
+        <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((section, index) => (
+                <motion.div
+                    key={section.category}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                >
+                    <ServiceCard section={section} />
+                </motion.div>
             ))}
         </div>
     );

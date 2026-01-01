@@ -64,7 +64,7 @@ export const RoleList = ({ users, modifiedRoles, onRoleChange, onSave }: RoleLis
                             <TableHead className="font-bold">{t('table.user')}</TableHead>
                             <TableHead className="font-bold">{t('table.currentRole')}</TableHead>
                             <TableHead className="font-bold">{t('table.newRole')}</TableHead>
-                            <TableHead className="font-bold text-right">{t('table.action')}</TableHead>
+                            <TableHead className="font-bold text-right">{t('table.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

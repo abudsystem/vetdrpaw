@@ -61,7 +61,7 @@ export const GalleryList = ({ images, onDelete }: GalleryListProps) => {
                             <TableHead className="font-bold">{t('table.preview')}</TableHead>
                             <TableHead className="font-bold">{t('table.title')}</TableHead>
                             <TableHead className="font-bold">{t('table.date')}</TableHead>
-                            <TableHead className="font-bold">{tc('acciones')}</TableHead>
+                            <TableHead className="font-bold">{tc('actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -87,7 +87,7 @@ export const GalleryList = ({ images, onDelete }: GalleryListProps) => {
                                         onClick={() => onDelete(img._id)}
                                         className="text-red-600 hover:text-red-800 font-bold"
                                     >
-                                        {tc('eliminar')}
+                                        {tc('delete')}
                                     </Button>
                                 </TableCell>
                             </TableRow>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PetCareItem } from "@/hooks/usePetCare";
-import { Edit, Trash2, ExternalLink } from "lucide-react";
+import { Edit, Trash2, ExternalLink, FileText } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface PetCareListProps {
@@ -17,8 +17,12 @@ export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) =>
 
     if (articles.length === 0) {
         return (
-            <div className="text-center p-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                <p className="text-gray-500 font-bold">{t('noArticles')}</p>
+            <div className="text-center p-12 bg-white/50 backdrop-blur-sm rounded-3xl border-2 border-dashed border-gray-100 flex flex-col items-center justify-center">
+                <div className="bg-teal-50 p-4 rounded-full mb-4">
+                    <FileText className="w-12 h-12 text-teal-500" />
+                </div>
+                <p className="text-gray-500 font-bold text-lg">{t('noArticles')}</p>
+                <p className="text-gray-400 text-sm mt-1">Comienza agregando tu primer artículo educativo.</p>
             </div>
         );
     }
@@ -32,7 +36,7 @@ export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) =>
                         <th className="py-3 px-4 border-b font-bold text-gray-700">{t('table.category')}</th>
                         <th className="py-3 px-4 border-b font-bold text-gray-700">{t('table.date')}</th>
                         <th className="py-3 px-4 border-b font-bold text-gray-700 text-center">{t('table.link')}</th>
-                        <th className="py-3 px-4 border-b font-bold text-gray-700 text-right">{tc('acciones')}</th>
+                        <th className="py-3 px-4 border-b font-bold text-gray-700 text-right">{tc('actions')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +68,7 @@ export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) =>
                                     <button
                                         onClick={() => onEdit(article)}
                                         className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                                        title={tc('editar')}
+                                        title={tc('edit')}
                                     >
                                         <Edit size={18} />
                                     </button>
@@ -75,7 +79,7 @@ export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) =>
                                             }
                                         }}
                                         className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
-                                        title={tc('eliminar')}
+                                        title={tc('delete')}
                                     >
                                         <Trash2 size={18} />
                                     </button>
