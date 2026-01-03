@@ -489,7 +489,8 @@
             "nextSteps": "¿Qué deseas hacer ahora?",
             "addPet": "Agregar Mascota",
             "createUser": "Crear Usuario",
-            "errorCreating": "Error al crear usuario invitado"
+            "errorCreating": "Error al crear usuario invitado",
+            "finish": "Invitado registrado correctamente"
         }
     },
     "AdminDashboard": {

@@ -488,7 +488,8 @@
             "nextSteps": "What would you like to do now?",
             "addPet": "Add Pet",
             "createUser": "Create User",
-            "errorCreating": "Error creating guest user"
+            "errorCreating": "Error creating guest user",
+            "finish": "Guest registered successfully"
         }
     },
     "AdminDashboard": {
