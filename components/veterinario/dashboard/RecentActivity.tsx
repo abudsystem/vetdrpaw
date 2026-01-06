@@ -10,7 +10,7 @@ export const RecentActivity = ({ appointments, loading }: { appointments: Appoin
     const t = useTranslations('VetPanel.dashboard.recentActivity');
     const router = useRouter();
 
-    const getStatusKey = (status: string) => {
+    /*const getStatusKey = (status: string) => {
         switch (status) {
             case 'pendiente': return 'status.pending';
             case 'aceptada': return 'status.accepted';
@@ -18,7 +18,22 @@ export const RecentActivity = ({ appointments, loading }: { appointments: Appoin
             case 'completado': return 'status.completed';
             default: return status;
         }
+    };*/
+    const getStatusKey = (status?: string) => {
+        switch (status) {
+            case 'pendiente':
+                return 'status.pending';
+            case 'aceptada':
+                return 'status.accepted';
+            case 'cancelada':
+                return 'status.cancelled';
+            case 'completado':
+                return 'status.completed';
+            default:
+                return 'status.pending';
+        }
     };
+
 
     const handleAppointmentClick = (appointmentId: string) => {
         // Navigate to appointments page with the appointment ID as a query parameter
