@@ -42,4 +42,4 @@ export interface ReasonModalData {
     date: string;
 }
 
-export type AppointmentStatus = "pendiente" | "aceptada" | "cancelada";
+export type AppointmentStatus = "pendiente" | "aceptada" | "cancelada" | "completado";

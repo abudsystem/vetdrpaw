@@ -33,7 +33,7 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
             case 'pendiente': return 'table.pending';
             case 'aceptada': return 'table.accepted';
             case 'cancelada': return 'table.cancelled';
-            case 'completada': return 'table.completed';
+            case 'completado': return 'table.completed';
             default: return status;
         }
     };
@@ -105,7 +105,7 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700 max-w-xs truncate">
                                     {appointment.reason}
-                                    {appointment.notas && appointment.status === 'completada' && (
+                                    {appointment.notas && appointment.status === 'completado' && (
                                         <div className="mt-1 text-xs text-gray-600 italic">
                                             {t('table.notes')}: {appointment.notas}
                                         </div>
@@ -116,7 +116,7 @@ export const AppointmentList = ({ appointments, onCancel }: AppointmentListProps
                                         variant={
                                             appointment.status === 'aceptada' ? 'success' :
                                                 appointment.status === 'cancelada' ? 'danger' :
-                                                    appointment.status === 'completada' ? 'info' : 'warning'
+                                                    appointment.status === 'completado' ? 'info' : 'warning'
                                         }
                                         className="capitalize"
                                     >

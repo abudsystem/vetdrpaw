@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { RoleList } from "@/components/administrador/roles/RoleList";
+import { Search } from "lucide-react";
 
 interface User {
     _id: string;
@@ -13,6 +14,7 @@ interface User {
 export default function administradorRolesPage() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetchUsers();
@@ -66,16 +68,36 @@ export default function administradorRolesPage() {
         }
     };
 
+    const filteredUsers = users.filter(
+        (user) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div>
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Gestión de Roles</h1>
             <p className="mb-6 text-gray-600">Asigna roles de Veterinario o Cliente a los usuarios registrados.</p>
 
+            {/* Search Bar */}
+            <div className="mb-6">
+                <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar por nombre o email..."
+                        className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                    />
+                </div>
+            </div>
+
             {loading ? (
                 <p>Cargando...</p>
             ) : (
                 <RoleList
-                    users={users}
+                    users={filteredUsers}
                     modifiedRoles={modifiedRoles}
                     onRoleChange={handleRoleChange}
                     onSave={saveRole}

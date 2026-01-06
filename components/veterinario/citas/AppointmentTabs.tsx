@@ -78,6 +78,23 @@ export default function AppointmentTabs({
                         </span>
                     </button>
 
+                    {/* COMPLETADAS */}
+                    <button
+                        onClick={() => onTabChange("completado")}
+                        className={`flex-1 min-w-0 py-3 px-2 text-xs sm:text-sm font-medium text-center border-b-2 transition-colors whitespace-normal
+          ${activeTab === "completado"
+                                ? "border-blue-500 text-blue-600"
+                                : "border-transparent text-gray-700 hover:border-gray-300"
+                            }`}
+                    >
+                        <span className="hidden sm:inline">
+                            {t('completed')} ({getCount("completado")})
+                        </span>
+                        <span className="sm:hidden">
+                            {t('shortCompleted')} ({getCount("completado")})
+                        </span>
+                    </button>
+
                 </nav>
             </div>
         </div>

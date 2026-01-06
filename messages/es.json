@@ -309,8 +309,8 @@
         },
         "appointments": {
             "title": "Mis Citas",
+            "noAppointments": "No tienes citas programadas.",
             "newAppt": "Nueva Cita",
-            "noAppts": "No tienes citas programadas.",
             "requestFirst": "Solicita tu primera cita →",
             "table": {
                 "dateTime": "Fecha y Hora",
@@ -324,7 +324,7 @@
                 "pending": "pendiente",
                 "accepted": "aceptada",
                 "cancelled": "cancelada",
-                "completed": "completada",
+                "completed": "completado",
                 "veterinarian": "Veterinario"
             },
             "cancelConfirm": "¿Estás seguro de cancelar esta cita?",
@@ -392,9 +392,11 @@
                 "pending": "Pendientes",
                 "accepted": "Aceptadas",
                 "cancelled": "Canceladas",
+                "completed": "Completadas",
                 "shortPending": "P",
                 "shortAccepted": "A",
-                "shortCancelled": "C"
+                "shortCancelled": "C",
+                "shortCompleted": "✓"
             },
             "table": {
                 "dateTime": "Fecha/Hora",
@@ -406,7 +408,8 @@
                 "viewFull": "Ver completo",
                 "hideFull": "Ocultar completo",
                 "accept": "Aceptar",
-                "cancel": "Cancelar"
+                "cancel": "Cancelar",
+                "complete": "Completar"
             }
         },
         "services": {

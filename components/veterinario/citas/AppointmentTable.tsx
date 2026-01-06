@@ -11,6 +11,7 @@ interface AppointmentTableProps {
     appointments: Appointment[];
     onUpdateStatus: (id: string, status: string) => void;
     onViewReason: (reason: string, pet: string, date: string) => void;
+    highlightId?: string | null;
 }
 
 const truncateText = (text: string, maxLength = 30) => {
@@ -22,6 +23,7 @@ export default function AppointmentTable({
     appointments,
     onUpdateStatus,
     onViewReason,
+    highlightId,
 }: AppointmentTableProps) {
     const t = useTranslations('VetPanel.appointments.table');
     const tc = useTranslations('ClientPanel.common');
@@ -40,7 +42,7 @@ export default function AppointmentTable({
             case 'pendiente': return 'pending';
             case 'aceptada': return 'accepted';
             case 'cancelada': return 'cancelled';
-            case 'completada': return 'completed';
+            case 'completado': return 'completed';
             default: return status;
         }
     };
@@ -62,8 +64,14 @@ export default function AppointmentTable({
                         const fechaTexto = fecha.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US');
                         const horaTexto = fecha.toLocaleTimeString(locale === 'es' ? 'es-ES' : 'en-US', { hour: "2-digit", minute: "2-digit" });
 
+                        const isHighlighted = highlightId === app._id;
+
                         return (
-                            <TableRow key={app._id}>
+                            <TableRow
+                                key={app._id}
+                                id={`appointment-${app._id}`}
+                                className={isHighlighted ? 'bg-teal-50 ring-4 ring-teal-400 animate-pulse' : ''}
+                            >
                                 {/* FECHA */}
                                 <TableCell className="whitespace-nowrap text-sm text-gray-900">
                                     <div className="flex flex-col">
@@ -166,6 +174,15 @@ export default function AppointmentTable({
                                                 className="text-red-600 hover:text-red-900 justify-start px-0 h-auto py-0.5"
                                             >
                                                 {t('cancel')}
+                                            </Button>
+
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => onUpdateStatus(app._id, "completado")}
+                                                className="text-blue-600 hover:text-blue-900 justify-start px-0 h-auto py-0.5"
+                                            >
+                                                {t('complete')}
                                             </Button>
 
                                             <div className="mt-1 flex flex-col gap-1">

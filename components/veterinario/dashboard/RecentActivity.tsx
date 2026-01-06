@@ -4,18 +4,25 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { useTranslations } from 'next-intl';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Activity, History, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export const RecentActivity = ({ appointments, loading }: { appointments: Appointment[], loading?: boolean }) => {
     const t = useTranslations('VetPanel.dashboard.recentActivity');
+    const router = useRouter();
 
     const getStatusKey = (status: string) => {
         switch (status) {
             case 'pendiente': return 'status.pending';
             case 'aceptada': return 'status.accepted';
             case 'cancelada': return 'status.cancelled';
-            case 'completada': return 'status.completed';
+            case 'completado': return 'status.completed';
             default: return status;
         }
+    };
+
+    const handleAppointmentClick = (appointmentId: string) => {
+        // Navigate to appointments page with the appointment ID as a query parameter
+        router.push(`/veterinario/citas?highlight=${appointmentId}`);
     };
 
     return (
@@ -49,14 +56,15 @@ export const RecentActivity = ({ appointments, loading }: { appointments: Appoin
                         {appointments.map((appointment) => (
                             <li
                                 key={appointment._id}
-                                className="group p-4 rounded-2xl border border-gray-100 bg-gray-50/50 hover:bg-white hover:border-teal-100 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
+                                onClick={() => handleAppointmentClick(appointment._id)}
+                                className="group p-4 rounded-2xl border border-gray-100 bg-gray-50/50 hover:bg-white hover:border-teal-100 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 cursor-pointer"
                             >
                                 <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-4">
                                         <div className={`p-3 rounded-xl ${appointment.status === 'cancelada' ? 'bg-red-50 text-red-500' :
-                                                appointment.status === 'aceptada' ? 'bg-emerald-50 text-emerald-500' :
-                                                    appointment.status === 'completada' ? 'bg-blue-50 text-blue-500' :
-                                                        'bg-amber-50 text-amber-500'
+                                            appointment.status === 'aceptada' ? 'bg-emerald-50 text-emerald-500' :
+                                                appointment.status === 'completado' ? 'bg-blue-50 text-blue-500' :
+                                                    'bg-amber-50 text-amber-500'
                                             }`}>
                                             <Activity className="w-5 h-5" />
                                         </div>

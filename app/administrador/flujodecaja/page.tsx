@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Search } from "lucide-react";
 
 interface CashFlowTransaction {
     _id: string;
@@ -33,6 +34,7 @@ export default function CashFlowPage() {
     const [transactions, setTransactions] = useState<CashFlowTransaction[]>([]);
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -77,6 +79,12 @@ export default function CashFlowPage() {
             console.error("Error deleting transaction:", error);
         }
     };
+
+    const filteredTransactions = transactions.filter(
+        (transaction) =>
+            transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            transaction.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     if (loading) return <div className="p-8">Cargando...</div>;
 
@@ -158,6 +166,20 @@ export default function CashFlowPage() {
                 </div>
             </div>
 
+            {/* Search Bar */}
+            <div className="mb-6">
+                <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar por descripción o categoría..."
+                        className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                    />
+                </div>
+            </div>
+
             {/* Transactions Table */}
             <div className="bg-white rounded-lg shadow overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -172,7 +194,7 @@ export default function CashFlowPage() {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {transactions.map((transaction) => (
+                        {filteredTransactions.map((transaction) => (
                             <tr key={transaction._id} className="hover:bg-gray-50">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                     {new Date(transaction.date).toLocaleDateString()}
@@ -224,9 +246,9 @@ export default function CashFlowPage() {
                         ))}
                     </tbody>
                 </table>
-                {transactions.length === 0 && (
+                {filteredTransactions.length === 0 && (
                     <div className="p-6 text-center text-gray-700">
-                        No hay transacciones registradas. Registra tu primera transacción usando el botón superior.
+                        {searchTerm ? "No se encontraron transacciones" : "No hay transacciones registradas. Registra tu primera transacción usando el botón superior."}
                     </div>
                 )}
             </div>

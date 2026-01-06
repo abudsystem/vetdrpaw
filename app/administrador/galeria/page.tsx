@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Card, CardContent } from "@/components/ui/Card";
 import { GalleryList } from "@/components/administrador/galeria/GalleryList";
+import { Search } from "lucide-react";
 
 export default function GalleryPage() {
     const [images, setImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         loadImages();
@@ -76,6 +78,11 @@ export default function GalleryPage() {
         }
     };
 
+    const filteredImages = images.filter(
+        (image) =>
+            image.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="space-y-6">
             <h1 className="text-2xl font-bold text-gray-800">Galería de Imágenes</h1>
@@ -113,8 +120,22 @@ export default function GalleryPage() {
                 </CardContent>
             </Card>
 
+            {/* Search Bar */}
+            <div className="mb-6">
+                <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar por título..."
+                        className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                    />
+                </div>
+            </div>
+
             {/* Images List */}
-            <GalleryList images={images} onDelete={handleDelete} />
+            <GalleryList images={filteredImages} onDelete={handleDelete} />
         </div>
     );
 }

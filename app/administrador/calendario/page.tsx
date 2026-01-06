@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useCalendarEvents, CalendarEventItem } from "@/hooks/useCalendarEvents";
 import { CalendarEventList } from "@/components/administrador/calendar/CalendarEventList";
 import CalendarEventForm from "@/components/administrador/calendar/CalendarEventForm";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Search } from "lucide-react";
 
 export default function AdminCalendarPage() {
     const { events, loading, createEvent, updateEvent, deleteEvent } = useCalendarEvents();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<CalendarEventItem | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleCreate = async (data: Omit<CalendarEventItem, "_id">) => {
         const success = await createEvent(data);
@@ -40,6 +41,12 @@ export default function AdminCalendarPage() {
         setEditingEvent(null);
         setIsFormOpen(false);
     };
+
+    const filteredEvents = events.filter(
+        (event) =>
+            event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (event.description && event.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md min-h-[600px]">
@@ -78,13 +85,27 @@ export default function AdminCalendarPage() {
                 </div>
             ) : (
                 <>
+                    {/* Search Bar */}
+                    <div className="mb-6">
+                        <div className="relative max-w-md">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Buscar por título o descripción..."
+                                className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                            />
+                        </div>
+                    </div>
+
                     {loading ? (
                         <div className="flex justify-center p-12">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
                         </div>
                     ) : (
                         <CalendarEventList
-                            events={events}
+                            events={filteredEvents}
                             onEdit={handleEdit}
                             onDelete={deleteEvent}
                         />

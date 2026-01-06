@@ -19,7 +19,7 @@ export const AppointmentMobileCard = ({ appointment, onCancel }: AppointmentMobi
             case 'pendiente': return 'table.pending';
             case 'aceptada': return 'table.accepted';
             case 'cancelada': return 'table.cancelled';
-            case 'completada': return 'table.completed';
+            case 'completado': return 'table.completed';
             default: return status;
         }
     };
@@ -32,7 +32,7 @@ export const AppointmentMobileCard = ({ appointment, onCancel }: AppointmentMobi
                         variant={
                             appointment.status === 'aceptada' ? 'success' :
                                 appointment.status === 'cancelada' ? 'danger' :
-                                    appointment.status === 'completada' ? 'info' : 'warning'
+                                    appointment.status === 'completado' ? 'info' : 'warning'
                         }
                         className="mb-1 capitalize"
                     >
@@ -70,7 +70,7 @@ export const AppointmentMobileCard = ({ appointment, onCancel }: AppointmentMobi
                 </div>
             </div>
 
-            {appointment.notas && appointment.status === 'completada' && (
+            {appointment.notas && appointment.status === 'completado' && (
                 <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200 text-sm">
                     <p className="text-gray-700">
                         <strong>{t('table.notes')}:</strong> {appointment.notas}

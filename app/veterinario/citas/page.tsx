@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ReasonModalData } from "@/components/veterinario/citas/types";
 import { useVetAppointments } from "@/hooks/useVetAppointments";
 import AppointmentForm from "@/components/veterinario/citas/AppointmentForm";
@@ -9,6 +9,8 @@ import AppointmentMobileCard from "@/components/veterinario/citas/AppointmentMob
 import AppointmentTable from "@/components/veterinario/citas/AppointmentTable";
 import AppointmentPagination from "@/components/veterinario/citas/AppointmentPagination";
 import ReasonModal from "@/components/veterinario/citas/ReasonModal";
+import { Search } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 export default function VetAppointmentsPage() {
     const {
@@ -26,9 +28,39 @@ export default function VetAppointmentsPage() {
         createAppointment
     } = useVetAppointments();
 
+    const searchParams = useSearchParams();
+    const highlightId = searchParams.get('highlight');
+
     const [showForm, setShowForm] = useState(false);
     const [showReasonModal, setShowReasonModal] = useState(false);
     const [selectedReason, setSelectedReason] = useState<ReasonModalData | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Scroll to and highlight appointment if highlight parameter is present
+    useEffect(() => {
+        if (highlightId) {
+            // Find the appointment and switch to its tab
+            const appointment = appointments.find(app => app._id === highlightId);
+            if (appointment) {
+                setActiveTab(appointment.status as any);
+
+                // Scroll to the element after a short delay to ensure it's rendered
+                setTimeout(() => {
+                    const element = document.getElementById(`appointment-${highlightId}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 300);
+            }
+        }
+    }, [highlightId, appointments, setActiveTab]);
+
+    // Filter appointments by search term
+    const searchFilteredAppointments = paginatedAppointments.filter(
+        (appointment) =>
+            (appointment.pet?.nombre && appointment.pet.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (appointment.pet?.propietario?.name && appointment.pet.propietario.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     const handleSubmit = async (formData: any) => {
         const success = await createAppointment(formData);
@@ -74,7 +106,21 @@ export default function VetAppointmentsPage() {
                         onTabChange={setActiveTab}
                     />
 
-                    {paginatedAppointments.length === 0 ? (
+                    {/* Search Bar */}
+                    <div className="mb-6">
+                        <div className="relative max-w-md">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Buscar por mascota o cliente..."
+                                className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                            />
+                        </div>
+                    </div>
+
+                    {searchFilteredAppointments.length === 0 ? (
                         <div className="text-center py-12 text-gray-700 bg-white rounded-lg shadow">
                             No hay citas {activeTab}s
                         </div>
@@ -82,21 +128,26 @@ export default function VetAppointmentsPage() {
                         <>
                             {/* MOBILE VIEW */}
                             <div className="md:hidden space-y-4">
-                                {paginatedAppointments.map((app) => (
-                                    <AppointmentMobileCard
+                                {searchFilteredAppointments.map((app) => (
+                                    <div
                                         key={app._id}
-                                        appointment={app}
-                                        onUpdateStatus={updateStatus}
-
-                                    />
+                                        id={`appointment-${app._id}`}
+                                        className={highlightId === app._id ? 'ring-4 ring-teal-400 rounded-lg animate-pulse' : ''}
+                                    >
+                                        <AppointmentMobileCard
+                                            appointment={app}
+                                            onUpdateStatus={updateStatus}
+                                        />
+                                    </div>
                                 ))}
                             </div>
 
                             {/* DESKTOP VIEW */}
                             <AppointmentTable
-                                appointments={paginatedAppointments}
+                                appointments={searchFilteredAppointments}
                                 onUpdateStatus={updateStatus}
                                 onViewReason={handleViewReason}
+                                highlightId={highlightId}
                             />
 
                             {/* Pagination */}

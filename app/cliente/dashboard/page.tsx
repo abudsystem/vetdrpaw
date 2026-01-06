@@ -40,7 +40,7 @@ export default function ClientDashboard() {
                     // Filter upcoming appointments (future dates, not canceled)
                     const now = new Date();
                     const upcoming = appointmentsData.filter((apt: Appointment) =>
-                        new Date(apt.date) > now && apt.status !== 'cancelada' && apt.status !== 'completada'
+                        new Date(apt.date) > now && apt.status !== 'cancelada' && apt.status !== 'completado'
                     );
 
                     const pending = appointmentsData.filter((apt: Appointment) => apt.status === 'pendiente');

@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { PatientList } from "@/components/veterinario/mascotas/PatientList";
 import { GuestUserForm } from "@/components/veterinario/GuestUserForm";
 import { Pet } from "@/types/pet";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Search } from "lucide-react";
 
 export default function VetPatientsPage() {
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
   const [showGuestForm, setShowGuestForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchPets();
@@ -30,6 +31,13 @@ export default function VetPatientsPage() {
     }
   };
 
+  const filteredPets = pets.filter(
+    (pet) =>
+      pet.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (pet.especie && pet.especie.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (pet.propietario?.name && pet.propietario.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -44,10 +52,24 @@ export default function VetPatientsPage() {
         </button>
       </div>
 
+      {/* Search Bar */}
+      <div className="mb-6">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar por nombre, especie o dueño..."
+            className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+          />
+        </div>
+      </div>
+
       {loading ? (
         <p>Cargando...</p>
       ) : (
-        <PatientList patients={pets} />
+        <PatientList patients={filteredPets} />
       )}
 
       {showGuestForm && (

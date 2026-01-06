@@ -309,7 +309,7 @@
         "appointments": {
             "title": "My Appointments",
             "newAppt": "New Appointment",
-            "noAppts": "You don't have any scheduled appointments.",
+            "noAppointments": "You don't have any scheduled appointments.",
             "requestFirst": "Request your first appointment →",
             "table": {
                 "dateTime": "Date and Time",
@@ -391,9 +391,11 @@
                 "pending": "Pending",
                 "accepted": "Accepted",
                 "cancelled": "Cancelled",
+                "completed": "Completed",
                 "shortPending": "P",
                 "shortAccepted": "A",
-                "shortCancelled": "C"
+                "shortCancelled": "C",
+                "shortCompleted": "✓"
             },
             "table": {
                 "dateTime": "Date/Time",
@@ -405,7 +407,8 @@
                 "viewFull": "View Full",
                 "hideFull": "Hide Full",
                 "accept": "Accept",
-                "cancel": "Cancel"
+                "cancel": "Cancel",
+                "complete": "Complete"
             }
         },
         "services": {

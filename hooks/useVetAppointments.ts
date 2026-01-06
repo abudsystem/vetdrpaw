@@ -12,6 +12,7 @@ export const useVetAppointments = () => {
         pendiente: 1,
         aceptada: 1,
         cancelada: 1,
+        completado: 1,
     });
 
     // Valid data is expected from services.

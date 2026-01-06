@@ -32,7 +32,7 @@ export default function AppointmentMobileCard({
             case 'pendiente': return 'pending';
             case 'aceptada': return 'accepted';
             case 'cancelada': return 'cancelled';
-            case 'completada': return 'completed';
+            case 'completado': return 'completed';
             default: return status;
         }
     };
@@ -118,6 +118,13 @@ export default function AppointmentMobileCard({
                     className="text-red-600 font-semibold"
                 >
                     {tb('cancel')}
+                </button>
+
+                <button
+                    onClick={() => onUpdateStatus(appointment._id, "completado")}
+                    className="text-blue-600 font-semibold"
+                >
+                    {tb('complete')}
                 </button>
 
                 <WhatsAppButton appointment={appointment} />

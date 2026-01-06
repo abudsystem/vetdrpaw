@@ -8,7 +8,7 @@ export interface IAppointment extends Document {
   createdBy: mongoose.Types.ObjectId; // Cliente que creó la cita
   date: Date;
   reason: string;
-  status: "pendiente" | "aceptada" | "cancelada" | "completada";
+  status: "pendiente" | "aceptada" | "cancelada" | "completado";
   notas?: string; // Notas del veterinario después de la consulta
   createdAt: Date;
   updatedAt: Date;
@@ -23,7 +23,7 @@ const appointmentSchema = new Schema<IAppointment>(
     reason: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pendiente", "aceptada", "cancelada", "completada"],
+      enum: ["pendiente", "aceptada", "cancelada", "completado"],
       default: "pendiente",
     },
     notas: { type: String, required: false },

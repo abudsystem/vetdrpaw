@@ -79,8 +79,9 @@ export default function OperationsAnalyticsPage() {
                 data: data.appointmentStats.map((d: any) => d.count),
                 backgroundColor: [
                     "#FFCE56", // Pendiente
-                    "#4BC0C0", // Aceptada/Completada
-                    "#FF6384"  // Cancelada
+                    "#4BC0C0", // Aceptada
+                    "#FF6384", // Cancelada
+                    "#00bfff", // Completada
                 ],
             },
         ],

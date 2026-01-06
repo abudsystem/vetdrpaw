@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AssetList } from "@/components/administrador/activos/AssetList";
+import { Search } from "lucide-react";
 
 interface Asset {
     _id: string;
@@ -26,6 +27,7 @@ export default function AssetsPage() {
     const [assets, setAssets] = useState<Asset[]>([]);
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -72,6 +74,12 @@ export default function AssetsPage() {
         }
     };
 
+    const filteredAssets = assets.filter(
+        (asset) =>
+            asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            asset.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) return <div className="p-8">Cargando...</div>;
 
     return (
@@ -105,8 +113,22 @@ export default function AssetsPage() {
                 </div>
             )}
 
+            {/* Search Bar */}
+            <div className="mb-6">
+                <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar por nombre o categoría..."
+                        className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    />
+                </div>
+            </div>
+
             {/* Assets Table */}
-            <AssetList assets={assets} onDelete={handleDelete} />
+            <AssetList assets={filteredAssets} onDelete={handleDelete} />
         </div>
     );
 }

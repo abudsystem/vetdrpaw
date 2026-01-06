@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BackupList } from "@/components/administrador/copiainventario/BackupList";
+import { Search } from "lucide-react";
 
 interface Backup {
     _id: string;
@@ -18,6 +19,7 @@ export default function BackupsPage() {
     const [backups, setBackups] = useState<Backup[]>([]);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -102,6 +104,12 @@ export default function BackupsPage() {
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     };
 
+    const filteredBackups = backups.filter(
+        (backup) =>
+            backup.filename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            backup.type.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) return <div className="p-8">Cargando...</div>;
 
     return (
@@ -163,9 +171,23 @@ export default function BackupsPage() {
                 </div>
             </div>
 
+            {/* Search Bar */}
+            <div className="mb-6">
+                <div className="relative max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar por nombre de archivo o tipo..."
+                        className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    />
+                </div>
+            </div>
+
             {/* Backups Table */}
             <BackupList
-                backups={backups}
+                backups={filteredBackups}
                 formatBytes={formatBytes}
                 onDelete={handleDelete}
             />

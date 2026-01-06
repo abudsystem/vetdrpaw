@@ -84,7 +84,7 @@ export const createSale = async (req: Request) => {
         // If an appointment is provided, mark it as completed
         if (appointment) {
             const { Appointment } = await import("../models/Appointment");
-            await Appointment.findByIdAndUpdate(appointment, { status: "completada" }).session(session);
+            await Appointment.findByIdAndUpdate(appointment, { status: "completado" }).session(session);
         }
 
         // Create the sale

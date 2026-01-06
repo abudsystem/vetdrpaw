@@ -11,7 +11,7 @@ const createAppointmentSchema = z.object({
 });
 
 const updateAppointmentSchema = z.object({
-    status: z.enum(["pendiente", "aceptada", "cancelada", "completada"]).optional(),
+    status: z.enum(["pendiente", "aceptada", "cancelada", "completado"]).optional(),
     notas: z.string().optional(),
 });
 
