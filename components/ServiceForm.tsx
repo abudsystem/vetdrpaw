@@ -28,8 +28,20 @@ interface IServiceFormProps {
     isEditing?: boolean;
 }
 
+import { useTranslations } from 'next-intl';
+
 export default function ServiceForm({ initialData, onSubmit, isEditing = false }: IServiceFormProps) {
     const router = useRouter();
+    const t = useTranslations('ServiceForm');
+
+    // ... rest of state definitions ...
+
+    // In handleAddSupply:
+    // alert(t('alreadyAdded'));
+
+    // In helper:
+    // return p ? p.name : t('unknownProduct');
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -46,9 +58,6 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
 
     useEffect(() => {
         if (initialData) {
-            // Map initial supplies to include product names if possible, 
-            // but we might need to fetch products first or rely on populated data passed in.
-            // For now, assume initialData.supplies has what we need or we match it with fetched products.
             setFormData(initialData);
         }
         fetchProducts();
@@ -56,13 +65,10 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
 
     const fetchProducts = async () => {
         try {
-            console.log("Fetching products...");
             const res = await fetch("/api/inventory");
             if (res.ok) {
                 const data = await res.json();
-                console.log("Products received:", data);
                 setProducts(data);
-                console.log("setProducts called with", data.length, "products");
             } else {
                 console.error("API error:", res.status);
             }
@@ -70,14 +76,6 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
             console.error("Error fetching products:", error);
         }
     };
-
-    // Debug: Log products state changes
-    useEffect(() => {
-        console.log("Products state changed. Length:", products.length);
-        if (products.length > 0) {
-            console.log("First product:", products[0]);
-        }
-    }, [products]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -95,9 +93,8 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
         const product = products.find((p) => p._id === selectedProduct);
         if (!product) return;
 
-        // Check if already added
         if (formData.supplies.some((s) => s.product === selectedProduct)) {
-            alert("Este insumo ya ha sido agregado.");
+            alert(t('alreadyAdded'));
             return;
         }
 
@@ -131,22 +128,17 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
         setLoading(false);
     };
 
-    // Helper to get product name if not in supply object (e.g. when editing and data came from DB populated)
     const getProductName = (supply: IServiceSupply) => {
         if (supply.productName) return supply.productName;
-        // If initialData came with populated products, it might be an object, but our interface says string ID.
-        // We need to handle the case where initialData.supplies has populated product objects.
-        // However, to keep it simple, let's assume the parent component formats it correctly 
-        // OR we look it up in the `products` list.
         const p = products.find(prod => prod._id === supply.product);
-        return p ? p.name : "Producto desconocido";
+        return p ? p.name : t('unknownProduct');
     };
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Nombre del Servicio</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('nameLabel')}</label>
                     <input
                         type="text"
                         name="name"
@@ -157,7 +149,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Duración Aproximada (minutos)</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('durationLabel')}</label>
                     <input
                         type="number"
                         name="duration"
@@ -169,7 +161,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                     />
                 </div>
                 <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">Descripción</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('descriptionLabel')}</label>
                     <textarea
                         name="description"
                         rows={3}
@@ -179,7 +171,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Precio Base ($)</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('basePriceLabel')}</label>
                     <input
                         type="number"
                         name="basePrice"
@@ -192,7 +184,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Costo Operativo ($)</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('operatingCostLabel')}</label>
                     <input
                         type="number"
                         name="operatingCost"
@@ -206,25 +198,25 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
             </div>
 
             <div className="border-t pt-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Insumos Requeridos</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-4">{t('suppliesTitle')}</h3>
                 <div className="flex flex-col md:flex-row gap-4 items-end mb-4">
                     <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-700">Producto</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('productLabel')}</label>
                         <select
                             value={selectedProduct}
                             onChange={(e) => setSelectedProduct(e.target.value)}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                         >
-                            <option value="">Seleccionar producto...</option>
+                            <option value="">{t('selectProduct')}</option>
                             {products.map((p) => (
                                 <option key={p._id} value={p._id}>
-                                    {p.name} (Stock: {p.quantity})
+                                    {p.name} ({t('stock', { quantity: p.quantity })})
                                 </option>
                             ))}
                         </select>
                     </div>
                     <div className="w-32">
-                        <label className="block text-sm font-medium text-gray-700">Cantidad</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('quantityLabel')}</label>
                         <input
                             type="number"
                             min="1"
@@ -238,7 +230,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                         onClick={handleAddSupply}
                         className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
                     >
-                        Agregar
+                        {t('addButton')}
                     </button>
                 </div>
 
@@ -255,7 +247,7 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                                         onClick={() => handleRemoveSupply(supply.product)}
                                         className="text-red-600 hover:text-red-800 text-sm"
                                     >
-                                        Eliminar
+                                        {t('removeButton')}
                                     </button>
                                 </li>
                             ))}
@@ -270,14 +262,14 @@ export default function ServiceForm({ initialData, onSubmit, isEditing = false }
                     onClick={() => router.back()}
                     className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
                 >
-                    Cancelar
+                    {t('cancelButton')}
                 </button>
                 <button
                     type="submit"
                     disabled={loading}
                     className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
-                    {loading ? "Guardando..." : isEditing ? "Actualizar Servicio" : "Crear Servicio"}
+                    {loading ? t('saving') : isEditing ? t('submitUpdate') : t('submitCreate')}
                 </button>
             </div>
         </form>

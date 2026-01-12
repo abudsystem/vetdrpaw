@@ -33,7 +33,7 @@ export const ArticleList = () => {
         <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-2">
             {articles.map((article, index) => (
                 <motion.div
-                    key={article.title}
+                    key={article._id}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}

@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 export const InventoryHeader = () => {
-    const t = useTranslations('AdminDashboard.inventory');
+    const t = useTranslations('AdminDashboard.inventoryBackup');
 
     return (
         <div className="flex justify-between items-center mb-6">

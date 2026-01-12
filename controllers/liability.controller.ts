@@ -1,4 +1,4 @@
-import { Liability, ILiability } from "@/models/Liability";
+import { LiabilityService } from "@/services/liability.service";
 import { apiHandler, AppError } from "@/lib/api-handler";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -14,109 +14,49 @@ const createLiabilitySchema = z.object({
     amountPaid: z.number().min(0).default(0),
 });
 
-const updateLiabilitySchema = createLiabilitySchema.partial().extend({
-    id: z.string(),
-});
-
-// Helper to calculate details
-const calculateDetails = (liability: ILiability) => {
-    // Simple interest calculation for the total term
-    // Total Interest = Principal * (Monthly Rate / 100) * Months
-    const totalInterest = liability.amount * (liability.interestRate / 100) * liability.termMonths;
-    const totalDebt = liability.amount + totalInterest;
-    const pendingAmount = Math.max(0, totalDebt - liability.amountPaid);
-    const monthlyPayment = totalDebt / liability.termMonths;
-
-    // Amortization (Principal part of the payment? Or just the schedule?)
-    // Let's return the monthly payment value as "amortization" context for now, 
-    // or we can generate a full table if needed. The prompt asked for "amortización" (singular).
-    // Usually means the periodic payment.
-
-    return {
-        ...liability.toObject(),
-        totalInterest,
-        totalDebt,
-        pendingAmount,
-        monthlyPayment
-    };
-};
+const updateLiabilitySchema = createLiabilitySchema.partial();
 
 export const LiabilityController = {
-    // List liabilities
-    list: apiHandler(async (req: Request) => {
-        const liabilities = await Liability.find({}).sort({ createdAt: -1 });
+    list: apiHandler(async () => {
+        const liabilities = await LiabilityService.list();
+        return NextResponse.json(liabilities);
+    }, { requiredRoles: ['administrador'] }),
 
-        const liabilitiesWithDetails = liabilities.map(l => calculateDetails(l));
-
-        return NextResponse.json(liabilitiesWithDetails);
-    }),
-
-    // Create new liability
     create: apiHandler(async (req: Request) => {
         const body = await req.json();
         const data = createLiabilitySchema.parse(body);
-
-        const liability = await Liability.create(data);
+        const liability = await LiabilityService.create(data as any);
         return NextResponse.json(liability, { status: 201 });
-    }),
+    }, { requiredRoles: ['administrador'] }),
 
-    // Get by ID
-    getById: apiHandler(async (req: Request) => {
-        const url = new URL(req.url);
-        const id = url.pathname.split('/').pop();
-
+    getById: apiHandler(async (req, { params }) => {
+        const id = params?.id;
         if (!id) throw new AppError("ID requerido", 400);
 
-        const liability = await Liability.findById(id);
-        if (!liability) throw new AppError("Pasivo no encontrado", 404);
+        const liability = await LiabilityService.getById(id);
+        return NextResponse.json(liability);
+    }, { requiredRoles: ['administrador'] }),
 
-        return NextResponse.json(calculateDetails(liability));
-    }),
+    update: apiHandler(async (req, { params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("ID requerido", 400);
 
-    // Update liability
-    update: apiHandler(async (req: Request) => {
         const body = await req.json();
-        const { id, ...data } = updateLiabilitySchema.parse(body);
+        const data = updateLiabilitySchema.parse(body);
+        const liability = await LiabilityService.update(id, data as any);
+        return NextResponse.json(liability);
+    }, { requiredRoles: ['administrador'] }),
 
-        const liability = await Liability.findByIdAndUpdate(id, data, { new: true });
-        if (!liability) throw new AppError("Pasivo no encontrado", 404);
-
-        return NextResponse.json(calculateDetails(liability));
-    }),
-
-    // Delete liability
-    delete: apiHandler(async (req: Request) => {
-        const url = new URL(req.url);
-        const id = url.pathname.split('/').pop();
-
+    delete: apiHandler(async (req, { params }) => {
+        const id = params?.id;
         if (!id) throw new AppError("ID requerido", 400);
 
-        const liability = await Liability.findByIdAndDelete(id);
-        if (!liability) throw new AppError("Pasivo no encontrado", 404);
-
+        await LiabilityService.delete(id);
         return NextResponse.json({ message: "Pasivo eliminado" });
-    }),
+    }, { requiredRoles: ['administrador'] }),
 
-    // Stats
-    stats: apiHandler(async (req: Request) => {
-        const liabilities = await Liability.find({});
-
-        let totalDebt = 0;
-        let totalPending = 0;
-        let totalPaid = 0;
-
-        liabilities.forEach(l => {
-            const details = calculateDetails(l);
-            totalDebt += details.totalDebt;
-            totalPending += details.pendingAmount;
-            totalPaid += l.amountPaid;
-        });
-
-        return NextResponse.json({
-            totalDebt,
-            totalPending,
-            totalPaid,
-            count: liabilities.length
-        });
-    }),
+    stats: apiHandler(async () => {
+        const stats = await LiabilityService.getStats();
+        return NextResponse.json(stats);
+    }, { requiredRoles: ['administrador'] }),
 };

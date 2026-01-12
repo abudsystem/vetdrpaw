@@ -170,7 +170,8 @@
             "password": "Contraseña",
             "submit": "Ingresar",
             "loading": "Cargando...",
-            "errorDefault": "Error al iniciar sesión"
+            "errorDefault": "Error al iniciar sesión",
+            "forgotPassword": "¿Olvidaste tu contraseña?"
         },
         "register": {
             "title": "Crea tu cuenta",
@@ -237,7 +238,9 @@
             "pets": "Mis Mascotas",
             "retry": "Reintentar",
             "optional": "(Opcional)",
-            "creating": "Creando..."
+            "creating": "Creando...",
+            "guardando": "Guardando...",
+            "notAvailable": "No disponible"
         },
         "dashboard": {
             "title": "Mi Panel",
@@ -370,7 +373,7 @@
                     "pending": "pendiente",
                     "accepted": "aceptada",
                     "cancelled": "cancelada",
-                    "completed": "completada"
+                    "completed": "completado"
                 }
             }
         },
@@ -501,7 +504,9 @@
             "stats": {
                 "totalUsers": "Total Usuarios",
                 "vets": "Veterinarios",
-                "clients": "Clientes"
+                "clients": "Clientes",
+                "totalsales": "Total Ventas",
+                "totalappointments": "Total Citas"
             },
             "recentRecords": {
                 "title": "Registros Recientes",
@@ -512,9 +517,49 @@
                     "role": "Rol",
                     "date": "Fecha Registro"
                 }
+            },
+            "business": {
+                "title": "Dashboard",
+                "stats": {
+                    "revenue": "Ingresos",
+                    "sales": "Ventas",
+                    "averageTicket": "Ticket Promedio",
+                    "lastMonth": "Mes Anterior",
+                    "growth": "respecto al periodo anterior"
+                },
+                "loading": "Cargando...",
+                "charts": {
+                    "loading": "Cargando...",
+                    "salesTrend": "Total de Ventas",
+                    "analysis": "Análisis Financiero",
+                    "cashFlow": "Flujo de Caja (Ingresos vs Egresos)",
+                    "monthlyNetFlow": "Flujo Neto Mensual",
+                    "cashAcumulatedBalance": "Saldo Acumulado de Caja",
+                    "noData": "No hay datos disponibles",
+                    "titleClients": "Análisis de Clientes",
+                    "newClients": "Nuevos Clientes",
+                    "petDemographics": "Demografía de Mascotas",
+                    "error": "Error al cargar datos:",
+                    "newClientsByMonth": "Nuevos Clientes por Mes",
+                    "petDemographicsByMonth": "Demografía de Mascotas (Especie)",
+                    "titleSales": "Análisis de Ventas",
+                    "salesByCategory": "Ventas por Categoría",
+                    "top5Products": "Top 5 Productos Más Vendidos",
+                    "titleOperations": "Análisis de Operaciones",
+                    "appointmentStatus": "Estado de Citas (Mes Actual)"
+                },
+                "tabs": {
+                    "summary": "Resumen",
+                    "finances": "Finanzas",
+                    "clients": "Clientes",
+                    "sales": "Ventas",
+                    "operations": "Operaciones"
+                }
             }
         },
         "users": {
+            "title": "Gestión de Usuarios",
+            "searchPlaceholder": "Buscar por nombre o email...",
             "noUsers": "No hay usuarios registrados.",
             "table": {
                 "name": "Nombre",
@@ -552,7 +597,11 @@
             "actions": {
                 "activate": "Activar",
                 "deactivate": "Desactivar"
-            }
+            },
+            "loading": "Cargando servicios...",
+            "success": "Servicios cargados exitosamente",
+            "error": "Error al cargar servicios",
+            "searchPlaceholder": "Buscar por nombre o descripción..."
         },
         "inventory": {
             "title": "Inventario General",
@@ -582,7 +631,33 @@
         },
         "assets": {
             "title": "Activos",
+            "newAsset": "Nuevo Activo",
+            "confirmDelete": "¿Estás seguro de eliminar este activo?",
+            "stats": {
+                "totalValue": "Valor Total de Activos",
+                "totalDepreciation": "Depreciación Acumulada",
+                "count": "Total de Items",
+                "bookValue": "Valor actual en libros"
+            },
+            "filters": {
+                "searchPlaceholder": "Buscar por nombre o categoría..."
+            },
             "noAssets": "No hay activos registrados.",
+            "business": {
+                "title": "Resumen Ejecutivo",
+                "stats": {
+                    "revenue": "Ingresos (Mes)",
+                    "growth": "vs mes anterior",
+                    "sales": "Ventas Totales",
+                    "averageTicket": "Ticket Promedio",
+                    "lastMonth": "Mes Anterior"
+                },
+                "charts": {
+                    "salesTrend": "Tendencia de Ventas (Últimos 6 Meses)",
+                    "loading": "Cargando gráfico..."
+                },
+                "loading": "Cargando estadísticas..."
+            },
             "table": {
                 "name": "Nombre",
                 "category": "Categoría",
@@ -598,6 +673,18 @@
         "liabilities": {
             "title": "Pasivos",
             "noLiabilities": "No hay pasivos registrados.",
+            "new": "Nuevo Pasivo",
+            "stats": {
+                "totalDebt": "Deuda Total",
+                "totalDebtDescription": "Capital + Intereses",
+                "totalPending": "Monto Pendiente",
+                "totalPendingDescription": "Por pagar",
+                "totalPaid": "Total Pagado",
+                "totalPaidDescription": "Abonado hasta ahora",
+                "count": "Total de Pasivos",
+                "countDescription": "Total de Pasivos"
+            },
+            "searchPlaceholder": "Buscar por descripción o tipo...",
             "table": {
                 "type": "Tipo",
                 "description": "Descripción",
@@ -622,8 +709,15 @@
             "pendingLabel": "Pendiente"
         },
         "calendar": {
-            "title": "Calendario de Eventos",
+            "alertError": "Error al crear el evento",
+            "success": "Evento creado exitosamente",
+            "title": "Gestión del Calendario",
+            "description": "Administra los eventos y campañas que se muestran en la página de inicio",
             "noEvents": "No hay eventos registrados en el calendario.",
+            "newEvent": "Nuevo Evento",
+            "editEvent": "Editar Evento",
+            "registerEvent": "Registrar Evento",
+            "placeholder": "Buscar por título o descripción...",
             "confirmDelete": "¿Estás seguro de eliminar este evento?",
             "table": {
                 "title": "Título",
@@ -644,16 +738,34 @@
             }
         },
         "gallery": {
+            "error": "Error al cargar imágenes",
+            "success": "Imagen subida exitosamente",
+            "errorUpload": "Error al subir imagen",
+            "confirmDelete": "¿Estás seguro de eliminar esta imagen?",
+            "successDelete": "Imagen eliminada exitosamente",
+            "errorDelete": "Error al eliminar imagen",
             "title": "Galería de Imágenes",
+            "addImage": "Agregar Imagen",
             "noImages": "No hay imágenes en la galería.",
+            "titleEs": "Titulo (Espanol)",
+            "titleEn": "Titulo (Ingles)",
+            "placeholderEs": "e.g., Jornada de Vacunación",
+            "placeholderEn": "e.g., Vaccination Campaign",
+            "image": "Imagen",
+            "button": {
+                "uploading": "Subiendo...",
+                "upload": "Subir Imagen"
+            },
+            "searchPlaceholder": "Buscar por titulo...",
             "table": {
                 "preview": "Vista Previa",
-                "title": "Título",
+                "title": "Titulo",
                 "date": "Fecha"
             }
         },
         "roles": {
-            "title": "Gestión de Roles de Usuario",
+            "title": "Gestión de Roles de Usuarios",
+            "description": "Asigna roles de Veterinario o Cliente a los usuarios registrados.",
             "noUsers": "No hay usuarios registrados.",
             "table": {
                 "user": "Usuario",
@@ -661,7 +773,11 @@
                 "newRole": "Nuevo Rol",
                 "actions": "Acciones"
             },
-            "updateRole": "Actualizar Rol"
+            "updateRole": "Actualizar Rol",
+            "loading": "Cargando roles...",
+            "success": "Roles cargados exitosamente",
+            "error": "Error al cargar roles",
+            "searchPlaceholder": "Buscar por nombre o correo..."
         },
         "roleLabels": {
             "administrador": "Administrador",
@@ -669,8 +785,18 @@
             "cliente": "Cliente"
         },
         "petCare": {
-            "title": "Cuidado de Mascotas",
-            "noArticles": "No hay artículos de cuidado de mascotas registrados.",
+            "errorCreate": "Error al crear el artículo",
+            "successCreate": "Artículo creado exitosamente",
+            "errorUpdate": "Error al actualizar el artículo",
+            "successUpdate": "Artículo actualizado exitosamente",
+            "errorDelete": "Error al eliminar el artículo",
+            "successDelete": "Artículo eliminado exitosamente",
+            "title": "Gestión de Cuidado de Mascotas",
+            "description": "Administra los artículos y consejos informativos para los clientes",
+            "newArticle": "Nuevo Artículo",
+            "editArticle": "Editar Artículo",
+            "registerArticle": "Registrar Artículo",
+            "placeholder": "Buscar por título o categoría...",
             "confirmDelete": "¿Estás seguro de eliminar este artículo?",
             "table": {
                 "title": "Título",
@@ -688,6 +814,299 @@
                 "updateArticle": "Actualizar Artículo",
                 "createArticle": "Crear Artículo"
             }
+        },
+        "balance": {
+            "title": "Balance General",
+            "description": "Estado financiero de la empresa",
+            "loading": "Cargando balance...",
+            "healthy": "Saludable",
+            "moderate": "Moderado",
+            "risk": "Alto Riesgo",
+            "assets": "Ver Activos",
+            "liabilities": "Ver Pasivos",
+            "totalAssets": "Total Activos",
+            "totalLiabilities": "Total Pasivos",
+            "totalDebt": "Total Deuda",
+            "totalPending": "Total Pendiente",
+            "totalPaid": "Total Pagado",
+            "count": "Total de Pasivos",
+            "countDescription": "Total de Pasivos",
+            "registeredAssets": "Registrados Activos",
+            "registeredLiabilities": "Registrados Pasivos",
+            "netWorth": "Patrimonio Neto",
+            "ownCapital": "Capital propio",
+            "equityDeficit": "Déficit patrimonial",
+            "accountingEquation": "Ecuación Contable Fundamental",
+            "asset": "Activos",
+            "liability": "Pasivos",
+            "equity": "Patrimonio",
+            "financialHealth": {
+                "title": "Salud Financiera",
+                "description": "Financial status of the company",
+                "healthy": "El patrimonio representa más del 50% de los activos",
+                "moderate": "El patrimonio representa entre el 25% y el 50% de los activos",
+                "risk": "El patrimonio representa menos del 25% de los activos"
+            },
+            "visualBar": {
+                "title": "Composición Financiera",
+                "description": "Barra visual del balance general",
+                "heritage": "Patrimonio",
+                "debt": "Deuda",
+                "risk": "Alto Riesgo"
+            },
+            "ratiosfinancial": {
+                "title": "Indicadores Financieros",
+                "ratio": "Razón de Patrimonio",
+                "porcentage": "Porcentaje de activos financiados con capital propio",
+                "debtRatio": "Razón de Endeudamiento",
+                "percentageAssets": "Porcentaje de activos financiados con deuda",
+                "depressedAcumulated": "Depreciación Acumulada",
+                "depressedAcumulatedDescription": "Pérdida de valor por uso y tiempo",
+                "healthy": "El patrimonio representa más del 50% de los activos",
+                "moderate": "El patrimonio representa entre el 25% y el 50% de los activos",
+                "risk": "El patrimonio representa menos del 25% de los activos",
+                "detail": "Detalles Adicionales",
+                "Totaldetail": "Deuda Total",
+                "capitalInterest": "Capital + Interés",
+                "paidTotal": "Total Pagado",
+                "inliabilities": "En Pasivos",
+                "initialValueAssets": "Valor Inicial Activos",
+                "beforeDepreciation": "Antes de depreciación",
+                "presentValueAssets": "Valor Actual Activos",
+                "afterDepreciation": "Después de depreciación",
+                "autoUpdate": "Auto Actualización",
+                "autoUpdateDescription": "Este balance se actualiza cada vez que registras un activo, pagas una deuda, o cuando los activos se deprecian mensualmente."
+            },
+            "detail": {
+                "detail": "Detalles Adicionales",
+                "Totaldetail": "Deuda Total",
+                "capitalInterest": "Capital + Interés",
+                "paidTotal": "Total Pagado",
+                "inliabilities": "En Pasivos",
+                "initialValueAssets": "Valor Inicial Activos",
+                "beforeDepreciation": "Antes de depreciación",
+                "presentValueAssets": "Valor Actual Activos",
+                "afterDepreciation": "Después de depreciación",
+                "autoUpdate": "Auto Actualización",
+                "autoUpdateDescription": "Este balance se actualiza cada vez que registras un activo, pagas una deuda, o cuando los activos se deprecian mensualmente."
+            }
+        },
+        "cashFlow": {
+            "confirmDelete": "¿Eliminar esta transacción?",
+            "errorDeleteTransaction": "Error al eliminar la transacción",
+            "catchErrorTransaction": "Error eliminando transacción:",
+            "errorFetchingCashFlowData": "Error obteniendo datos del flujo de caja",
+            "loading": "Cargando...",
+            "title": "Flujo de Caja.",
+            "currentBox": "Caja Actual",
+            "description": "Control de entradas y salidas de dinero",
+            "registerTransaction": "Registrar Transacción",
+            "cashAvalible": "Efectivo disponible",
+            "dailyBalance": "Balance Diario",
+            "monthBalance": "Balance Mensual",
+            "yearBalance": "Balance Anual",
+            "transactions": "Transacciones",
+            "totalRegister": "Total Registrado",
+            "AutomaticIntegration": "Integración Automática",
+            "automaticIntegration": {
+                "title": "Integración Automática",
+                "description": "Las ventas se registran automáticamente aquí cuando se completan. Los pagos de pasivos y la compra de inventario también se reflejarán automáticamente. Solo necesitas registrar manualmente gastos generales y otros ingresos misceláneos."
+            },
+            "placeholder": "Buscar por descripción o categoría...",
+            "form": {
+                "date": "Fecha",
+                "description": "Descripción",
+                "amount": "Monto",
+                "type": "Tipo",
+                "category": "Categoría",
+                "actions": "Acciones"
+            },
+            "span": {
+                "income": "Ingreso",
+                "expense": "Egreso",
+                "auto": "Automático",
+                "manual": "Manual",
+                "by": "Por",
+                "plus": "+",
+                "minus": "-"
+            },
+            "button": {
+                "Delete": "Eliminar",
+                "Update": "Actualizar",
+                "Create": "Crear",
+                "plus": "+",
+                "minus": "-"
+            },
+            "filtered": {
+                "noData": "No se encontraron transacciones",
+                "noDataTransaction": "No hay transacciones registradas. Registra tu primera transacción usando el botón superior."
+            }
+        },
+        "inventoryBackup": {
+            "newProduct": "Nuevo Producto",
+            "ErrorFetchingData": "Error obteniendo datos",
+            "confirmCopy": "¿Crear una copia de seguridad del inventario?",
+            "successCopy": "Copia de seguridad creada y descargada exitosamente",
+            "errorCopy": "Error al crear la copia de seguridad",
+            "confirmDeleteBackup": "¿Eliminar esta copia de seguridad?",
+            "successDeleteBackup": "Copia de seguridad eliminada exitosamente",
+            "errorDeleteBackup": "Error al eliminar la copia de seguridad",
+            "span": {
+                "creating": "Creando",
+                "creatManualCopy": "Creada manualmente",
+                "creatAutoCopy": "Creada automaticamente"
+            },
+            "strong": {
+                "information": "Información"
+            },
+            "message": "Las copias se generan en formato CSV con todos los productos del inventario. La copia se descarga automáticamente al crearla.",
+            "note": "💡 Nota: Las copias automáticas (diarias/semanales) están planeadas para una futura actualización.",
+            "totalCopies": "Total de Copias",
+            "totalSize": "Tamaño Total",
+            "search": "Buscar por nombre de archivo o tipo...",
+            "lastCopy": "Ultima Copia",
+            "title": "Copias de Inventario",
+            "description": "Gestion de backups y copias de seguridad de inventario",
+            "loading": "Cargando...",
+            "form": {
+                "name": "Nombre",
+                "description": "Descripción",
+                "price": "Precio",
+                "stock": "Stock",
+                "actions": "Acciones"
+            },
+            "table": {
+                "file": "Archivo",
+                "type": "Tipo",
+                "date": "Fecha",
+                "createdBy": "Creado Por",
+                "recordCount": "Registros",
+                "fileSize": "Tamaño",
+                "actions": "Acciones",
+                "noCopies": "No hay copias de seguridad. Crea tu primera copia usando el botón superior.",
+                "delete": "Eliminar",
+                "confirmDelete": "¿Eliminar esta copia de seguridad?",
+                "successDelete": "Copia de seguridad eliminada exitosamente",
+                "errorDelete": "Error al eliminar la copia de seguridad",
+                "products": "productos"
+            }
+        },
+        "business": {
+            "errorFeching": "Error fetching analytics:",
+            "loading": "Cargando gráfico...",
+            "noAvailableData": "No hay datos disponibles",
+            "title": "Negocios Dashboard.",
+            "description": "Información general de tus negocios"
         }
-    }
+    },
+    "Activation": {
+        "invalidToken": "Token de activación no válido. Por favor verifica el enlace.",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordLowercase": "La contraseña debe contener al menos una letra minúscula",
+        "passwordUppercase": "La contraseña debe contener al menos una letra mayúscula",
+        "passwordNumber": "La contraseña debe contener al menos un número",
+        "passwordsMismatch": "Las contraseñas no coinciden",
+        "errorDefault": "Error al activar la cuenta",
+        "titleInvalid": "Token Inválido",
+        "descriptionInvalid": "El enlace de activación no es válido. Por favor verifica el enlace en tu correo electrónico.",
+        "titleSuccess": "¡Cuenta Activada!",
+        "descriptionSuccess": "Tu cuenta ha sido activada exitosamente. Redirigiendo a tu panel...",
+        "headerTitle": "Activa tu Cuenta",
+        "headerDescription": "Establece tu contraseña para acceder a Veterinaria DrPaw",
+        "labelNewPassword": "Nueva Contraseña",
+        "placeholderNewPassword": "Mínimo 6 caracteres",
+        "passwordRequirements": "Debe contener mayúsculas, minúsculas y números",
+        "labelConfirmPassword": "Confirmar Contraseña",
+        "placeholderConfirmPassword": "Repite tu contraseña",
+        "buttonActivating": "Activando...",
+        "buttonActivate": "Activar Cuenta",
+        "footerProblem": "¿Problemas con la activación?",
+        "footerContact": "Contáctanos"
+    },
+    "ServiceForm": {
+        "nameLabel": "Nombre del Servicio",
+        "durationLabel": "Duración Aproximada (minutos)",
+        "descriptionLabel": "Descripción",
+        "basePriceLabel": "Precio Base ($)",
+        "operatingCostLabel": "Costo Operativo ($)",
+        "suppliesTitle": "Insumos Requeridos",
+        "productLabel": "Producto",
+        "selectProduct": "Seleccionar producto...",
+        "quantityLabel": "Cantidad",
+        "addButton": "Agregar",
+        "removeButton": "Eliminar",
+        "cancelButton": "Cancelar",
+        "submitCreate": "Crear Servicio",
+        "submitUpdate": "Actualizar Servicio",
+        "saving": "Guardando...",
+        "stock": "Stock: {quantity}",
+        "unknownProduct": "Producto desconocido",
+        "alreadyAdded": "Este insumo ya ha sido agregado."
+    },
+    "AppointmentDetails": {
+        "title": "Detalles de la Cita",
+        "appointmentId": "Cita: {id}",
+        "petLabel": "Mascota",
+        "vetLabel": "Veterinario",
+        "dateLabel": "Fecha",
+        "reasonLabel": "Motivo",
+        "statusLabel": "Estado",
+        "notesLabel": "Notas",
+        "unassigned": "No asignado",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar",
+        "saveButton": "Guardar",
+        "cancelButton": "Cancelar",
+        "loading": "Cargando...",
+        "notFound": "No se encontró la cita",
+        "confirmDelete": "¿Eliminar esta cita?",
+        "status": {
+            "pending": "Pendiente",
+            "confirmed": "Confirmada",
+            "cancelled": "Cancelada",
+            "completed": "Completado",
+            "accepted": "Aceptada"
+        }
+    },
+    "PasswordRecovery": {
+        "headerTitle": "Recuperar Contraseña",
+        "headerDescription": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+        "labelEmail": "Correo Electrónico",
+        "placeholderEmail": "tu@email.com",
+        "buttonSending": "Enviando...",
+        "buttonSend": "Enviar Enlace de Recuperación",
+        "titleSuccess": "¡Correo Enviado!",
+        "descriptionSuccess": "Si existe una cuenta con ese correo, recibirás un enlace para restablecer tu contraseña. Por favor revisa tu bandeja de entrada.",
+        "backToLogin": "Volver al inicio de sesión",
+        "footerRemember": "¿Recordaste tu contraseña?",
+        "footerLogin": "Iniciar sesión",
+        "errorDefault": "Error al solicitar recuperación de contraseña"
+    },
+    "PasswordReset": {
+        "verifying": "Verificando...",
+        "verifyingDescription": "Estamos verificando tu enlace de recuperación",
+        "invalidToken": "Token de recuperación no válido. Por favor verifica el enlace.",
+        "titleInvalid": "Enlace Inválido",
+        "descriptionInvalid": "El enlace de recuperación no es válido o ha expirado. Por favor solicita un nuevo enlace.",
+        "headerTitle": "Restablecer Contraseña",
+        "headerDescription": "Ingresa tu nueva contraseña",
+        "labelNewPassword": "Nueva Contraseña",
+        "placeholderNewPassword": "Mínimo 6 caracteres",
+        "passwordRequirements": "Debe contener mayúsculas, minúsculas y números",
+        "labelConfirmPassword": "Confirmar Contraseña",
+        "placeholderConfirmPassword": "Repite tu contraseña",
+        "buttonResetting": "Restableciendo...",
+        "buttonReset": "Restablecer Contraseña",
+        "titleSuccess": "¡Contraseña Restablecida!",
+        "descriptionSuccess": "Tu contraseña ha sido restablecida exitosamente. Redirigiendo a tu panel...",
+        "footerProblem": "¿Problemas con la recuperación?",
+        "footerContact": "Contáctanos",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordLowercase": "La contraseña debe contener al menos una letra minúscula",
+        "passwordUppercase": "La contraseña debe contener al menos una letra mayúscula",
+        "passwordNumber": "La contraseña debe contener al menos un número",
+        "passwordsMismatch": "Las contraseñas no coinciden",
+        "errorDefault": "Error al restablecer la contraseña"
+    },
+    "Charts": {}
 }

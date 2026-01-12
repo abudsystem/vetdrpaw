@@ -1,9 +1,8 @@
 "use client";
-
 import React, { useState } from "react";
 import Image from "next/image";
-import { GalleryService, GalleryImage } from "@/lib/api/gallery.service";
-import { useTranslations } from 'next-intl';
+import { GalleryService, GalleryImage } from "@/services/client/gallery.service";
+import { useTranslations, useLocale } from 'next-intl';
 import { motion, AnimatePresence } from "framer-motion";
 import { Image as ImageIcon, Loader2 } from "lucide-react";
 
@@ -12,6 +11,12 @@ export const GallerySection = () => {
     const [loading, setLoading] = useState(true);
     const [hasFetched, setHasFetched] = useState(false);
     const t = useTranslations('About');
+    const locale = useLocale();
+
+    const getLocalizedContent = (content: string | { es: string; en: string }) => {
+        if (typeof content === 'string') return content;
+        return content[locale === 'es' ? 'es' : 'en'] || content.es || "";
+    };
 
     const loadImages = async () => {
         if (hasFetched) return;
@@ -60,32 +65,35 @@ export const GallerySection = () => {
                 ) : images.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         <AnimatePresence>
-                            {images.map((img, index) => (
-                                <motion.div
-                                    key={img._id}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white aspect-[4/3] cursor-pointer"
-                                    whileHover={{ y: -5 }}
-                                >
-                                    <Image
-                                        src={img.imageUrl}
-                                        alt={img.title}
-                                        fill
-                                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                        className="object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                                        <p className="text-white font-bold text-lg truncate transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                            {img.title}
-                                        </p>
-                                        <p className="text-teal-200 text-sm mt-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                                            {new Date(img.createdAt).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                            {images.map((img, index) => {
+                                const displayTitle = getLocalizedContent(img.title);
+                                return (
+                                    <motion.div
+                                        key={img._id}
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                                        className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white aspect-[4/3] cursor-pointer"
+                                        whileHover={{ y: -5 }}
+                                    >
+                                        <Image
+                                            src={img.imageUrl}
+                                            alt={displayTitle}
+                                            fill
+                                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                            className="object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                            <p className="text-white font-bold text-lg truncate transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                                {displayTitle}
+                                            </p>
+                                            <p className="text-teal-200 text-sm mt-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                                                {new Date(img.createdAt).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                )
+                            })}
                         </AnimatePresence>
                     </div>
                 ) : (

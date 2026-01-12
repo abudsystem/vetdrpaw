@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function AnalyticsLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const t = useTranslations('AdminDashboard.dashboard.business.tabs');
     const pathname = usePathname();
 
     const tabs = [
-        { name: "🏠 Resumen", href: "/administrador/negocio" },
-        { name: "💰 Finanzas", href: "/administrador/negocio/finanzas" },
-        { name: "👥 Clientes", href: "/administrador/negocio/clientes" },
-        { name: "🛍️ Ventas", href: "/administrador/negocio/ventas" },
-        { name: "🏥 Operaciones", href: "/administrador/negocio/operaciones" },
+        { name: t('summary'), href: "/administrador/negocio" },
+        { name: t('finances'), href: "/administrador/negocio/finanzas" },
+        { name: t('clients'), href: "/administrador/negocio/clientes" },
+        { name: t('sales'), href: "/administrador/negocio/ventas" },
+        { name: t('operations'), href: "/administrador/negocio/operaciones" },
     ];
 
     return (

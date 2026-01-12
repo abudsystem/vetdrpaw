@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { UserServices } from '@/lib/api/user.service';
+import { UserServices } from "@/services/client/user.service";
 
 interface ProfileData {
     _id: string;

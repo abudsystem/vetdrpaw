@@ -142,5 +142,105 @@ export const AuthService = {
 
     return { user: safeUser, token: authToken };
   },
+
+  /**
+   * Request password reset - sends email with reset token
+   */
+  requestPasswordReset: async (email: string) => {
+    const user = await UserRepository.findByEmail(email);
+
+    // Don't reveal if user exists for security
+    if (!user) {
+      return { message: "Si el email existe, recibirás un enlace de recuperación" };
+    }
+
+    // Generate reset token
+    const resetToken = EmailService.generateToken();
+    const resetExpires = new Date();
+    resetExpires.setHours(resetExpires.getHours() + 24); // 24 hours
+
+    // Update user with reset token
+    await UserRepository.update((user._id as any).toString(), {
+      resetPasswordToken: resetToken,
+      resetPasswordExpires: resetExpires,
+    });
+
+    // Send reset email
+    try {
+      await EmailService.sendPasswordResetEmail(
+        user.email,
+        user.name,
+        resetToken
+      );
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+      // Don't fail the request if email fails
+    }
+
+    return { message: "Si el email existe, recibirás un enlace de recuperación" };
+  },
+
+  /**
+   * Verify reset token validity
+   */
+  verifyResetToken: async (token: string) => {
+    const user = await UserRepository.findOne({
+      resetPasswordToken: token,
+    });
+
+    if (!user) {
+      throw new AppError("Token de recuperación inválido", 400);
+    }
+
+    // Check if token is expired
+    if (user.resetPasswordExpires && user.resetPasswordExpires < new Date()) {
+      throw new AppError("El token de recuperación ha expirado", 400);
+    }
+
+    return { valid: true, email: user.email };
+  },
+
+  /**
+   * Reset password with token
+   */
+  resetPassword: async (token: string, newPassword: string) => {
+    const user = await UserRepository.findOne({
+      resetPasswordToken: token,
+    });
+
+    if (!user) {
+      throw new AppError("Token de recuperación inválido", 400);
+    }
+
+    // Check if token is expired
+    if (user.resetPasswordExpires && user.resetPasswordExpires < new Date()) {
+      throw new AppError("El token de recuperación ha expirado", 400);
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password and clear reset fields
+    const updatedUser = await UserRepository.update((user._id as any).toString(), {
+      password: hashedPassword,
+      resetPasswordToken: undefined,
+      resetPasswordExpires: undefined,
+    });
+
+    if (!updatedUser) {
+      throw new AppError("Error al restablecer la contraseña", 500);
+    }
+
+    // Generate token for automatic login
+    const authToken = signToken({
+      id: (updatedUser._id as any).toString(),
+      role: updatedUser.role,
+    });
+
+    const userObj = updatedUser.toObject();
+    const { password: _, ...safeUser } = userObj;
+
+    return { user: safeUser, token: authToken };
+  },
 };
 

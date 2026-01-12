@@ -17,14 +17,40 @@ export const AppointmentRepository = {
           select: "name telefono email"
         }
       })
-      .populate("veterinarian");
+      .populate("veterinarian", "name email")
+      .sort({ date: -1 });
+  },
+  find: async (query: any): Promise<IAppointment[]> => {
+    await dbConnect();
+    return Appointment.find(query)
+      .populate({
+        path: "pet",
+        populate: {
+          path: "propietario",
+          select: "name telefono email"
+        }
+      })
+      .populate("veterinarian", "name email")
+      .sort({ date: -1 });
   },
   findById: async (id: string): Promise<IAppointment | null> => {
     await dbConnect();
-    return Appointment.findById(id);
+    return Appointment.findById(id)
+      .populate({
+        path: "pet",
+        populate: {
+          path: "propietario",
+          select: "name telefono email"
+        }
+      })
+      .populate("veterinarian", "name email");
   },
   updateById: async (id: string, data: UpdateQuery<IAppointment>): Promise<IAppointment | null> => {
     await dbConnect();
     return Appointment.findByIdAndUpdate(id, data, { new: true });
+  },
+  deleteById: async (id: string): Promise<void> => {
+    await dbConnect();
+    await Appointment.findByIdAndDelete(id);
   },
 };

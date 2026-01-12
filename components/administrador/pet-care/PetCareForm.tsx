@@ -20,9 +20,9 @@ export default function PetCareForm({ initialData, onSubmit, onCancel, isEditing
     const tc = useTranslations('ClientPanel.common');
 
     const [formData, setFormData] = useState({
-        title: "",
-        excerpt: "",
-        category: "",
+        title: { es: "", en: "" },
+        excerpt: { es: "", en: "" },
+        category: { es: "", en: "" },
         link: "",
         date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }),
     });
@@ -31,14 +31,24 @@ export default function PetCareForm({ initialData, onSubmit, onCancel, isEditing
     useEffect(() => {
         if (initialData) {
             setFormData({
-                title: initialData.title || "",
-                excerpt: initialData.excerpt || "",
-                category: initialData.category || "",
+                title: initialData.title || { es: "", en: "" },
+                excerpt: initialData.excerpt || { es: "", en: "" },
+                category: initialData.category || { es: "", en: "" },
                 link: initialData.link || "",
                 date: initialData.date || "",
             });
         }
     }, [initialData]);
+
+    const handleNestedChange = (field: 'title' | 'category' | 'excerpt', lang: 'es' | 'en', value: string) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: {
+                ...prev[field],
+                [lang]: value
+            }
+        }));
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -51,7 +61,7 @@ export default function PetCareForm({ initialData, onSubmit, onCancel, isEditing
         try {
             await onSubmit(formData as any);
             toast.success(isEditing ? "Artículo actualizado con éxito" : "Artículo creado con éxito", {
-                description: formData.title
+                description: formData.title.es
             });
         } catch (error) {
             toast.error("Error al guardar el artículo");
@@ -62,38 +72,67 @@ export default function PetCareForm({ initialData, onSubmit, onCancel, isEditing
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+                <h3 className="font-semibold text-gray-700 border-b pb-2">Español</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input
+                        label={`${t('titleLabel')} (ES)`}
+                        required
+                        icon={<BookOpen className="w-5 h-5" />}
+                        value={formData.title.es}
+                        onChange={(e) => handleNestedChange('title', 'es', e.target.value)}
+                    />
+                    <Input
+                        label={`${t('categoryLabel')} (ES)`}
+                        required
+                        icon={<Tag className="w-5 h-5" />}
+                        placeholder={t('categoryPlaceholder')}
+                        value={formData.category.es}
+                        onChange={(e) => handleNestedChange('category', 'es', e.target.value)}
+                    />
+                </div>
                 <Input
-                    label={t('titleLabel')}
-                    name="title"
+                    label={`${t('excerptLabel')} (ES)`}
                     required
-                    icon={<BookOpen className="w-5 h-5" />}
-                    value={formData.title}
-                    onChange={handleChange}
-                />
-                <Input
-                    label={t('categoryLabel')}
-                    name="category"
-                    required
-                    icon={<Tag className="w-5 h-5" />}
-                    placeholder={t('categoryPlaceholder')}
-                    value={formData.category}
-                    onChange={handleChange}
+                    multiline
+                    rows={3}
+                    icon={<AlignLeft className="w-5 h-5" />}
+                    value={formData.excerpt.es}
+                    onChange={(e) => handleNestedChange('excerpt', 'es', e.target.value)}
                 />
             </div>
 
-            <Input
-                label={t('excerptLabel')}
-                name="excerpt"
-                required
-                multiline
-                rows={4}
-                icon={<AlignLeft className="w-5 h-5" />}
-                value={formData.excerpt}
-                onChange={handleChange}
-            />
+            <div className="space-y-4">
+                <h3 className="font-semibold text-gray-700 border-b pb-2">English</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input
+                        label={`${t('titleLabel')} (EN)`}
+                        required
+                        icon={<BookOpen className="w-5 h-5" />}
+                        value={formData.title.en}
+                        onChange={(e) => handleNestedChange('title', 'en', e.target.value)}
+                    />
+                    <Input
+                        label={`${t('categoryLabel')} (EN)`}
+                        required
+                        icon={<Tag className="w-5 h-5" />}
+                        placeholder="e.g. Preventive Care"
+                        value={formData.category.en}
+                        onChange={(e) => handleNestedChange('category', 'en', e.target.value)}
+                    />
+                </div>
+                <Input
+                    label={`${t('excerptLabel')} (EN)`}
+                    required
+                    multiline
+                    rows={3}
+                    icon={<AlignLeft className="w-5 h-5" />}
+                    value={formData.excerpt.en}
+                    onChange={(e) => handleNestedChange('excerpt', 'en', e.target.value)}
+                />
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
                 <Input
                     label={t('linkLabel')}
                     name="link"

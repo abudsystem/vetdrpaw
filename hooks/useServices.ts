@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Service } from '@/types/service';
-import { MedicalServices } from '@/lib/api/medical.service';
+import { MedicalServices } from "@/services/client/medical.service";
 
 export const useServices = () => {
     const [services, setServices] = useState<Service[]>([]);

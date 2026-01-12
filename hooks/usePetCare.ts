@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 export interface PetCareItem {
     _id: string;
-    title: string;
-    excerpt: string;
-    category: string;
+    title: { es: string; en: string };
+    excerpt: { es: string; en: string };
+    category: { es: string; en: string };
     link: string;
     date: string;
 }

@@ -12,4 +12,17 @@ export const MedicalRecordRepository = {
             .populate("veterinarian", "name email")
             .sort({ date: -1 });
     },
+    findById: async (id: string): Promise<IMedicalRecord | null> => {
+        await dbConnect();
+        return MedicalRecord.findById(id).populate("veterinarian", "name email");
+    },
+    update: async (id: string, data: Partial<IMedicalRecord>): Promise<IMedicalRecord | null> => {
+        await dbConnect();
+        return MedicalRecord.findByIdAndUpdate(id, data, { new: true, runValidators: true })
+            .populate("veterinarian", "name email");
+    },
+    delete: async (id: string): Promise<void> => {
+        await dbConnect();
+        await MedicalRecord.findByIdAndDelete(id);
+    },
 };

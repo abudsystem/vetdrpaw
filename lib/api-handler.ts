@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { UserPayload } from "@/types/auth";
 
 export class AppError extends Error {
     statusCode: number;
@@ -9,15 +11,36 @@ export class AppError extends Error {
     }
 }
 
-type HandlerFunction = (req: Request, ...args: any[]) => Promise<NextResponse>;
+interface HandlerOptions {
+    requiredRoles?: string[];
+    requireAuth?: boolean;
+}
 
-export const apiHandler = (handler: HandlerFunction) => {
-    return async (req: Request, ...args: any[]) => {
+type HandlerFunction = (req: Request, context: { user?: UserPayload; params: any }) => Promise<NextResponse>;
+
+export const apiHandler = (handler: HandlerFunction, options: HandlerOptions = {}) => {
+    return async (req: Request, { params }: { params: any } = { params: {} }) => {
         try {
-            return await handler(req, ...args);
-        } catch (err: any) {
+            // Await params if it's a promise (Next.js 15+)
+            const resolvedParams = await params;
 
-            // VALIDACIÓN (400)
+            let user: UserPayload | undefined;
+
+            if (options.requireAuth || options.requiredRoles) {
+                const decoded = await authMiddleware(req);
+                if (!decoded) {
+                    throw new AppError("No autorizado", 401);
+                }
+                user = decoded;
+
+                if (options.requiredRoles && !options.requiredRoles.includes(user.role)) {
+                    throw new AppError("Permisos insuficientes", 403);
+                }
+            }
+
+            return await handler(req, { user, params: resolvedParams });
+        } catch (err: any) {
+            // VALIDACIÓN (400) - ZodError can come from schema.parse() in controllers
             if (err instanceof ZodError) {
                 return NextResponse.json(
                     {

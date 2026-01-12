@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BackupList } from "@/components/administrador/copiainventario/BackupList";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Backup {
     _id: string;
@@ -21,6 +22,7 @@ export default function BackupsPage() {
     const [creating, setCreating] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const router = useRouter();
+    const t = useTranslations('AdminDashboard.inventoryBackup');
 
     useEffect(() => {
         fetchBackups();
@@ -34,14 +36,14 @@ export default function BackupsPage() {
                 setBackups(data);
             }
         } catch (error) {
-            console.error("Error fetching backups:", error);
+            console.error(t('ErrorFetchingData'), error);
         } finally {
             setLoading(false);
         }
     };
 
     const handleCreateBackup = async () => {
-        if (!confirm("¿Crear una copia de seguridad del inventario?")) return;
+        if (!confirm(t('confirmCopy'))) return;
 
         setCreating(true);
         try {
@@ -66,20 +68,20 @@ export default function BackupsPage() {
                 document.body.removeChild(a);
 
                 fetchBackups();
-                alert("Copia de seguridad creada y descargada exitosamente");
+                alert(t('successCopy'));
             } else {
-                alert("Error al crear la copia de seguridad");
+                alert(t('errorCopy'));
             }
         } catch (error) {
-            console.error("Error creating backup:", error);
-            alert("Error al crear la copia de seguridad");
+            console.error(t('errorCopy'), error);
+            alert(t('errorCopy'));
         } finally {
             setCreating(false);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("¿Eliminar esta copia de seguridad?")) return;
+        if (!confirm(t("confirmDeleteBackup"))) return;
 
         try {
             const res = await fetch(`/api/backups/${id}`, {
@@ -89,10 +91,11 @@ export default function BackupsPage() {
             if (res.ok) {
                 fetchBackups();
             } else {
-                alert("Error al eliminar la copia");
+                alert(t('errorDeleteBackup'));
             }
         } catch (error) {
-            console.error("Error deleting backup:", error);
+            console.error(t('errorDeleteBackup'), error);
+            alert(t('errorDeleteBackup'));
         }
     };
 
@@ -110,14 +113,14 @@ export default function BackupsPage() {
             backup.type.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="p-8">Cargando...</div>;
+    if (loading) return <div className="p-8">{t('loading')}</div>;
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Copias de Inventario</h1>
-                    <p className="text-gray-600 mt-1">Gestión de backups y copias de seguridad</p>
+                    <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
+                    <p className="text-gray-600 mt-1">{t('description')}</p>
                 </div>
                 <button
                     onClick={handleCreateBackup}
@@ -125,7 +128,7 @@ export default function BackupsPage() {
                     className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 w-full md:w-auto"
                 >
                     <span className="text-xl">💾</span>
-                    {creating ? "Creando..." : "Crear Copia Manual"}
+                    {creating ? t('span.creating') : t('span.creatManualCopy')}
                 </button>
             </div>
 
@@ -139,11 +142,10 @@ export default function BackupsPage() {
                     </div>
                     <div className="ml-3">
                         <p className="text-sm text-blue-700">
-                            <strong>Información:</strong> Las copias se generan en formato CSV con todos los productos del inventario.
-                            La copia se descarga automáticamente al crearla.
+                            <strong>{t('strong.information')}:</strong> {t('message')}
                         </p>
                         <p className="text-xs text-blue-600 mt-1">
-                            💡 Nota: Las copias automáticas (diarias/semanales) están planeadas para una futura actualización.
+                            {t('note')}
                         </p>
                     </div>
                 </div>
@@ -152,11 +154,11 @@ export default function BackupsPage() {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
-                    <h3 className="text-gray-700 text-sm font-medium">Total de Copias</h3>
+                    <h3 className="text-gray-700 text-sm font-medium">{t('totalCopies')}</h3>
                     <p className="text-2xl font-bold text-gray-800">{backups.length}</p>
                 </div>
                 <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                    <h3 className="text-gray-700 text-sm font-medium">Última Copia</h3>
+                    <h3 className="text-gray-700 text-sm font-medium">{t('lastCopy')}</h3>
                     <p className="text-lg font-bold text-gray-800">
                         {backups.length > 0
                             ? new Date(backups[0].createdAt).toLocaleDateString()
@@ -164,7 +166,7 @@ export default function BackupsPage() {
                     </p>
                 </div>
                 <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
-                    <h3 className="text-gray-700 text-sm font-medium">Tamaño Total</h3>
+                    <h3 className="text-gray-700 text-sm font-medium">{t('totalSize')}</h3>
                     <p className="text-lg font-bold text-gray-800">
                         {formatBytes(backups.reduce((sum, b) => sum + b.fileSize, 0))}
                     </p>
@@ -179,7 +181,7 @@ export default function BackupsPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por nombre de archivo o tipo..."
+                        placeholder={t('search')}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                     />
                 </div>

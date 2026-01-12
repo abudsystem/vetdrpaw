@@ -26,31 +26,27 @@ const createRecordSchema = z.object({
 });
 
 export const MedicalRecordController = {
-    create: apiHandler(async (req: Request, user: any) => {
+    create: apiHandler(async (req: Request, { user }) => {
         const body = await req.json();
-
-        // User is passed from route handler (middleware handled auth)
-        if (!user || !user.id) throw new AppError("Unauthorized", 401);
-
         const data = createRecordSchema.parse(body);
 
         const record = await MedicalRecordService.create({
             ...data,
-            veterinarian: user.id,
+            veterinarian: user!.id,
         } as any);
 
         return NextResponse.json(record, { status: 201 });
-    }),
+    }, { requiredRoles: ["veterinario", "administrador"] }),
 
-    listByPet: apiHandler(async (req: Request) => {
+    listByPet: apiHandler(async (req: Request, { user }) => {
         const { searchParams } = new URL(req.url);
         const petId = searchParams.get("petId");
 
         if (!petId) throw new AppError("Pet ID is required", 400);
 
-        const records = await MedicalRecordService.findByPet(petId);
+        const records = await MedicalRecordService.findByPet(petId, user!);
         return NextResponse.json(records);
-    }),
+    }, { requireAuth: true }),
 
     update: apiHandler(async (req: Request) => {
         const { searchParams } = new URL(req.url);
@@ -62,11 +58,10 @@ export const MedicalRecordController = {
         const data = createRecordSchema.partial().parse(body);
 
         const record = await MedicalRecordService.update(id, data as any);
-
         if (!record) throw new AppError("Registro médico no encontrado", 404);
 
         return NextResponse.json(record);
-    }),
+    }, { requiredRoles: ["veterinario", "administrador"] }),
 
     delete: apiHandler(async (req: Request) => {
         const { searchParams } = new URL(req.url);
@@ -75,7 +70,6 @@ export const MedicalRecordController = {
         if (!id) throw new AppError("ID requerido", 400);
 
         await MedicalRecordService.delete(id);
-
         return NextResponse.json({ message: "Registro médico eliminado" });
-    }),
+    }, { requiredRoles: ["administrador"] }),
 };

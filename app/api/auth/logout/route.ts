@@ -1,9 +1,3 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { AuthController } from "@/controllers/auth.controller";
 
-export async function POST() {
-    const cookieStore = await cookies();
-    cookieStore.delete("token");
-
-    return NextResponse.json({ message: "Logout successful" });
-}
+export const POST = AuthController.logout;

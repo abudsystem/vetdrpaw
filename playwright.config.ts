@@ -48,28 +48,34 @@ export default defineConfig({
     /* Configurar proyectos para diferentes navegadores */
     projects: [
         {
-            name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
+            name: 'setup',
+            testMatch: /auth\.setup\.ts/,
         },
-
+        {
+            name: 'chromium',
+            use: {
+                ...devices['Desktop Chrome'],
+                // Use prepared auth state.
+                storageState: 'playwright/.auth/client.json',
+            },
+            dependencies: ['setup'],
+        },
+        {
+            name: 'vet-chromium',
+            use: {
+                ...devices['Desktop Chrome'],
+                storageState: 'playwright/.auth/vet.json',
+            },
+            dependencies: ['setup'],
+        },
+        /* Firefox y Webkit también pueden usar sus propios estados si se desea */
         {
             name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
-
-        {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-        },
-
-        /* Pruebas en dispositivos móviles */
-        {
-            name: 'Mobile Chrome',
-            use: { ...devices['Pixel 5'] },
-        },
-        {
-            name: 'Mobile Safari',
-            use: { ...devices['iPhone 12'] },
+            use: {
+                ...devices['Desktop Firefox'],
+                storageState: 'playwright/.auth/client.json',
+            },
+            dependencies: ['setup'],
         },
     ],
 

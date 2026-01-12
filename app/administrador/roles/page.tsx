@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { RoleList } from "@/components/administrador/roles/RoleList";
 import { Search } from "lucide-react";
 
+import { useTranslations } from "next-intl";
+
+
 interface User {
     _id: string;
     name: string;
@@ -12,6 +15,7 @@ interface User {
 }
 
 export default function administradorRolesPage() {
+    const t = useTranslations('AdminDashboard.roles');
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -59,9 +63,9 @@ export default function administradorRolesPage() {
                     delete next[userId];
                     return next;
                 });
-                alert("Rol actualizado correctamente");
+                alert(t("success"));
             } else {
-                alert("Error al actualizar el rol");
+                alert(t("error"));
             }
         } catch (error) {
             console.error("Error changing role:", error);
@@ -76,8 +80,8 @@ export default function administradorRolesPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Gestión de Roles</h1>
-            <p className="mb-6 text-gray-600">Asigna roles de Veterinario o Cliente a los usuarios registrados.</p>
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">{t('title')}</h1>
+            <p className="mb-6 text-gray-600">{t('description')}</p>
 
             {/* Search Bar */}
             <div className="mb-6">
@@ -87,7 +91,7 @@ export default function administradorRolesPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por nombre o email..."
+                        placeholder={t("searchPlaceholder")}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                     />
                 </div>

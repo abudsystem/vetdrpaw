@@ -114,6 +114,16 @@ export default function LoginPage() {
                             {loading ? t('loading') : t('submit')}
                         </button>
                     </div>
+
+                    {/* Forgot Password Link */}
+                    <div className="text-center">
+                        <Link
+                            href="/recuperar-contrasena"
+                            className="text-sm font-medium text-teal-600 hover:text-teal-500"
+                        >
+                            {t('forgotPassword')}
+                        </Link>
+                    </div>
                 </form>
             </div>
         </div>

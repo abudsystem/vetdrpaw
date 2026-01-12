@@ -6,8 +6,11 @@ import { ServiceHeader } from "@/components/administrador/servicios/ServiceHeade
 import { ServiceFilters } from "@/components/administrador/servicios/ServiceFilters";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function ADMINServicesPage() {
+
+    const t = useTranslations('AdminDashboard.services');
     const {
         services,
         loading,
@@ -36,7 +39,7 @@ export default function ADMINServicesPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por nombre o descripción..."
+                        placeholder={t("searchPlaceholder")}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                     />
                 </div>

@@ -16,6 +16,7 @@ import {
     RadialLinearScale,
     Filler
 } from "chart.js";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
     CategoryScale,
@@ -42,6 +43,7 @@ const getInitialChartType = (key: string, defaultType: typeof chartTypes[number]
 };
 
 export default function SalesAnalyticsPage() {
+    const t = useTranslations("AdminDashboard.dashboard.business.charts");
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -139,12 +141,12 @@ export default function SalesAnalyticsPage() {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">🛍️ Análisis de Ventas</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">🛍️ {t("titleSales")}</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Category Chart */}
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Ventas por Categoría</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-700">{t("salesByCategory")}</h3>
                     {renderChartSelector(categoryChartType, setCategoryChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(categoryChartType, categoryData)}
@@ -153,7 +155,7 @@ export default function SalesAnalyticsPage() {
 
                 {/* Top Products */}
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-black font-semibold mb-2 text-gray-700">Top 5 Productos Más Vendidos</h3>
+                    <h3 className="text-black font-semibold mb-2 text-gray-700">{t("top5Products")}</h3>
                     {renderChartSelector(topProductsChartType, setTopProductsChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(topProductsChartType, topProductsData)}

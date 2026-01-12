@@ -16,47 +16,50 @@ const updateAppointmentSchema = z.object({
 });
 
 export const AppointmentController = {
-    create: apiHandler(async (req: Request) => {
+    create: apiHandler(async (req: Request, { user }) => {
         const body = await req.json();
         const data = createAppointmentSchema.parse(body);
 
-        // Get user from token to set createdBy
-        const { cookies } = await import("next/headers");
-        const { verifyToken } = await import("@/lib/jwt");
-        const cookieStore = await cookies();
-        const token = cookieStore.get("token")?.value;
-
-        if (!token) throw new AppError("Unauthorized", 401);
-        const decoded = verifyToken(token);
-
-        // Add createdBy field
-        const appointmentData = {
+        const appointment = await AppointmentService.create({
             ...data,
-            createdBy: decoded.id,
-        };
-
-        // Cast to any to avoid ObjectId type mismatch, Mongoose handles string -> ObjectId
-        const appointment = await AppointmentService.create(appointmentData as any);
+            createdBy: user!.id,
+        } as any);
         return NextResponse.json(appointment, { status: 201 });
-    }),
+    }, { requireAuth: true }),
 
-    list: apiHandler(async () => {
-        const appointments = await AppointmentService.list();
-        return NextResponse.json(appointments);
-    }),
-
-    update: apiHandler(async (req: Request) => {
-        const body = await req.json();
+    list: apiHandler(async (req, { user }) => {
         const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
+        const petId = searchParams.get("petId") || undefined;
+        const myAppointments = searchParams.get("my_appointments") || undefined;
 
-        if (!id) throw new AppError("ID is required", 400);
+        const appointments = await AppointmentService.list(user!, { petId, myAppointments });
+        return NextResponse.json(appointments);
+    }, { requireAuth: true }),
+
+    update: apiHandler(async (req, { user, params }) => {
+        const body = await req.json();
+        const id = params?.id;
+        if (!id) throw new AppError("El ID es requerido", 400);
 
         const data = updateAppointmentSchema.parse(body);
-        const updated = await AppointmentService.update(id, data as any);
-
-        if (!updated) throw new AppError("Appointment not found", 404);
+        const updated = await AppointmentService.update(id, data as any, user!);
 
         return NextResponse.json(updated);
-    }),
+    }, { requireAuth: true }),
+
+    getById: apiHandler(async (req, { user, params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("El ID es requerido", 400);
+
+        const appointment = await AppointmentService.getById(id, user!);
+        return NextResponse.json(appointment);
+    }, { requireAuth: true }),
+
+    delete: apiHandler(async (req, { user, params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("El ID es requerido", 400);
+
+        await AppointmentService.delete(id, user!);
+        return NextResponse.json({ message: "Cita eliminada correctamente" });
+    }, { requireAuth: true }),
 };

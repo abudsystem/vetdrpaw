@@ -169,7 +169,8 @@
             "password": "Password",
             "submit": "Login",
             "loading": "Loading...",
-            "errorDefault": "Error logging in"
+            "errorDefault": "Error logging in",
+            "forgotPassword": "Forgot your password?"
         },
         "register": {
             "title": "Create your account",
@@ -236,7 +237,9 @@
             "pets": "My Pets",
             "retry": "Retry",
             "optional": "(Optional)",
-            "creating": "Creating..."
+            "creating": "Creating...",
+            "guardando": "Saving...",
+            "notAvailable": "Not available"
         },
         "dashboard": {
             "title": "My Panel",
@@ -500,7 +503,9 @@
             "stats": {
                 "totalUsers": "Total Users",
                 "vets": "Veterinarians",
-                "clients": "Clients"
+                "clients": "Clients",
+                "totalsales": "Total Sales",
+                "totalappointments": "Total Appointments"
             },
             "recentRecords": {
                 "title": "Recent Records",
@@ -511,9 +516,52 @@
                     "role": "Role",
                     "date": "Registration Date"
                 }
+            },
+            "business": {
+                "title": "Business Dashboard",
+                "stats": {
+                    "revenue": "Revenue",
+                    "sales": "Sales",
+                    "averageTicket": "Average Ticket",
+                    "lastMonth": "Last Month",
+                    "growth": "compared to the previous period"
+                },
+                "loading": "Loading...",
+                "charts": {
+                    "loading": "Loading...",
+                    "salesTrend": "Total Sales",
+                    "analysis": "Financial Analysis",
+                    "cashFlow": "Cash Flow (Incomes vs Expenses)",
+                    "monthlyNetFlow": "Monthly Net Flow",
+                    "cashAcumulatedBalance": "Cash Acumulated Balance",
+                    "titleClients": "Clients Analytics",
+                    "newClients": "New Clients",
+                    "petDemographics": "Pet Demographics",
+                    "error": "Error fetching client data:",
+                    "newClientsByMonth": "New Clients by Month",
+                    "petDemographicsByMonth": "Pet Demographics (Species)",
+                    "titleSales": "Sales Analytics",
+                    "salesByCategory": "Sales by Category",
+                    "top5Products": "Top 5 Products Most Sold",
+                    "titleOperations": "Operations Analytics",
+                    "appointmentStatus": "Appointment Status (Current Month)"
+                },
+                "tabs": {
+                    "summary": "Summary",
+                    "finances": "Finances",
+                    "clients": "Clients",
+                    "sales": "Sales",
+                    "operations": "Operations"
+                }
+            },
+            "inventoryBackup": {
+                "newProduct": "New Product",
+                "description": "Create a backup of the inventory to prevent data loss."
             }
         },
         "users": {
+            "title": "User Management",
+            "searchPlaceholder": "Search by name or email...",
             "noUsers": "No users registered.",
             "table": {
                 "name": "Name",
@@ -551,7 +599,11 @@
             "actions": {
                 "activate": "Activate",
                 "deactivate": "Deactivate"
-            }
+            },
+            "loading": "Loading services...",
+            "success": "Services loaded successfully",
+            "error": "Error loading services",
+            "searchPlaceholder": "Search by name or description..."
         },
         "inventory": {
             "title": "General Inventory",
@@ -581,7 +633,33 @@
         },
         "assets": {
             "title": "Assets",
+            "newAsset": "New Asset",
+            "confirmDelete": "Are you sure you want to delete this asset?",
+            "stats": {
+                "totalValue": "Total Asset Value",
+                "totalDepreciation": "Accumulated Depreciation",
+                "count": "Total Items",
+                "bookValue": "Current Book Value"
+            },
+            "filters": {
+                "searchPlaceholder": "Search by name or category..."
+            },
             "noAssets": "No assets registered.",
+            "business": {
+                "title": "Executive Summary",
+                "stats": {
+                    "revenue": "Revenue (Month)",
+                    "growth": "vs last month",
+                    "sales": "Total Sales",
+                    "averageTicket": "Average Ticket",
+                    "lastMonth": "Last Month"
+                },
+                "charts": {
+                    "salesTrend": "Sales Trend (Last 6 Months)",
+                    "loading": "Loading chart..."
+                },
+                "loading": "Loading statistics..."
+            },
             "table": {
                 "name": "Name",
                 "category": "Category",
@@ -597,6 +675,18 @@
         "liabilities": {
             "title": "Liabilities",
             "noLiabilities": "No liabilities registered.",
+            "new": "New Liability",
+            "stats": {
+                "totalDebt": "Total Debt",
+                "totalDebtDescription": "Capital + Interest",
+                "totalPending": "Pending Amount",
+                "totalPendingDescription": "To pay",
+                "totalPaid": "Total Paid",
+                "totalPaidDescription": "Paid so far",
+                "count": "Total of Liabilities",
+                "countDescription": "Total of Liabilities"
+            },
+            "searchPlaceholder": "Search by description or type...",
             "table": {
                 "type": "Type",
                 "description": "Description",
@@ -621,8 +711,15 @@
             "pendingLabel": "Pending"
         },
         "calendar": {
+            "alertError": "Error creating event",
+            "success": "Event created successfully",
             "title": "Calendar Events",
+            "description": "Manage events and campaigns displayed on the home page",
             "noEvents": "No events registered in the calendar.",
+            "newEvent": "New Event",
+            "editEvent": "Edit Event",
+            "registerEvent": "Register Event",
+            "placeholder": "Search by title or description...",
             "confirmDelete": "Are you sure you want to delete this event?",
             "table": {
                 "title": "Title",
@@ -643,8 +740,25 @@
             }
         },
         "gallery": {
+            "error": "Error loading images",
+            "success": "Image uploaded successfully",
+            "errorUpload": "Error uploading image",
+            "confirmDelete": "Are you sure you want to delete this image?",
+            "successDelete": "Image deleted successfully",
+            "errorDelete": "Error deleting image",
             "title": "Image Gallery",
+            "addImage": "Add Image",
             "noImages": "No images in the gallery.",
+            "titleEs": "Title (Spanish)",
+            "titleEn": "Title (English)",
+            "placeholderEs": "e.g., Campaña de Vacunación",
+            "placeholderEn": "e.g., Vaccination Campaign",
+            "image": "Image",
+            "button": {
+                "uploading": "Uploading...",
+                "upload": "Upload Image"
+            },
+            "searchPlaceholder": "Search by title...",
             "table": {
                 "preview": "Preview",
                 "title": "Title",
@@ -653,6 +767,7 @@
         },
         "roles": {
             "title": "User Role Management",
+            "description": "Assign Veterinarian or Client roles to registered users.",
             "noUsers": "No users registered.",
             "table": {
                 "user": "User",
@@ -660,7 +775,11 @@
                 "newRole": "New Role",
                 "actions": "Actions"
             },
-            "updateRole": "Update Role"
+            "updateRole": "Update Role",
+            "loading": "Loading roles...",
+            "success": "Role updated successfully",
+            "error": "Error updating role",
+            "searchPlaceholder": "Search by name or email..."
         },
         "roleLabels": {
             "administrador": "Administrator",
@@ -668,8 +787,18 @@
             "cliente": "Client"
         },
         "petCare": {
+            "errorCreate": "Error creating article",
+            "successCreate": "Article created successfully",
+            "errorUpdate": "Error updating article",
+            "successUpdate": "Article updated successfully",
+            "errorDelete": "Error deleting article",
+            "successDelete": "Article deleted successfully",
             "title": "Pet Care",
-            "noArticles": "No pet care articles registered.",
+            "description": "Manage articles and informative tips for clients",
+            "newArticle": "New Article",
+            "editArticle": "Edit Article",
+            "registerArticle": "Register Article",
+            "placeholder": "Search by title or category...",
             "confirmDelete": "Are you sure you want to delete this article?",
             "table": {
                 "title": "Title",
@@ -681,12 +810,299 @@
                 "titleLabel": "Title",
                 "categoryLabel": "Category",
                 "categoryPlaceholder": "e.g., Preventive Health, Nutrition",
-                "excerptLabel": "Excerpt / Short Description",
+                "excerptLabel": "Extracto / Descripción corta",
                 "linkLabel": "Link (URL)",
                 "dateLabel": "Publication Date",
                 "updateArticle": "Update Article",
                 "createArticle": "Create Article"
             }
+        },
+        "balance": {
+            "title": "General Balance",
+            "description": "Financial status of the company",
+            "loading": "Loading balance...",
+            "healthy": "Healthy",
+            "moderate": "Moderate",
+            "risk": "Risk",
+            "assets": "see Assets",
+            "liabilities": "see Liabilities",
+            "totalAssets": "Total Assets",
+            "totalLiabilities": "Total Liabilities",
+            "totalDebt": "Total Debt",
+            "totalPending": "Total Pending",
+            "totalPaid": "Total Paid",
+            "count": "Total of Liabilities",
+            "countDescription": "Total of Liabilities",
+            "registeredAssets": "Assets Registered",
+            "registeredLiabilities": "Liabilities Registered",
+            "netWorth": "Net worth",
+            "ownCapital": "Own Capital",
+            "equityDeficit": "Equity Deficit",
+            "accountingEquation": "Accounting Equation",
+            "asset": "Assets",
+            "liability": "Liabilities",
+            "equity": "heritage",
+            "financialHealth": {
+                "title": "Healh Financial",
+                "description": "Financial status of the company",
+                "healthy": "The equity represents more than 50% of the assets",
+                "moderate": "The equity represents between 25% and 50% of the assets",
+                "risk": "The equity represents less than 25% of the assets"
+            },
+            "visualBar": {
+                "title": "Financial Composition",
+                "description": "Financial Composition",
+                "heritage": "Heritage",
+                "debt": "Debt",
+                "risk": "Risk"
+            },
+            "ratiosfinancial": {
+                "title": "Financial Indicators",
+                "ratio": "Ratio of Heritage",
+                "porcentage": "Percentage of assets financed with own capital",
+                "debtRatio": "Debt Ratio",
+                "percentageAssets": "Percentage of assets financed with debt",
+                "depressedAcumulated": "Accumulated Depreciation",
+                "depressedAcumulatedDescription": "Loss of value due to use and time",
+                "healthy": "The heritage represents more than 50% of the assets",
+                "moderate": "The heritage represents between 25% and 50% of the assets",
+                "risk": "The heritage represents less than 25% of the assets",
+                "detail": "Additional Details",
+                "Totaldetail": "Total Debt",
+                "capitalInterest": "Capital + Interest",
+                "paidTotal": "Total Paid",
+                "inliabilities": "In Liabilities",
+                "initialValueAssets": "Initial Value Assets",
+                "beforeDepreciation": "Before Depreciation",
+                "presentValueAssets": "Present Value Assets",
+                "afterDepreciation": "After Depreciation",
+                "autoUpdate": "Auto Update",
+                "autoUpdateDescription": "This balance is updated every time you register an asset, pay a debt, or when assets depreciate monthly."
+            },
+            "detail": {
+                "detail": "Additional Details",
+                "Totaldetail": "Total Debt",
+                "capitalInterest": "Capital + Interest",
+                "paidTotal": "Total Paid",
+                "inliabilities": "In Liabilities",
+                "initialValueAssets": "Initial Value Assets",
+                "beforeDepreciation": "Before Depreciation",
+                "presentValueAssets": "Present Value Assets",
+                "afterDepreciation": "After Depreciation",
+                "autoUpdate": "Auto Update",
+                "autoUpdateDescription": "This balance is updated every time you register an asset, pay a debt, or when assets depreciate monthly."
+            }
+        },
+        "cashFlow": {
+            "confirmDelete": "Delete this transaction?",
+            "errorDeleteTransaction": "Error deleting transaction",
+            "catchErrorTransaction": "Error deleting transaction:",
+            "errorFetchingCashFlowData": "Error fetching cash flow data",
+            "loading": "Loading...",
+            "title": "Cash Flow",
+            "currentBox": "Current Box",
+            "description": "Control of income and expenses",
+            "registerTransaction": "Register Transaction",
+            "cashAvalible": "Cash Available",
+            "dailyBalance": "Daily Balance",
+            "monthBalance": "Monthly Balance",
+            "yearBalance": "Yearly Balance",
+            "transactions": "Transactions",
+            "totalRegister": "Total Registered",
+            "AutomaticIntegration": "Automatic Integration",
+            "automaticIntegration": {
+                "title": "Automatic Integration",
+                "description": "The sales are automatically registered here when completed. The payments of passives and the purchase of inventory will also be automatically registered. You only need to manually register general expenses and other miscellaneous income."
+            },
+            "placeholder": "Search by description or category...",
+            "form": {
+                "date": "Date",
+                "description": "Description",
+                "amount": "Amount",
+                "type": "Type",
+                "category": "Category",
+                "actions": "Actions"
+            },
+            "span": {
+                "income": "Income",
+                "expense": "Expense",
+                "auto": "Automatic",
+                "manual": "Manual",
+                "by": "By",
+                "plus": "+",
+                "minus": "-"
+            },
+            "button": {
+                "Delete": "Delete",
+                "Update": "Update",
+                "Create": "Create"
+            },
+            "filtered": {
+                "noData": "No transactions found",
+                "noDataTransaction": "No transactions registered. Register your first transaction using the button above."
+            }
+        },
+        "inventoryBackup": {
+            "newProduct": "New Product",
+            "ErrorFetchingData": "Error fetching data",
+            "confirmCopy": "Create a backup of the inventory?",
+            "successCopy": "Backup created and downloaded successfully",
+            "errorCopy": "Error creating backup",
+            "confirmDeleteBackup": "Delete this backup?",
+            "successDeleteBackup": "Backup deleted successfully",
+            "errorDeleteBackup": "Error deleting backup",
+            "span": {
+                "creating": "Creating",
+                "creatManualCopy": "Manually created",
+                "creatAutoCopy": "Automatically created"
+            },
+            "strong": {
+                "information": "Information"
+            },
+            "message": "Backups are generated in CSV format with all inventory products. The backup is automatically downloaded when created.",
+            "note": "💡 Note: Automatic backups (daily/weekly) are planned for a future update.",
+            "totalCopies": "Total of Copies",
+            "totalSize": "Total Size",
+            "search": "Search by name of file or type...",
+            "lastCopy": "Last Copy",
+            "title": "Inventory Backups",
+            "description": "Inventory Backups and inventory security copies",
+            "loading": "Loading...",
+            "form": {
+                "name": "Name",
+                "actions": "Actions"
+            },
+            "table": {
+                "file": "File",
+                "type": "Type",
+                "date": "Date",
+                "createdBy": "Created By",
+                "recordCount": "Record Count",
+                "fileSize": "File Size",
+                "actions": "Actions",
+                "noCopies": "No copies of backups. Create your first copy using the button above.",
+                "delete": "Delete",
+                "confirmDelete": "Delete this backup?",
+                "successDelete": "Backup deleted successfully",
+                "errorDelete": "Error deleting backup",
+                "products": "products"
+            }
+        },
+        "business": {
+            "errorFeching": "Error fetching analytics:",
+            "loading": "Cargando gráfico...",
+            "noAvailableData": "No hay datos disponibles",
+            "title": "Negocios Dashboard.",
+            "description": "Información general de tus negocios"
         }
+    },
+    "Activation": {
+        "invalidToken": "Invalid activation token. Please check the link.",
+        "passwordLength": "Password must be at least 6 characters",
+        "passwordLowercase": "Password must contain at least one lowercase letter",
+        "passwordUppercase": "Password must contain at least one uppercase letter",
+        "passwordNumber": "Password must contain at least one number",
+        "passwordsMismatch": "Passwords do not match",
+        "errorDefault": "Error activating account",
+        "titleInvalid": "Invalid Token",
+        "descriptionInvalid": "The activation link is invalid. Please check the link in your email.",
+        "titleSuccess": "Account Activated!",
+        "descriptionSuccess": "Your account has been successfully activated. Redirecting to your panel...",
+        "headerTitle": "Activate Your Account",
+        "headerDescription": "Set your password to access Veterinaria DrPaw",
+        "labelNewPassword": "New Password",
+        "placeholderNewPassword": "Minimum 6 characters",
+        "passwordRequirements": "Must contain uppercase, lowercase, and numbers",
+        "labelConfirmPassword": "Confirm Password",
+        "placeholderConfirmPassword": "Repeat your password",
+        "buttonActivating": "Activating...",
+        "buttonActivate": "Activate Account",
+        "footerProblem": "Problems with activation?",
+        "footerContact": "Contact us"
+    },
+    "ServiceForm": {
+        "nameLabel": "Service Name",
+        "durationLabel": "Approximate Duration (minutes)",
+        "descriptionLabel": "Description",
+        "basePriceLabel": "Base Price ($)",
+        "operatingCostLabel": "Operating Cost ($)",
+        "suppliesTitle": "Required Supplies",
+        "productLabel": "Product",
+        "selectProduct": "Select product...",
+        "quantityLabel": "Quantity",
+        "addButton": "Add",
+        "removeButton": "Remove",
+        "cancelButton": "Cancel",
+        "submitCreate": "Create Service",
+        "submitUpdate": "Update Service",
+        "saving": "Saving...",
+        "stock": "Stock: {quantity}",
+        "unknownProduct": "Unknown Product",
+        "alreadyAdded": "This supply has already been added."
+    },
+    "AppointmentDetails": {
+        "title": "Appointment Details",
+        "appointmentId": "Appointment: {id}",
+        "petLabel": "Pet",
+        "vetLabel": "Veterinarian",
+        "dateLabel": "Date",
+        "reasonLabel": "Reason",
+        "statusLabel": "Status",
+        "notesLabel": "Notes",
+        "unassigned": "Unassigned",
+        "editButton": "Edit",
+        "deleteButton": "Delete",
+        "saveButton": "Save",
+        "cancelButton": "Cancel",
+        "loading": "Loading...",
+        "notFound": "Appointment not found",
+        "confirmDelete": "Delete this appointment?",
+        "status": {
+            "pending": "Pending",
+            "confirmed": "Confirmed",
+            "cancelled": "Cancelled",
+            "completed": "Completed",
+            "accepted": "Accepted"
+        }
+    },
+    "PasswordRecovery": {
+        "headerTitle": "Recover Password",
+        "headerDescription": "Enter your email address and we'll send you a link to reset your password",
+        "labelEmail": "Email Address",
+        "placeholderEmail": "your@email.com",
+        "buttonSending": "Sending...",
+        "buttonSend": "Send Recovery Link",
+        "titleSuccess": "Email Sent!",
+        "descriptionSuccess": "If an account exists with that email, you will receive a link to reset your password. Please check your inbox.",
+        "backToLogin": "Back to login",
+        "footerRemember": "Remember your password?",
+        "footerLogin": "Log in",
+        "errorDefault": "Error requesting password recovery"
+    },
+    "PasswordReset": {
+        "verifying": "Verifying...",
+        "verifyingDescription": "We are verifying your recovery link",
+        "invalidToken": "Invalid recovery token. Please check the link.",
+        "titleInvalid": "Invalid Link",
+        "descriptionInvalid": "The recovery link is invalid or has expired. Please request a new link.",
+        "headerTitle": "Reset Password",
+        "headerDescription": "Enter your new password",
+        "labelNewPassword": "New Password",
+        "placeholderNewPassword": "Minimum 6 characters",
+        "passwordRequirements": "Must contain uppercase, lowercase and numbers",
+        "labelConfirmPassword": "Confirm Password",
+        "placeholderConfirmPassword": "Repeat your password",
+        "buttonResetting": "Resetting...",
+        "buttonReset": "Reset Password",
+        "titleSuccess": "Password Reset!",
+        "descriptionSuccess": "Your password has been reset successfully. Redirecting to your dashboard...",
+        "footerProblem": "Problems with recovery?",
+        "footerContact": "Contact us",
+        "passwordLength": "Password must be at least 6 characters",
+        "passwordLowercase": "Password must contain at least one lowercase letter",
+        "passwordUppercase": "Password must contain at least one uppercase letter",
+        "passwordNumber": "Password must contain at least one number",
+        "passwordsMismatch": "Passwords do not match",
+        "errorDefault": "Error resetting password"
     }
 }

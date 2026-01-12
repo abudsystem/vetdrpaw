@@ -13,24 +13,37 @@ import { CardSkeleton } from "@/components/ui/Skeleton";
 
 interface CalendarEvent {
     _id: string;
-    title: string;
+    title: string | { es: string; en: string };
     date: string;
-    description: string;
-    location?: string;
+    description: string | { es: string; en: string };
+    location?: string | { es: string; en: string };
 }
 
 export default function CalendarContent() {
     const locale = useLocale();
+    const currentLang = locale === 'es' ? 'es' : 'en';
 
     const { data: events = [], isLoading: loading } = useQuery({
         queryKey: ['calendar-events'],
         queryFn: () => apiClient<CalendarEvent[]>('/api/calendar-events'),
     });
 
+    const getLocalizedContent = (content: string | { es: string; en: string } | undefined) => {
+        if (!content) return "";
+        if (typeof content === 'string') return content;
+        return content[currentLang] || content.es || "";
+    };
+
     const handleEventClick = (info: any) => {
         info.jsEvent.preventDefault();
-        const event = events.find(e => e.title === info.event.title && e.date === info.event.startStr);
+        // Since we pass extendedProps, we can use them directly or find by ID
+        const event = events.find(e => e._id === info.event.extendedProps._id);
         if (!event) return;
+
+        // Localized values
+        const title = getLocalizedContent(event.title);
+        const description = getLocalizedContent(event.description);
+        const location = getLocalizedContent(event.location);
 
         // Format dates for Google Calendar (YYYYMMDD)
         const dateStr = event.date.replace(/-/g, "");
@@ -43,11 +56,11 @@ export default function CalendarContent() {
 
         const googleUrl = new URL("https://www.google.com/calendar/render");
         googleUrl.searchParams.append("action", "TEMPLATE");
-        googleUrl.searchParams.append("text", event.title);
+        googleUrl.searchParams.append("text", title);
         googleUrl.searchParams.append("dates", `${dateStr}/${endDateStr}`);
-        googleUrl.searchParams.append("details", event.description);
-        if (event.location) {
-            googleUrl.searchParams.append("location", event.location);
+        googleUrl.searchParams.append("details", description);
+        if (location) {
+            googleUrl.searchParams.append("location", location);
         }
 
         window.open(googleUrl.toString(), "_blank");
@@ -117,8 +130,9 @@ export default function CalendarContent() {
                     right: "",
                 }}
                 events={events.map(e => ({
-                    title: e.title,
+                    title: typeof e.title === 'string' ? e.title : e.title[currentLang] || e.title.es || "",
                     date: e.date,
+                    extendedProps: { ...e }
                 }))}
                 height="auto"
                 fixedWeekCount={false}

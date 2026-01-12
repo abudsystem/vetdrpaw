@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Product } from '@/types/product';
-import { InventoryServices } from '@/lib/api/inventory.service';
+import { InventoryServices } from "@/services/client/inventory.service";
 
 export const useInventory = () => {
     const [products, setProducts] = useState<Product[]>([]);

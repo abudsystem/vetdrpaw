@@ -3,7 +3,7 @@
 import React from "react";
 import { PetCareItem } from "@/hooks/usePetCare";
 import { Edit, Trash2, ExternalLink, FileText } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface PetCareListProps {
     articles: PetCareItem[];
@@ -14,6 +14,8 @@ interface PetCareListProps {
 export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) => {
     const t = useTranslations('AdminDashboard.petCare');
     const tc = useTranslations('ClientPanel.common');
+    const locale = useLocale();
+    const currentLang = (locale === 'en' || locale === 'es') ? locale : 'es';
 
     if (articles.length === 0) {
         return (
@@ -43,11 +45,11 @@ export const PetCareList = ({ articles, onEdit, onDelete }: PetCareListProps) =>
                     {articles.map((article) => (
                         <tr key={article._id} className="hover:bg-gray-50 transition-colors">
                             <td className="py-3 px-4 border-b text-gray-800 font-bold">
-                                {article.title}
+                                {article.title[currentLang]}
                             </td>
                             <td className="py-3 px-4 border-b text-gray-700">
                                 <span className="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full font-bold">
-                                    {article.category}
+                                    {article.category[currentLang]}
                                 </span>
                             </td>
                             <td className="py-3 px-4 border-b text-gray-600 text-sm font-bold">

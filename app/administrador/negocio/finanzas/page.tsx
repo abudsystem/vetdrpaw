@@ -16,6 +16,8 @@ import {
     Filler,
     RadialLinearScale
 } from "chart.js";
+import { useTranslations } from "next-intl";
+
 
 ChartJS.register(
     CategoryScale,
@@ -42,6 +44,7 @@ const getInitialChartType = (key: string, defaultType: typeof chartTypes[number]
 };
 
 export default function FinanceAnalyticsPage() {
+    const t = useTranslations("AdminDashboard.dashboard.business.charts");
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -71,7 +74,7 @@ export default function FinanceAnalyticsPage() {
     useEffect(() => { localStorage.setItem("netFlowChartType", netFlowChartType); }, [netFlowChartType]);
     useEffect(() => { localStorage.setItem("accumulatedChartType", accumulatedChartType); }, [accumulatedChartType]);
 
-    if (loading) return <div className="p-8">Cargando datos financieros...</div>;
+    if (loading) return <div className="p-8">{t("analysis")}</div>;
     if (!data) return <div className="p-8">No hay datos disponibles.</div>;
 
     const months = [...new Set(data.cashFlow.map((d: any) => d._id.month))];
@@ -153,11 +156,11 @@ export default function FinanceAnalyticsPage() {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">💰 Análisis Financiero</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">💰 {t("analysis")}</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Flujo de Caja (Ingresos vs Egresos)</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-700">{t("cashFlow")}</h3>
                     {renderChartSelector(cashFlowChartType, setCashFlowChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(cashFlowChartType, cashFlowChartData)}
@@ -165,7 +168,7 @@ export default function FinanceAnalyticsPage() {
                 </div>
 
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Flujo Neto Mensual</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-700">{t("monthlyNetFlow")}</h3>
                     {renderChartSelector(netFlowChartType, setNetFlowChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(netFlowChartType, netFlowChartData)}
@@ -173,7 +176,7 @@ export default function FinanceAnalyticsPage() {
                 </div>
 
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Saldo Acumulado de Caja</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-700">{t("cashAcumulatedBalance")}</h3>
                     {renderChartSelector(accumulatedChartType, setAccumulatedChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(accumulatedChartType, accumulatedBalanceChartData)}

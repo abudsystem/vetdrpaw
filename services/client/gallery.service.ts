@@ -1,8 +1,8 @@
-import { api } from "../api";
+import { api } from "@/lib/api";
 
 export interface GalleryImage {
     _id: string;
-    title: string;
+    title: string | { es: string; en: string };
     imageUrl: string;
     createdAt: string;
 }
@@ -12,7 +12,7 @@ export const GalleryService = {
         return await api("/api/admin/gallery");
     },
 
-    create: async (data: { title: string; imageUrl: string }): Promise<GalleryImage> => {
+    create: async (data: { title: string | { es: string; en: string }; imageUrl: string }): Promise<GalleryImage> => {
         return await api("/api/admin/gallery", {
             method: "POST",
             body: JSON.stringify(data),

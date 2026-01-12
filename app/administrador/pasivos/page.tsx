@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LiabilityList } from "@/components/administrador/pasivos/LiabilityList";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Liability {
     _id: string;
@@ -36,6 +37,7 @@ export default function LiabilitiesPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const router = useRouter();
+    const t = useTranslations('AdminDashboard.liabilities');
 
     useEffect(() => {
         fetchData();
@@ -92,12 +94,12 @@ export default function LiabilitiesPage() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-gray-800">Gestión de Pasivos</h1>
+                <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
                 <Link
                     href="/administrador/pasivos/nuevo"
                     className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
                 >
-                    Nuevo Pasivo
+                    {t('new')}
                 </Link>
             </div>
 
@@ -105,22 +107,22 @@ export default function LiabilitiesPage() {
             {stats && (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
-                        <h3 className="text-gray-700 text-sm font-medium">Deuda Total</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">{t('stats.totalDebt')}</h3>
                         <p className="text-2xl font-bold text-gray-800">${stats.totalDebt.toLocaleString()}</p>
-                        <p className="text-xs text-gray-600 mt-1">Capital + Intereses</p>
+                        <p className="text-xs text-gray-600 mt-1">{t('stats.totalDebtDescription')}</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-orange-500">
-                        <h3 className="text-gray-700 text-sm font-medium">Monto Pendiente</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">{t('stats.totalPending')}</h3>
                         <p className="text-2xl font-bold text-gray-800">${stats.totalPending.toLocaleString()}</p>
-                        <p className="text-xs text-gray-600 mt-1">Por pagar</p>
+                        <p className="text-xs text-gray-600 mt-1">{t('stats.totalPendingDescription')}</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
-                        <h3 className="text-gray-700 text-sm font-medium">Total Pagado</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">{t('stats.totalPaid')}</h3>
                         <p className="text-2xl font-bold text-gray-800">${stats.totalPaid.toLocaleString()}</p>
-                        <p className="text-xs text-gray-600 mt-1">Abonado hasta ahora</p>
+                        <p className="text-xs text-gray-600 mt-1">{t('stats.totalPaidDescription')}</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                        <h3 className="text-gray-700 text-sm font-medium">Total de Pasivos</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">{t('stats.count')}</h3>
                         <p className="text-2xl font-bold text-gray-800">{stats.count}</p>
                     </div>
                 </div>
@@ -134,7 +136,7 @@ export default function LiabilitiesPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por descripción o tipo..."
+                        placeholder={t('searchPlaceholder')}
                         className=" text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                     />
                 </div>

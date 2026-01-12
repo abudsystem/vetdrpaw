@@ -17,89 +17,67 @@ const createPetSchema = z.object({
   esterilizado: z.boolean().optional(),
   microchip: z.string().optional(),
   notasEspeciales: z.string().optional(),
+  propietario: z.string().optional(),
 });
 
 export const PetController = {
-  create: apiHandler(async (req: Request) => {
+  create: apiHandler(async (req: Request, { user }) => {
     const body = await req.json();
-
-    // Intentar obtener usuario del token si no viene en el body
-    if (!body.propietario) {
-      const { cookies } = await import("next/headers");
-      const { verifyToken } = await import("@/lib/jwt");
-
-      const cookieStore = await cookies();
-      const token = cookieStore.get("token")?.value;
-
-      if (token) {
-        try {
-          const decoded = verifyToken(token);
-          body.propietario = decoded.id;
-        } catch (e) {
-          // Token invalido, ignorar y dejar que falle validación si es requerido
-        }
-      }
-    }
-
     const data = createPetSchema.parse(body);
 
-    if (!body.propietario) throw new AppError("Propietario is required", 400);
-
-    const pet = await PetService.create({ ...data, propietario: body.propietario } as any);
+    const pet = await PetService.create({
+      ...data,
+      propietario: data.propietario || user?.id
+    } as any);
     return NextResponse.json(pet, { status: 201 });
-  }),
+  }, { requireAuth: true }),
 
   listByOwner: apiHandler(async (req: Request) => {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
-    if (!userId) throw new AppError("User ID is required", 400);
+    if (!userId) throw new AppError("El ID de usuario es requerido", 400);
 
     const pets = await PetService.listByOwner(userId);
     return NextResponse.json(pets);
-  }),
+  }, { requiredRoles: ["veterinario", "administrador"] }),
+
+  listMyPets: apiHandler(async (req, { user }) => {
+    const pets = await PetService.listByOwner(user!.id);
+    return NextResponse.json(pets);
+  }, { requireAuth: true }),
 
   listAll: apiHandler(async () => {
     const pets = await PetService.listAll();
-    console.log("Controller listAll pets:", pets);
     return NextResponse.json(pets);
-  }),
+  }, { requiredRoles: ["veterinario", "administrador"] }),
 
-  getOne: apiHandler(async (req: Request) => {
+  getOne: apiHandler(async (req: Request, { user, params }) => {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    if (!id) throw new AppError("ID is required", 400);
+    const id = params?.id || searchParams.get("id");
+    if (!id) throw new AppError("El ID es requerido", 400);
 
-    const pet = await PetService.getOne(id);
-    if (!pet) throw new AppError("Pet not found", 404);
-    console.log("Pet found:", pet);
+    const pet = await PetService.getOne(id, user!);
     return NextResponse.json(pet);
-  }),
+  }, { requireAuth: true }),
 
-  update: apiHandler(async (req: Request) => {
+  update: apiHandler(async (req: Request, { user, params }) => {
     const body = await req.json();
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = params?.id || searchParams.get("id");
 
-    if (!id) throw new AppError("ID is required", 400);
+    if (!id) throw new AppError("El ID es requerido", 400);
 
-    // Validate body partially? Or just pass to service
-    // For now, assuming body is partial update
-
-    const updatedPet = await PetService.update(id, body);
-    if (!updatedPet) throw new AppError("Pet not found", 404);
-
+    const updatedPet = await PetService.update(id, body, user!);
     return NextResponse.json(updatedPet);
-  }),
+  }, { requireAuth: true }),
 
-  delete: apiHandler(async (req: Request) => {
+  delete: apiHandler(async (req: Request, { user, params }) => {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = params?.id || searchParams.get("id");
 
-    if (!id) throw new AppError("ID is required", 400);
+    if (!id) throw new AppError("El ID es requerido", 400);
 
-    const deletedPet = await PetService.delete(id);
-    if (!deletedPet) throw new AppError("Pet not found", 404);
-
+    const deletedPet = await PetService.delete(id, user!);
     return NextResponse.json(deletedPet);
-  }),
+  }, { requireAuth: true }),
 };

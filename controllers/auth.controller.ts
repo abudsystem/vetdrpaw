@@ -29,4 +29,11 @@ export const AuthController = {
     const result = await AuthService.login(data.email, data.password);
     return NextResponse.json(result, { status: 200 });
   }),
+
+  logout: apiHandler(async () => {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    cookieStore.delete("token");
+    return NextResponse.json({ message: "Logout successful" });
+  }),
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAppointments, deleteAppointment } from "@/app/api/appointment";
+import { ClientAppointmentService } from "@/services/client/client-appointment.service";
 import AppointmentForm from "./AppointmentForm";
 
 interface Props {
@@ -18,7 +18,7 @@ export default function AppointmentList({ token, pets, veterinarians }: Props) {
   const fetchAppointments = async () => {
     setLoading(true);
     try {
-      const data = await getAppointments(token);
+      const data = await ClientAppointmentService.getAppointments(token);
       setAppointments(data);
     } catch (err) {
       console.error(err);
@@ -33,7 +33,7 @@ export default function AppointmentList({ token, pets, veterinarians }: Props) {
   const handleDelete = async (id: string) => {
     if (!confirm("¿Deseas eliminar esta cita?")) return;
     try {
-      await deleteAppointment(id, token);
+      await ClientAppointmentService.deleteAppointment(id, token);
       fetchAppointments();
     } catch (err) {
       console.error(err);

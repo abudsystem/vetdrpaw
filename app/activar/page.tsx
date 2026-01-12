@@ -4,10 +4,13 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Mail, CheckCircle, AlertCircle, Loader2, Eye, EyeOff } from "lucide-react";
 
+import { useTranslations } from "next-intl";
+
 function ActivationContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
+    const t = useTranslations('Activation');
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,22 +22,22 @@ function ActivationContent() {
 
     useEffect(() => {
         if (!token) {
-            setError("Token de activación no válido. Por favor verifica el enlace.");
+            setError(t('invalidToken'));
         }
-    }, [token]);
+    }, [token, t]);
 
     const validatePassword = (pwd: string): string | null => {
         if (pwd.length < 6) {
-            return "La contraseña debe tener al menos 6 caracteres";
+            return t('passwordLength');
         }
         if (!/(?=.*[a-z])/.test(pwd)) {
-            return "La contraseña debe contener al menos una letra minúscula";
+            return t('passwordLowercase');
         }
         if (!/(?=.*[A-Z])/.test(pwd)) {
-            return "La contraseña debe contener al menos una letra mayúscula";
+            return t('passwordUppercase');
         }
         if (!/(?=.*\d)/.test(pwd)) {
-            return "La contraseña debe contener al menos un número";
+            return t('passwordNumber');
         }
         return null;
     };
@@ -45,7 +48,7 @@ function ActivationContent() {
 
         // Validate passwords match
         if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden");
+            setError(t('passwordsMismatch'));
             return;
         }
 
@@ -72,7 +75,7 @@ function ActivationContent() {
                     throw new Error(data.errors[0].message);
                 }
 
-                throw new Error(data.message || "Error al activar la cuenta");
+                throw new Error(data.message || t('errorDefault'));
             }
 
 
@@ -97,9 +100,9 @@ function ActivationContent() {
             <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
                     <AlertCircle className="mx-auto text-red-500 mb-4" size={48} />
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Token Inválido</h2>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('titleInvalid')}</h2>
                     <p className="text-gray-600">
-                        El enlace de activación no es válido. Por favor verifica el enlace en tu correo electrónico.
+                        {t('descriptionInvalid')}
                     </p>
                 </div>
             </div>
@@ -111,9 +114,9 @@ function ActivationContent() {
             <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
                     <CheckCircle className="mx-auto text-green-500 mb-4" size={48} />
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Cuenta Activada!</h2>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('titleSuccess')}</h2>
                     <p className="text-gray-600 mb-4">
-                        Tu cuenta ha sido activada exitosamente. Redirigiendo a tu panel...
+                        {t('descriptionSuccess')}
                     </p>
                     <Loader2 className="mx-auto animate-spin text-purple-600" size={32} />
                 </div>
@@ -129,9 +132,9 @@ function ActivationContent() {
                     <div className="inline-flex p-4 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full mb-4">
                         <Mail className="text-white" size={32} />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">Activa tu Cuenta</h1>
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2">{t('headerTitle')}</h1>
                     <p className="text-gray-600">
-                        Establece tu contraseña para acceder a Veterinaria DrPaw
+                        {t('headerDescription')}
                     </p>
                 </div>
 
@@ -148,7 +151,7 @@ function ActivationContent() {
                     {/* Password Field */}
                     <div>
                         <label className="block text-sm font-medium text-black mb-2">
-                            Nueva Contraseña
+                            {t('labelNewPassword')}
                         </label>
                         <div className="relative">
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={20} />
@@ -158,7 +161,7 @@ function ActivationContent() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-black"
-                                placeholder="Mínimo 6 caracteres"
+                                placeholder={t('placeholderNewPassword')}
                                 disabled={loading}
                             />
                             <button
@@ -170,14 +173,14 @@ function ActivationContent() {
                             </button>
                         </div>
                         <p className="mt-1 text-xs text-black">
-                            Debe contener mayúsculas, minúsculas y números
+                            {t('passwordRequirements')}
                         </p>
                     </div>
 
                     {/* Confirm Password Field */}
                     <div>
                         <label className="block text-sm font-medium text-black mb-2">
-                            Confirmar Contraseña
+                            {t('labelConfirmPassword')}
                         </label>
                         <div className="relative">
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={20} />
@@ -187,7 +190,7 @@ function ActivationContent() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition text-black"
-                                placeholder="Repite tu contraseña"
+                                placeholder={t('placeholderConfirmPassword')}
                                 disabled={loading}
                             />
                             <button
@@ -209,12 +212,12 @@ function ActivationContent() {
                         {loading ? (
                             <>
                                 <Loader2 className="animate-spin" size={20} />
-                                Activando...
+                                {t('buttonActivating')}
                             </>
                         ) : (
                             <>
                                 <CheckCircle size={20} />
-                                Activar Cuenta
+                                {t('buttonActivate')}
                             </>
                         )}
                     </button>
@@ -222,9 +225,9 @@ function ActivationContent() {
 
                 {/* Footer */}
                 <div className="mt-6 text-center text-sm text-gray-500">
-                    ¿Problemas con la activación?{" "}
+                    {t('footerProblem')}{" "}
                     <a href="/contacto" className="text-purple-600 hover:text-purple-700 font-medium">
-                        Contáctanos
+                        {t('footerContact')}
                     </a>
                 </div>
             </div>

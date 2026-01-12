@@ -16,6 +16,7 @@ import {
     RadialLinearScale,
     Filler
 } from "chart.js";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
     CategoryScale,
@@ -42,6 +43,7 @@ const getInitialChartType = (key: string, defaultType: typeof chartTypes[number]
 };
 
 export default function OperationsAnalyticsPage() {
+    const t = useTranslations("AdminDashboard.dashboard.business.charts");
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -81,7 +83,7 @@ export default function OperationsAnalyticsPage() {
                     "#FFCE56", // Pendiente
                     "#4BC0C0", // Aceptada
                     "#FF6384", // Cancelada
-                    "#00bfff", // Completada
+                    "#00bfff", // Completado
                 ],
             },
         ],
@@ -124,12 +126,12 @@ export default function OperationsAnalyticsPage() {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">🏥 Análisis de Operaciones</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">🏥 {t("titleOperations")}</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Appointment Status */}
                 <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Estado de Citas (Mes Actual)</h3>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-700">{t("appointmentStatus")}</h3>
                     {renderChartSelector(appointmentChartType, setAppointmentChartType)}
                     <div className="w-full max-w-md h-64 flex justify-center">
                         {renderChart(appointmentChartType, appointmentStatusData)}

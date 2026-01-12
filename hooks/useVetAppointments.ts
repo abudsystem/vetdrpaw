@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Appointment, AppointmentFormData, AppointmentStatus } from "@/components/veterinario/citas/types";
 import { filterByStatus, getPaginatedData, getTotalPages } from "@/components/veterinario/citas/utils";
-import { AppointmentServices } from "@/lib/api/appointment.service";
-import { UserServices } from "@/lib/api/user.service";
+import { AppointmentServices } from "@/services/client/appointment.service";
+import { UserServices } from "@/services/client/user.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useVetAppointments = () => {

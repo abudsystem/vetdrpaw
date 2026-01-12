@@ -5,8 +5,10 @@ import { usePetCare, PetCareItem } from "@/hooks/usePetCare";
 import { PetCareList } from "@/components/administrador/pet-care/PetCareList";
 import PetCareForm from "@/components/administrador/pet-care/PetCareForm";
 import { Plus, X, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function AdminPetCarePage() {
+    const t = useTranslations('AdminDashboard.petCare');
     const { articles, loading, createArticle, updateArticle, deleteArticle } = usePetCare();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingArticle, setEditingArticle] = useState<PetCareItem | null>(null);
@@ -17,7 +19,7 @@ export default function AdminPetCarePage() {
         if (success) {
             setIsFormOpen(false);
         } else {
-            alert("Error al crear el artículo");
+            alert(t("errorCreate"));
         }
     };
 
@@ -28,7 +30,7 @@ export default function AdminPetCarePage() {
             setEditingArticle(null);
             setIsFormOpen(false);
         } else {
-            alert("Error al actualizar el artículo");
+            alert(t("errorUpdate"));
         }
     };
 
@@ -44,16 +46,18 @@ export default function AdminPetCarePage() {
 
     const filteredArticles = articles.filter(
         (article) =>
-            article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            article.category.toLowerCase().includes(searchTerm.toLowerCase())
+            (article.title?.es?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (article.title?.en?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (article.category?.es?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (article.category?.en?.toLowerCase() || "").includes(searchTerm.toLowerCase())
     );
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md min-h-[600px]">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Gestión de Cuidado de Mascotas</h1>
-                    <p className="text-gray-500 text-sm mt-1">Administra los artículos y consejos informativos para los clientes.</p>
+                    <h1 className="text-2xl font-bold text-gray-800">{t("title")}</h1>
+                    <p className="text-gray-500 text-sm mt-1">{t("description")}</p>
                 </div>
                 {!isFormOpen && (
                     <button
@@ -61,7 +65,7 @@ export default function AdminPetCarePage() {
                         className="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors flex items-center gap-2"
                     >
                         <Plus size={20} />
-                        Nuevo Artículo
+                        {t("newArticle")}
                     </button>
                 )}
             </div>
@@ -70,7 +74,7 @@ export default function AdminPetCarePage() {
                 <div className="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-semibold text-gray-800">
-                            {editingArticle ? "Editar Artículo" : "Registrar Nuevo Artículo"}
+                            {editingArticle ? t("editArticle") : t("registerArticle")}
                         </h2>
                         <button onClick={handleCancel} className="text-gray-400 hover:text-gray-600">
                             <X size={24} />
@@ -93,7 +97,7 @@ export default function AdminPetCarePage() {
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Buscar por título o categoría..."
+                                placeholder={t("placeholder")}
                                 className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                             />
                         </div>

@@ -11,6 +11,7 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
     CategoryScale,
@@ -27,11 +28,12 @@ interface SalesChartProps {
 }
 
 export default function SalesChart({ data }: SalesChartProps) {
+    const t = useTranslations('AdminDashboard.dashboard.business.charts');
     const chartData = {
         labels: data.map((d: any) => d._id),
         datasets: [
             {
-                label: "Ventas Mensuales ($)",
+                label: t('salesTrend'),
                 data: data.map((d: any) => d.total),
                 borderColor: "rgb(75, 192, 192)",
                 backgroundColor: "rgba(75, 192, 192, 0.5)",

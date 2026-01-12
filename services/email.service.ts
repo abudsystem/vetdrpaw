@@ -128,6 +128,79 @@ export const EmailService = {
   },
 
   /**
+   * Sends password reset email
+   */
+  sendPasswordResetEmail: async (
+    email: string,
+    name: string,
+    token: string
+  ): Promise<void> => {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const resetUrl = `${baseUrl}/restablecer-contrasena?token=${token}`;
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); color: white; padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0; }
+            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+            .content { background: #f9fafb; padding: 40px 30px; border-radius: 0 0 12px 12px; }
+            .content h2 { color: #6366f1; margin-top: 0; }
+            .button { display: inline-block; padding: 16px 32px; background: #a855f7; color: white !important; text-decoration: none; border-radius: 8px; margin: 24px 0; font-weight: 600; box-shadow: 0 4px 6px rgba(168, 85, 247, 0.2); }
+            .button:hover { background: #9333ea; }
+            .url-box { background: #fff; padding: 16px; border-radius: 8px; word-break: break-all; border: 1px solid #e5e7eb; margin: 16px 0; }
+            .footer { text-align: center; margin-top: 24px; color: #6b7280; font-size: 13px; }
+            .warning { background: #fef3c7; padding: 12px; border-radius: 6px; border-left: 4px solid #f59e0b; margin: 16px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>🔒 Recuperación de Contraseña</h1>
+            </div>
+            <div class="content">
+              <h2>Hola ${name},</h2>
+              <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en Veterinaria DrPaw.</p>
+              
+              <p>Para crear una nueva contraseña, haz clic en el siguiente botón:</p>
+              
+              <div style="text-align: center;">
+                <a href="${resetUrl}" class="button">Restablecer Mi Contraseña</a>
+              </div>
+              
+              <p>O copia y pega este enlace en tu navegador:</p>
+              <p class="url-box">
+                ${resetUrl}
+              </p>
+              
+              <div class="warning">
+                <p><strong>⏰ Este enlace expirará en 24 horas.</strong></p>
+              </div>
+              
+              <p>Si no solicitaste restablecer tu contraseña, puedes ignorar este correo de forma segura. Tu contraseña actual seguirá siendo válida.</p>
+              
+              <p>Saludos,<br>El equipo de Veterinaria DrPaw</p>
+            </div>
+            <div class="footer">
+              <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    await EmailService.send({
+      to: email,
+      subject: "Recupera tu contraseña - Veterinaria DrPaw 🔒",
+      html,
+    });
+  },
+
+  /**
    * Generates a secure random token
    */
   generateToken: (): string => {

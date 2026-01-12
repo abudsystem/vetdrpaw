@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CashFlowTransaction {
     _id: string;
@@ -31,6 +32,7 @@ interface Stats {
 }
 
 export default function CashFlowPage() {
+    const t = useTranslations('AdminDashboard.cashFlow');
     const [transactions, setTransactions] = useState<CashFlowTransaction[]>([]);
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState(true);
@@ -56,14 +58,14 @@ export default function CashFlowPage() {
                 setStats(data);
             }
         } catch (error) {
-            console.error("Error fetching cash flow data:", error);
+            console.error(t("errorFetchingCashFlowData"), error);
         } finally {
             setLoading(false);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("¿Eliminar esta transacción?")) return;
+        if (!confirm(t("confirmDelete"))) return;
 
         try {
             const res = await fetch(`/api/cashflow/${id}`, {
@@ -73,10 +75,10 @@ export default function CashFlowPage() {
             if (res.ok) {
                 fetchData();
             } else {
-                alert("Error al eliminar la transacción");
+                alert(t("errorDeleteTransaction"));
             }
         } catch (error) {
-            console.error("Error deleting transaction:", error);
+            console.error(t("catchErrorTransaction"), error);
         }
     };
 
@@ -86,21 +88,21 @@ export default function CashFlowPage() {
             transaction.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="p-8">Cargando...</div>;
+    if (loading) return <div className="p-8">{t("loading")}</div>;
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Flujo de Caja</h1>
-                    <p className="text-gray-600 mt-1">Control de entradas y salidas de dinero</p>
+                    <h1 className="text-3xl font-bold text-gray-800">{t("title")}</h1>
+                    <p className="text-gray-600 mt-1">{t("description")}</p>
                 </div>
                 <Link
                     href="/administrador/flujodecaja/nuevo"
                     className="bg-emerald-600 text-white px-6 py-2 rounded-md hover:bg-emerald-700 transition-colors flex items-center gap-2"
                 >
                     <span className="text-xl">💵</span>
-                    Registrar Transacción
+                    {t("registerTransaction")}
                 </Link>
             </div>
 
@@ -111,15 +113,15 @@ export default function CashFlowPage() {
                         ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-700'
                         : 'bg-gradient-to-br from-red-500 to-red-600 border-red-700'
                         } text-white`}>
-                        <h3 className="text-sm font-medium opacity-90">💰 Caja Actual</h3>
+                        <h3 className="text-sm font-medium opacity-90">💰 {t("currentBox")}</h3>
                         <p className="text-3xl font-bold mt-2">
                             ${stats.currentCash.toLocaleString()}
                         </p>
-                        <p className="text-xs opacity-75 mt-1">Efectivo disponible</p>
+                        <p className="text-xs opacity-75 mt-1">{t("cashAvalible")}</p>
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                        <h3 className="text-gray-700 text-sm font-medium">📅 Balance Diario</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">📅 {t("dailyBalance")}</h3>
                         <p className={`text-2xl font-bold ${stats.daily.balance >= 0 ? 'text-green-600' : 'text-red-600'
                             }`}>
                             ${stats.daily.balance.toLocaleString()}
@@ -131,7 +133,7 @@ export default function CashFlowPage() {
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
-                        <h3 className="text-gray-700 text-sm font-medium">📊 Balance Mensual</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">📊 {t("monthBalance")}</h3>
                         <p className={`text-2xl font-bold ${stats.monthly.balance >= 0 ? 'text-green-600' : 'text-red-600'
                             }`}>
                             ${stats.monthly.balance.toLocaleString()}
@@ -143,9 +145,9 @@ export default function CashFlowPage() {
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-gray-500">
-                        <h3 className="text-gray-700 text-sm font-medium">📝 Transacciones</h3>
+                        <h3 className="text-gray-700 text-sm font-medium">📝 {t("transactions")}</h3>
                         <p className="text-2xl font-bold text-gray-800">{stats.totalTransactions}</p>
-                        <p className="text-xs text-gray-600 mt-1">Total registrado</p>
+                        <p className="text-xs text-gray-600 mt-1">{t("totalRegister")}</p>
                     </div>
                 </div>
             )}
@@ -158,10 +160,10 @@ export default function CashFlowPage() {
                     </div>
                     <div className="ml-3">
                         <p className="text-sm text-blue-700">
-                            <strong>💡 Integración Automática:</strong> Las <strong>ventas</strong> se registran automáticamente aquí cuando se completan.
-                            Los pagos de <strong>pasivos</strong> y compras de <strong>inventario</strong> también se reflejarán automáticamente.
-                            Solo necesitas registrar manualmente gastos generales y otros ingresos misceláneos.
+                            <strong>💡 {t('automaticIntegration.title')}</strong>{" "}
+                            {t('automaticIntegration.description')}
                         </p>
+
                     </div>
                 </div>
             </div>
@@ -174,7 +176,7 @@ export default function CashFlowPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por descripción o categoría..."
+                        placeholder={t("placeholder")}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
                     />
                 </div>
@@ -185,12 +187,12 @@ export default function CashFlowPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Fecha</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tipo</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Categoría</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Descripción</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Monto</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">Acciones</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.date")}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.type")}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.category")}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.description")}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.amount")}</th>
+                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.actions")}</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -204,7 +206,7 @@ export default function CashFlowPage() {
                                         ? 'bg-green-100 text-green-800'
                                         : 'bg-red-100 text-red-800'
                                         }`}>
-                                        {transaction.type === 'INGRESO' ? '↑ INGRESO' : '↓ EGRESO'}
+                                        {transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
@@ -217,28 +219,28 @@ export default function CashFlowPage() {
                                     <div className="text-xs text-gray-700">
                                         Por: {transaction.createdBy}
                                         {transaction.relatedDocument && (
-                                            <span className="ml-2 text-blue-600">🤖 Auto</span>
+                                            <span className="ml-2 text-blue-600">🤖 {t('span.auto')}</span>
                                         )}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`text-lg font-bold ${transaction.type === 'INGRESO' ? 'text-green-600' : 'text-red-600'
+                                    <span className={`text-lg font-bold ${transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')
                                         }`}>
-                                        {transaction.type === 'INGRESO' ? '+' : '-'}
+                                        {transaction.type === 'INGRESO' ? t('span.plus') : t('span.minus')}
                                         ${transaction.amount.toLocaleString()}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     {transaction.relatedDocument ? (
                                         <span className="text-gray-600 cursor-not-allowed" title="Entrada automática - no se puede eliminar">
-                                            🔒 Automático
+                                            🔒 {t('span.auto')}
                                         </span>
                                     ) : (
                                         <button
                                             onClick={() => handleDelete(transaction._id)}
                                             className="text-red-600 hover:text-red-900"
                                         >
-                                            Eliminar
+                                            {t('button.Delete')}
                                         </button>
                                     )}
                                 </td>
@@ -248,7 +250,7 @@ export default function CashFlowPage() {
                 </table>
                 {filteredTransactions.length === 0 && (
                     <div className="p-6 text-center text-gray-700">
-                        {searchTerm ? "No se encontraron transacciones" : "No hay transacciones registradas. Registra tu primera transacción usando el botón superior."}
+                        {searchTerm ? t('filtered.noData') : t('filtered.noDataTransactions')}
                     </div>
                 )}
             </div>

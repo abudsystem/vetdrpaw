@@ -4,6 +4,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { BackupMobileCard } from './BackupMobileCard';
 import { Pagination } from '@/components/ui/Pagination';
 import { usePagination } from '@/hooks/usePagination';
+import { useTranslations } from 'next-intl';
 
 interface Backup {
     _id: string;
@@ -22,6 +23,7 @@ interface BackupListProps {
 }
 
 export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) => {
+    const t = useTranslations('AdminDashboard.inventoryBackup');
     const {
         paginatedItems: paginatedBackups,
         currentPage,
@@ -33,7 +35,7 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
     if (backups.length === 0) {
         return (
             <div className="p-6 text-center text-gray-700 bg-white rounded-lg shadow">
-                No hay copias de seguridad. Crea tu primera copia usando el botón superior.
+                {t('noCopies')}
             </div>
         );
     }
@@ -57,13 +59,13 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Archivo</TableHead>
-                            <TableHead>Tipo</TableHead>
-                            <TableHead>Fecha</TableHead>
-                            <TableHead>Creado Por</TableHead>
-                            <TableHead>Registros</TableHead>
-                            <TableHead>Tamaño</TableHead>
-                            <TableHead className="text-right">Acciones</TableHead>
+                            <TableHead>{t('table.file')}</TableHead>
+                            <TableHead>{t('table.type')}</TableHead>
+                            <TableHead>{t('table.date')}</TableHead>
+                            <TableHead>{t('table.createdBy')}</TableHead>
+                            <TableHead>{t('table.recordCount')}</TableHead>
+                            <TableHead>{t('table.fileSize')}</TableHead>
+                            <TableHead className="text-right">{t('table.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -89,7 +91,7 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                                     {backup.createdBy}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
-                                    {backup.recordCount} productos
+                                    {backup.recordCount} {t('table.products')}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
                                     {formatBytes(backup.fileSize)}
@@ -99,7 +101,7 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                                         onClick={() => onDelete(backup._id)}
                                         className="text-red-600 hover:text-red-900"
                                     >
-                                        Eliminar
+                                        {t('table.delete')}
                                     </button>
                                 </TableCell>
                             </TableRow>

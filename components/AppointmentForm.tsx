@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createAppointment, updateAppointment } from "@/app/api/appointment";
+import { ClientAppointmentService } from "@/services/client/client-appointment.service";
 
 interface Props {
   token: string;
@@ -15,7 +15,7 @@ interface Props {
 export default function AppointmentForm({ token, pets, veterinarians, onSaved, editing, onCancel }: Props) {
   const [petId, setPetId] = useState(editing?.pet?._id || "");
   const [vetId, setVetId] = useState(editing?.veterinarian?._id || "");
-  const [date, setDate] = useState(editing ? new Date(editing.date).toISOString().slice(0,16) : "");
+  const [date, setDate] = useState(editing ? new Date(editing.date).toISOString().slice(0, 16) : "");
   const [reason, setReason] = useState(editing?.reason || "");
   const [loading, setLoading] = useState(false);
 
@@ -26,9 +26,9 @@ export default function AppointmentForm({ token, pets, veterinarians, onSaved, e
 
     try {
       if (editing) {
-        await updateAppointment(editing._id, { pet: petId, veterinarian: vetId, date, reason }, token);
+        await ClientAppointmentService.updateAppointment(editing._id, { pet: petId, veterinarian: vetId, date, reason }, token);
       } else {
-        await createAppointment({ pet: petId, veterinarian: vetId, date, reason }, token);
+        await ClientAppointmentService.createAppointment({ pet: petId, veterinarian: vetId, date, reason }, token);
       }
       onSaved();
     } catch (err) {

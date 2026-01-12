@@ -5,8 +5,10 @@ import { useCalendarEvents, CalendarEventItem } from "@/hooks/useCalendarEvents"
 import { CalendarEventList } from "@/components/administrador/calendar/CalendarEventList";
 import CalendarEventForm from "@/components/administrador/calendar/CalendarEventForm";
 import { Plus, X, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function AdminCalendarPage() {
+    const t = useTranslations('AdminDashboard.calendar');
     const { events, loading, createEvent, updateEvent, deleteEvent } = useCalendarEvents();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<CalendarEventItem | null>(null);
@@ -17,7 +19,7 @@ export default function AdminCalendarPage() {
         if (success) {
             setIsFormOpen(false);
         } else {
-            alert("Error al crear el evento");
+            alert(t("alertError"));
         }
     };
 
@@ -28,7 +30,7 @@ export default function AdminCalendarPage() {
             setEditingEvent(null);
             setIsFormOpen(false);
         } else {
-            alert("Error al actualizar el evento");
+            alert(t("alertError"));
         }
     };
 
@@ -42,18 +44,26 @@ export default function AdminCalendarPage() {
         setIsFormOpen(false);
     };
 
-    const filteredEvents = events.filter(
-        (event) =>
-            event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (event.description && event.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    const filteredEvents = events.filter((event) => {
+        const titleMatch = typeof event.title === 'string'
+            ? event.title.toLowerCase().includes(searchTerm.toLowerCase())
+            : (event.title.es.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                event.title.en.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        const descMatch = typeof event.description === 'string'
+            ? event.description.toLowerCase().includes(searchTerm.toLowerCase())
+            : (event.description.es.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                event.description.en.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        return titleMatch || descMatch;
+    });
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md min-h-[600px]">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Gestión del Calendario</h1>
-                    <p className="text-gray-500 text-sm mt-1">Administra los eventos y campañas que se muestran en la página de inicio.</p>
+                    <h1 className="text-2xl font-bold text-gray-800">{t("title")}</h1>
+                    <p className="text-gray-500 text-sm mt-1">{t("description")}</p>
                 </div>
                 {!isFormOpen && (
                     <button
@@ -61,7 +71,7 @@ export default function AdminCalendarPage() {
                         className="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors flex items-center gap-2"
                     >
                         <Plus size={20} />
-                        Nuevo Evento
+                        {t("newEvent")}
                     </button>
                 )}
             </div>
@@ -70,7 +80,7 @@ export default function AdminCalendarPage() {
                 <div className="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-semibold text-gray-800">
-                            {editingEvent ? "Editar Evento" : "Registrar Nuevo Evento"}
+                            {editingEvent ? t("editEvent") : t("registerEvent")}
                         </h2>
                         <button onClick={handleCancel} className="text-gray-400 hover:text-gray-600">
                             <X size={24} />
@@ -93,7 +103,7 @@ export default function AdminCalendarPage() {
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Buscar por título o descripción..."
+                                placeholder={t("placeholder")}
                                 className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                             />
                         </div>

@@ -18,88 +18,58 @@ export const UserController = {
 
     const users = await UserService.list({ role, search });
     return NextResponse.json(users);
-  }),
+  }, { requiredRoles: ["administrador", "veterinario"] }),
 
   update: apiHandler(async (req: Request) => {
     const body = await req.json();
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-    if (!id) throw new AppError("ID is required", 400);
+    if (!id) throw new AppError("El ID es requerido", 400);
 
     const updatedUser = await UserService.update(id, body);
-    if (!updatedUser) throw new AppError("User not found", 404);
+    if (!updatedUser) throw new AppError("Usuario no encontrado", 404);
 
     return NextResponse.json(updatedUser);
-  }),
+  }, { requiredRoles: ["administrador"] }),
 
   delete: apiHandler(async (req: Request) => {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-    if (!id) throw new AppError("ID is required", 400);
+    if (!id) throw new AppError("El ID es requerido", 400);
 
     const deletedUser = await UserService.delete(id);
-    if (!deletedUser) throw new AppError("User not found", 404);
+    if (!deletedUser) throw new AppError("Usuario no encontrado", 404);
 
-    return NextResponse.json({ message: "User deleted successfully" });
-  }),
+    return NextResponse.json({ message: "Usuario eliminado correctamente" });
+  }, { requiredRoles: ["administrador"] }),
 
-  me: apiHandler(async (req: Request) => {
-    console.log("UserController.me called");
-    const { cookies } = await import("next/headers");
-    const { verifyToken } = await import("@/lib/jwt");
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+  me: apiHandler(async (req, { user }) => {
+    const userData = await UserService.getMe(user!.id);
+    if (!userData) return NextResponse.json(null);
 
-    console.log("Token found:", !!token);
+    return NextResponse.json(userData);
+  }, { requireAuth: true }),
 
-    if (!token) return NextResponse.json(null);
-
-    let decoded;
-    try {
-      decoded = verifyToken(token);
-      console.log("Token decoded:", decoded);
-    } catch (e) {
-      console.error("Token verification failed:", e);
-      return NextResponse.json(null);
-    }
-
-    const user = await UserService.getMe(decoded.id);
-    if (!user) {
-      console.log("User not found for ID:", decoded.id);
-      return NextResponse.json(null);
-    }
-
-    return NextResponse.json(user);
-  }),
-
-  updateMe: apiHandler(async (req: Request) => {
-    const { cookies } = await import("next/headers");
-    const { verifyToken } = await import("@/lib/jwt");
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-
-    if (!token) throw new AppError("Unauthorized", 401);
-    const decoded = verifyToken(token);
-
+  updateMe: apiHandler(async (req, { user }) => {
     const body = await req.json();
     const data = updateProfileSchema.parse(body);
 
-    const user = await UserService.update(decoded.id, data);
-    if (!user) throw new AppError("Usuario no encontrado", 404);
+    const updatedUser = await UserService.update(user!.id, data);
+    if (!updatedUser) throw new AppError("Usuario no encontrado", 404);
 
-    return NextResponse.json(user);
-  }),
+    return NextResponse.json(updatedUser);
+  }, { requireAuth: true }),
 
   changeRole: apiHandler(async (req: Request) => {
     const body = await req.json();
     const { userId, newRole } = body;
 
     const updatedUser = await UserService.changeRole(userId, newRole);
-    if (!updatedUser) throw new AppError("User not found", 404);
+    if (!updatedUser) throw new AppError("Usuario no encontrado", 404);
 
     return NextResponse.json({
       message: "Rol actualizado correctamente",
       user: updatedUser,
     });
-  }),
+  }, { requiredRoles: ["administrador"] }),
 };

@@ -6,7 +6,10 @@ import { AdminDashboardStats } from "@/types/dashboard";
 import { DashboardStatsCards } from "@/components/administrador/dashboard/DashboardStatsCards";
 import { RecentUsers } from "@/components/administrador/dashboard/RecentUsers";
 
+import { useTranslations } from "next-intl";
+
 export default function AdministradorDashboardPage() {
+    const t = useTranslations('Sidebar.admin');
     const [stats, setStats] = useState<AdminDashboardStats>({
         totalUsers: 0,
         vets: 0,
@@ -54,7 +57,7 @@ export default function AdministradorDashboardPage() {
     return (
         <div className="space-y-8">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-                Panel de Administración
+                {t('title')}
             </h1>
             <DashboardStatsCards stats={stats} loading={loading} />
             <RecentUsers users={recentUsers} loading={loading} />

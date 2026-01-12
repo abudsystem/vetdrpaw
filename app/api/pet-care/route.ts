@@ -1,19 +1,4 @@
 import { PetCareController } from "@/controllers/pet-care.controller";
-import { NextResponse } from "next/server";
-import { authMiddleware } from "@/middleware/auth.middleware";
-import connectDB from "@/lib/db";
 
-export async function GET(req: Request) {
-    await connectDB();
-    return PetCareController.listAll(req);
-}
-
-export async function POST(req: Request) {
-    await connectDB();
-    const user = await authMiddleware(req);
-    if (!user || user.role !== "administrador") {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    return PetCareController.create(req);
-}
+export const GET = PetCareController.listAll;
+export const POST = PetCareController.create;

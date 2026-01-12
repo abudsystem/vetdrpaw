@@ -15,6 +15,10 @@ export interface IUser extends Document {
   activatedAt?: Date;
   createdBy?: mongoose.Types.ObjectId;
 
+  // Password reset fields
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -38,6 +42,10 @@ const userSchema = new Schema<IUser>(
     activationExpires: { type: Date, required: false },
     activatedAt: { type: Date, required: false },
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: false },
+
+    // Password reset fields
+    resetPasswordToken: { type: String, required: false },
+    resetPasswordExpires: { type: Date, required: false },
   },
   { timestamps: true }
 );

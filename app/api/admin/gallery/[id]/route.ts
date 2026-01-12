@@ -8,8 +8,10 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
+        console.log("Attempting to delete image with ID:", id);
         await dbConnect();
         const deletedImage = await GalleryImage.findByIdAndDelete(id);
+        console.log("Delete result:", deletedImage);
 
         if (!deletedImage) {
             return NextResponse.json(

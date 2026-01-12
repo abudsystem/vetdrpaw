@@ -6,11 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { GalleryMobileCard } from './GalleryMobileCard';
 import { Pagination } from '@/components/ui/Pagination';
 import { usePagination } from '@/hooks/usePagination';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface GalleryImage {
     _id: string;
-    title: string;
+    title: string | { es: string; en: string };
     imageUrl: string;
     createdAt: string;
 }
@@ -23,6 +23,8 @@ interface GalleryListProps {
 export const GalleryList = ({ images, onDelete }: GalleryListProps) => {
     const t = useTranslations('AdminDashboard.gallery');
     const tc = useTranslations('ClientPanel.common');
+    const locale = useLocale();
+    const currentLang = locale === 'es' ? 'es' : 'en';
 
     const {
         paginatedItems: paginatedImages,
@@ -31,6 +33,12 @@ export const GalleryList = ({ images, onDelete }: GalleryListProps) => {
         totalItems,
         handlePageChange
     } = usePagination(images, 10);
+
+    // Helper to get title safely
+    const getTitle = (title: string | { es: string; en: string }) => {
+        if (typeof title === 'string') return title;
+        return title[currentLang] || title.es || "";
+    };
 
     if (images.length === 0) {
         return (
@@ -65,33 +73,36 @@ export const GalleryList = ({ images, onDelete }: GalleryListProps) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {paginatedImages.map((img) => (
-                            <TableRow key={img._id}>
-                                <TableCell>
-                                    <Image
-                                        src={img.imageUrl}
-                                        alt={img.title}
-                                        width={64}
-                                        height={64}
-                                        className="h-16 w-16 object-cover rounded-md border"
-                                    />
-                                </TableCell>
-                                <TableCell className="font-bold text-gray-900">{img.title}</TableCell>
-                                <TableCell className="text-gray-700 font-bold">
-                                    {new Date(img.createdAt).toLocaleDateString()}
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => onDelete(img._id)}
-                                        className="text-red-600 hover:text-red-800 font-bold"
-                                    >
-                                        {tc('delete')}
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {paginatedImages.map((img) => {
+                            const displayTitle = getTitle(img.title);
+                            return (
+                                <TableRow key={img._id}>
+                                    <TableCell>
+                                        <Image
+                                            src={img.imageUrl}
+                                            alt={displayTitle}
+                                            width={64}
+                                            height={64}
+                                            className="h-16 w-16 object-cover rounded-md border"
+                                        />
+                                    </TableCell>
+                                    <TableCell className="font-bold text-gray-900">{displayTitle}</TableCell>
+                                    <TableCell className="text-gray-700 font-bold">
+                                        {new Date(img.createdAt).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => onDelete(img._id)}
+                                            className="text-red-600 hover:text-red-800 font-bold"
+                                        >
+                                            {tc('delete')}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </Card>

@@ -3,7 +3,7 @@
 import React from "react";
 import { CalendarEventItem } from "@/hooks/useCalendarEvents";
 import { Edit, Trash2, Calendar as CalendarIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface CalendarEventListProps {
     events: CalendarEventItem[];
@@ -14,6 +14,8 @@ interface CalendarEventListProps {
 export const CalendarEventList = ({ events, onEdit, onDelete }: CalendarEventListProps) => {
     const t = useTranslations('AdminDashboard.calendar');
     const tc = useTranslations('ClientPanel.common');
+    const locale = useLocale();
+    const currentLang = locale === 'es' ? 'es' : 'en';
 
     if (events.length === 0) {
         return (
@@ -40,14 +42,14 @@ export const CalendarEventList = ({ events, onEdit, onDelete }: CalendarEventLis
                             <td className="py-3 px-4 border-b text-gray-800 font-bold">
                                 <div className="flex items-center gap-2">
                                     <CalendarIcon size={16} className="text-teal-600" />
-                                    {event.title}
+                                    {typeof event.title === 'string' ? event.title : event.title[currentLang] || event.title.es || ""}
                                 </div>
                             </td>
                             <td className="py-3 px-4 border-b text-gray-700 font-bold font-mono text-sm">
                                 {event.date}
                             </td>
                             <td className="py-3 px-4 border-b text-gray-700 font-bold text-sm max-w-xs truncate">
-                                {event.description}
+                                {typeof event.description === 'string' ? event.description : event.description[currentLang] || event.description.es || ""}
                             </td>
                             <td className="py-3 px-4 border-b text-right">
                                 <div className="flex justify-end gap-2">

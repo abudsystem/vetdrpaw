@@ -6,8 +6,11 @@ import { useUsers } from "@/hooks/useUsers";
 import { UserList } from "@/components/administrador/usuarios/UserList";
 import { UserModal } from "@/components/administrador/usuarios/UserModal";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function AdministradorUsersPage() {
+    const t = useTranslations('AdminDashboard.users');
+    const tc = useTranslations('ClientPanel.common');
     const { users, loading, deleteUser, updateUser } = useUsers();
     const [editingUser, setEditingUser] = useState<User | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +36,7 @@ export default function AdministradorUsersPage() {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Gestión de Usuarios</h1>
+                <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
             </div>
 
             {/* Search Bar */}
@@ -44,14 +47,14 @@ export default function AdministradorUsersPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por nombre o email..."
+                        placeholder={t('searchPlaceholder')}
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-black"
                     />
                 </div>
             </div>
 
             {loading ? (
-                <p>Cargando...</p>
+                <p>{tc('loading')}</p>
             ) : (
                 <UserList users={filteredUsers} onEdit={handleEditClick} onDelete={deleteUser} />
             )}

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 export interface CalendarEventItem {
     _id: string;
-    title: string;
+    title: string | { es: string; en: string };
     date: string;
-    description: string;
-    location?: string;
+    description: string | { es: string; en: string };
+    location?: string | { es: string; en: string };
     createdAt?: string;
 }
 

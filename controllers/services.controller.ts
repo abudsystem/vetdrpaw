@@ -1,208 +1,62 @@
-import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
-import { Service } from "@/models/Service";
-import { Product } from "@/models/Product";
-import { InventoryMovement } from "@/models/InventoryMovement";
-import connectDB from "@/lib/db";
+import { ServicesService } from "@/services/services.service";
+import { apiHandler, AppError } from "@/lib/api-handler";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
-/** ================================
- *   GET ALL SERVICES
- * ================================ */
-export const getServices = async (req: NextRequest) => {
-    await connectDB();
+const serviceSchema = z.object({
+    name: z.string().min(1),
+    description: z.string().optional(),
+    basePrice: z.number().nonnegative(),
+    operatingCost: z.number().nonnegative().default(0),
+    supplies: z.array(z.object({
+        product: z.string(),
+        quantity: z.number().positive(),
+    })).default([]),
+    duration: z.number().positive().optional(),
+});
 
-    try {
-        const activeOnly = req.nextUrl.searchParams.get("activeOnly");
-        const filter = activeOnly === "true" ? { isActive: true } : {};
+export const ServicesController = {
+    list: apiHandler(async (req: Request) => {
+        const { searchParams } = new URL(req.url);
+        const activeOnly = searchParams.get("activeOnly") === "true";
+        const services = await ServicesService.getServices(activeOnly);
+        return NextResponse.json(services);
+    }),
 
-        const services = await Service.find(filter).populate("supplies.product");
-        return NextResponse.json(services, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: "Error al obtener servicios", error: error.message },
-            { status: 500 }
-        );
-    }
-};
+    getById: apiHandler(async (req, { params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("ID requerido", 400);
+        const service = await ServicesService.getServiceById(id);
+        return NextResponse.json(service);
+    }),
 
-/** ================================
- *   GET SERVICE BY ID
- * ================================ */
-export const getServiceById = async (id: string) => {
-    await connectDB();
-
-    try {
-        const service = await Service.findById(id).populate("supplies.product");
-
-        if (!service) {
-            return NextResponse.json(
-                { message: "Servicio no encontrado" },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json(service, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: "Error al obtener el servicio", error: error.message },
-            { status: 500 }
-        );
-    }
-};
-
-/** ================================
- *   CREATE SERVICE
- * ================================ */
-export const createService = async (req: NextRequest) => {
-    await connectDB();
-
-    try {
+    create: apiHandler(async (req: Request) => {
         const body = await req.json();
-        const { name, description, basePrice, operatingCost, supplies, duration } = body;
+        const data = serviceSchema.parse(body);
+        const service = await ServicesService.createService(data as any);
+        return NextResponse.json(service, { status: 201 });
+    }, { requiredRoles: ['administrador'] }),
 
-        const newService = new Service({
-            name,
-            description,
-            basePrice,
-            operatingCost,
-            supplies,
-            duration,
-        });
-
-        await newService.save();
-
-        return NextResponse.json(newService, { status: 201 });
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: "Error al crear el servicio", error: error.message },
-            { status: 500 }
-        );
-    }
-};
-
-/** ================================
- *   UPDATE SERVICE
- * ================================ */
-export const updateService = async (id: string, req: NextRequest) => {
-    await connectDB();
-
-    try {
+    update: apiHandler(async (req: Request, { params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("ID requerido", 400);
         const body = await req.json();
+        const data = serviceSchema.partial().parse(body);
+        const service = await ServicesService.updateService(id, data as any);
+        return NextResponse.json(service);
+    }, { requiredRoles: ['administrador'] }),
 
-        const updatedService = await Service.findByIdAndUpdate(id, body, {
-            new: true,
-        });
+    toggleStatus: apiHandler(async (req, { params }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("ID requerido", 400);
+        const service = await ServicesService.toggleServiceStatus(id);
+        return NextResponse.json(service);
+    }, { requiredRoles: ['administrador'] }),
 
-        if (!updatedService) {
-            return NextResponse.json(
-                { message: "Servicio no encontrado" },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json(updatedService, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: "Error al actualizar el servicio", error: error.message },
-            { status: 500 }
-        );
-    }
-};
-
-/** ================================
- *   TOGGLE SERVICE STATUS
- * ================================ */
-export const toggleServiceStatus = async (id: string) => {
-    await connectDB();
-
-    try {
-        const service = await Service.findById(id);
-
-        if (!service) {
-            return NextResponse.json(
-                { message: "Servicio no encontrado" },
-                { status: 404 }
-            );
-        }
-
-        service.isActive = !service.isActive;
-        await service.save();
-
-        return NextResponse.json(
-            {
-                message: `Servicio ${service.isActive ? "activado" : "desactivado"} correctamente`,
-                service,
-            },
-            { status: 200 }
-        );
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: "Error al cambiar estado del servicio", error: error.message },
-            { status: 500 }
-        );
-    }
-};
-
-/** ================================
- *   DEDUCT SERVICE SUPPLIES
- * ================================ */
-export const deductServiceSupplies = async (id: string, req: NextRequest) => {
-    await connectDB();
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
-    try {
-        const body = await req.json();
-        const { userId } = body;
-
-        const service = await Service.findById(id);
-        if (!service) {
-            throw new Error("Servicio no encontrado");
-        }
-
-        for (const supply of service.supplies) {
-            const product = await Product.findById(supply.product).session(session);
-            if (!product) throw new Error(`Producto con ID ${supply.product} no encontrado`);
-
-            if (product.quantity < supply.quantity) {
-                throw new Error(`Stock insuficiente para ${product.name}`);
-            }
-
-            // Restar stock
-            product.quantity -= supply.quantity;
-            await product.save({ session });
-
-            // Registrar movimiento
-            await InventoryMovement.create(
-                [
-                    {
-                        product: product._id,
-                        type: "SALIDA",
-                        quantity: supply.quantity,
-                        reason: `Uso en servicio: ${service.name}`,
-                        user: userId,
-                        date: new Date(),
-                    },
-                ],
-                { session }
-            );
-        }
-
-        await session.commitTransaction();
-        session.endSession();
-
-        return NextResponse.json(
-            { message: "Insumos descontados correctamente" },
-            { status: 200 }
-        );
-    } catch (error: any) {
-        await session.abortTransaction();
-        session.endSession();
-
-        return NextResponse.json(
-            { message: error.message ?? "Error al descontar insumos" },
-            { status: 400 }
-        );
-    }
+    deductSupplies: apiHandler(async (req: Request, { params, user }) => {
+        const id = params?.id;
+        if (!id) throw new AppError("ID requerido", 400);
+        const result = await ServicesService.deductSupplies(id, user!.id);
+        return NextResponse.json(result);
+    }, { requiredRoles: ['administrador', 'veterinario'] }),
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Pet } from '@/types/pet';
-import { PetServices } from '@/lib/api/pet.service';
+import { PetServices } from "@/services/client/pet.service";
 
 export const usePets = () => {
     const [pets, setPets] = useState<Pet[]>([]);

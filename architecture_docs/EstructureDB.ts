@@ -10,17 +10,17 @@ async function printSchemas() {
     await mongoose.connect(process.env.MONGODB_URI);
 
     // Importación dinámica ESM (OBLIGATORIO usar .js)
-    await import('./models/Appointment.js');
-    await import('./models/Asset.js');
-    await import('./models/Backup.js');
-    await import('./models/CashFlow.js');
-    await import('./models/InventoryMovement.js');
-    await import('./models/Liability.js');
-    await import('./models/MedicalRecord.js');
-    await import('./models/Pet.js');
-    await import('./models/Product.js');
-    await import('./models/Service.js');
-    await import('./models/User.js');
+    await import('../models/Appointment.js');
+    await import('../models/Asset.js');
+    await import('../models/Backup.js');
+    await import('../models/CashFlow.js');
+    await import('../models/InventoryMovement.js');
+    await import('../models/Liability.js');
+    await import('../models/MedicalRecord.js');
+    await import('../models/Pet.js');
+    await import('../models/Product.js');
+    await import('../models/Service.js');
+    await import('../models/User.js');
 
     const models = mongoose.models;
 

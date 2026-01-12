@@ -1,4 +1,4 @@
-import { CashFlow, ICashFlow } from "@/models/CashFlow";
+import { CashFlowService } from "@/services/cashflow.service";
 import { apiHandler, AppError } from "@/lib/api-handler";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -11,91 +11,35 @@ const createCashFlowSchema = z.object({
     description: z.string().min(1),
     amount: z.number().positive(),
     relatedDocument: z.string().optional(),
-    createdBy: z.string(),
 });
 
 export const CashFlowController = {
-    // List all transactions
-    list: apiHandler(async (req: Request) => {
-        const transactions = await CashFlow.find({}).sort({ date: -1, createdAt: -1 });
+    list: apiHandler(async () => {
+        const transactions = await CashFlowService.list();
         return NextResponse.json(transactions);
-    }),
+    }, { requiredRoles: ['administrador'] }),
 
-    // Create new transaction
-    create: apiHandler(async (req: Request) => {
+    create: apiHandler(async (req: Request, { user }) => {
         const body = await req.json();
         const data = createCashFlowSchema.parse(body);
 
-        const transaction = await CashFlow.create(data);
+        const transaction = await CashFlowService.create({
+            ...data,
+            createdBy: user!.id,
+        } as any);
         return NextResponse.json(transaction, { status: 201 });
-    }),
+    }, { requiredRoles: ['administrador'] }),
 
-    // Get statistics (daily, monthly balances, current cash)
-    stats: apiHandler(async (req: Request) => {
+    stats: apiHandler(async () => {
+        const stats = await CashFlowService.getStats();
+        return NextResponse.json(stats);
+    }, { requiredRoles: ['administrador'] }),
 
-        const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-        // Get all transactions
-        const allTransactions = await CashFlow.find({});
-
-        // Daily transactions
-        const dailyTransactions = await CashFlow.find({
-            date: { $gte: startOfDay }
-        });
-
-        // Monthly transactions
-        const monthlyTransactions = await CashFlow.find({
-            date: { $gte: startOfMonth }
-        });
-
-        // Calculate balances
-        const calculateBalance = (transactions: ICashFlow[]) => {
-            let ingresos = 0;
-            let egresos = 0;
-
-            transactions.forEach(t => {
-                if (t.type === 'INGRESO') {
-                    ingresos += t.amount;
-                } else {
-                    egresos += t.amount;
-                }
-            });
-
-            return { ingresos, egresos, balance: ingresos - egresos };
-        };
-
-        const dailyBalance = calculateBalance(dailyTransactions);
-        const monthlyBalance = calculateBalance(monthlyTransactions);
-        const currentCash = calculateBalance(allTransactions);
-
-        return NextResponse.json({
-            daily: {
-                ingresos: dailyBalance.ingresos,
-                egresos: dailyBalance.egresos,
-                balance: dailyBalance.balance
-            },
-            monthly: {
-                ingresos: monthlyBalance.ingresos,
-                egresos: monthlyBalance.egresos,
-                balance: monthlyBalance.balance
-            },
-            currentCash: currentCash.balance,
-            totalTransactions: allTransactions.length
-        });
-    }),
-
-    // Delete transaction
-    delete: apiHandler(async (req: Request) => {
-        const url = new URL(req.url);
-        const id = url.pathname.split('/').pop();
-
+    delete: apiHandler(async (req: Request, { params }) => {
+        const id = params?.id;
         if (!id) throw new AppError("ID requerido", 400);
 
-        const transaction = await CashFlow.findByIdAndDelete(id);
-        if (!transaction) throw new AppError("Transacción no encontrada", 404);
-
+        await CashFlowService.delete(id);
         return NextResponse.json({ message: "Transacción eliminada" });
-    }),
+    }, { requiredRoles: ['administrador'] }),
 };

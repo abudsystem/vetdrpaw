@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IGalleryImage extends Document {
-    title: string;
+    title: string | { es: string; en: string };
     imageUrl: string; // Base64 string
     createdAt: Date;
 }
@@ -9,9 +9,8 @@ export interface IGalleryImage extends Document {
 const GalleryImageSchema = new Schema<IGalleryImage>(
     {
         title: {
-            type: String,
+            type: Schema.Types.Mixed,
             required: [true, "El título es obligatorio"],
-            trim: true,
         },
         imageUrl: {
             type: String,
@@ -26,6 +25,9 @@ const GalleryImageSchema = new Schema<IGalleryImage>(
         timestamps: true,
     }
 );
+
+// Prevent Mongoose overwrite warning in development
+if (process.env.NODE_ENV !== 'production') delete mongoose.models.GalleryImage;
 
 export default mongoose.models.GalleryImage ||
     mongoose.model<IGalleryImage>("GalleryImage", GalleryImageSchema);
