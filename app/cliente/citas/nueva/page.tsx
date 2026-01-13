@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface Pet {
     _id: string;
@@ -10,6 +11,7 @@ interface Pet {
 }
 
 export default function NewAppointmentPage() {
+    const t = useTranslations('ClientPanel.appointments');
     const router = useRouter();
     const [pets, setPets] = useState<Pet[]>([]);
     const [loading, setLoading] = useState(true);
@@ -58,21 +60,21 @@ export default function NewAppointmentPage() {
             });
 
             if (res.ok) {
-                alert("Cita solicitada exitosamente. Espera la confirmación del veterinario.");
+                alert(t('alerts.success'));
                 router.push("/cliente/citas");
             } else {
                 const error = await res.json();
-                alert(`Error: ${error.message || "No se pudo crear la cita"}`);
+                alert(`Error: ${error.message || t('alerts.errorSuccess')}`);
             }
         } catch (error) {
             console.error("Error creating appointment:", error);
-            alert("Error al solicitar la cita");
+            alert(t('alerts.errorSuccess'));
         } finally {
             setSubmitting(false);
         }
     };
 
-    if (loading) return <div className="p-8">Cargando...</div>;
+    if (loading) return <div className="p-8">{t('loading')}</div>;
 
     if (pets.length === 0) {
         return (
@@ -84,13 +86,13 @@ export default function NewAppointmentPage() {
                         </div>
                         <div className="ml-3">
                             <p className="text-sm text-yellow-700">
-                                Necesitas registrar al menos una mascota antes de solicitar una cita.
+                                {t('needPet')}
                             </p>
                             <button
                                 onClick={() => router.push("/cliente/mascotas")}
                                 className="mt-3 text-sm font-medium text-yellow-700 underline hover:text-yellow-600"
                             >
-                                Ir a Mis Mascotas
+                                {t('goToPets')}
                             </button>
                         </div>
                     </div>
@@ -101,12 +103,11 @@ export default function NewAppointmentPage() {
 
     return (
         <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Solicitar Nueva Cita</h1>
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">{t('makeAppointment')}</h1>
 
             <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
                 <p className="text-sm text-blue-700">
-                    💡 Tu cita quedará como <strong>pendiente</strong> hasta que un veterinario la acepte.
-                    Recibirás una notificación cuando sea confirmada.
+                    💡 {t('stateAppointment')}
                 </p>
             </div>
 
@@ -115,7 +116,7 @@ export default function NewAppointmentPage() {
                     {/* Seleccionar Mascota */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Mascota <span className="text-red-500">*</span>
+                            {t('pet')} <span className="text-red-500">*</span>
                         </label>
                         <select
                             required
@@ -123,7 +124,7 @@ export default function NewAppointmentPage() {
                             onChange={(e) => setFormData({ ...formData, pet: e.target.value })}
                             className="w-full text-black border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500"
                         >
-                            <option value="">Selecciona una mascota</option>
+                            <option value="">{t('selectAPet')}</option>
                             {pets.map((pet) => (
                                 <option key={pet._id} value={pet._id}>
                                     {pet.nombre} ({pet.especie})
@@ -135,7 +136,7 @@ export default function NewAppointmentPage() {
                     {/* Fecha */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Fecha <span className="text-red-500">*</span>
+                            {t('date')} <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="date"
@@ -150,7 +151,7 @@ export default function NewAppointmentPage() {
                     {/* Hora */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Hora <span className="text-red-500">*</span>
+                            {t('time')} <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="time"
@@ -160,21 +161,21 @@ export default function NewAppointmentPage() {
                             className="w-full text-black border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500"
                         />
                         <p className="mt-1 text-sm text-gray-700">
-                            Horario sugerido: 9:00 AM - 6:30 PM
+                            {t('advice')}
                         </p>
                     </div>
 
                     {/* Motivo */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Motivo de la consulta <span className="text-red-500">*</span>
+                            {t('reason')} <span className="text-red-500">*</span>
                         </label>
                         <textarea
                             required
                             rows={4}
                             value={formData.reason}
                             onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                            placeholder="Describe brevemente el motivo de la consulta..."
+                            placeholder={t('reasonPlaceholder')}
                             className="w-full text-black border border-gray-300 rounded-md shadow-sm p-2 focus:ring-teal-500 focus:border-teal-500"
                         />
                     </div>
@@ -186,14 +187,14 @@ export default function NewAppointmentPage() {
                             disabled={submitting}
                             className="flex-1 bg-teal-600 text-white px-6 py-2 rounded-md hover:bg-teal-700 transition-colors disabled:bg-gray-400"
                         >
-                            {submitting ? "Solicitando..." : "Solicitar Cita"}
+                            {submitting ? t('feching') : t('makeAppointment')}
                         </button>
                         <button
                             type="button"
                             onClick={() => router.push("/cliente/citas")}
                             className="flex-1 bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition-colors"
                         >
-                            Cancelar
+                            {t('cancel')}
                         </button>
                     </div>
                 </form>

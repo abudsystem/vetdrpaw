@@ -12,6 +12,18 @@ export const PetMobileCard = ({ pet, onEdit, onDelete }: PetMobileCardProps) => 
     const t = useTranslations('ClientPanel.pets');
     const tc = useTranslations('ClientPanel.common');
 
+
+    const sexoLabel = {
+        macho: t('sexoLabel.macho'),
+        hembra: t('sexoLabel.hembra'),
+    } as const;
+
+    type SexoKey = keyof typeof sexoLabel;
+
+    const isSexo = (value: unknown): value is SexoKey => {
+        return typeof value === 'string' && value in sexoLabel;
+    };
+
     const getSpeciesEmoji = (especie: string) => {
         const especieLower = especie.toLowerCase();
         if (especieLower.includes('perro')) return '🐕';
@@ -35,7 +47,15 @@ export const PetMobileCard = ({ pet, onEdit, onDelete }: PetMobileCardProps) => 
 
             <div className="space-y-2 text-sm text-gray-600">
                 <p><strong>{t('form.breed')}:</strong> {pet.raza}</p>
-                {pet.sexo && <p><strong>{t('form.sex')}:</strong> {pet.sexo}</p>}
+                {isSexo(pet.sexo) && (
+                    <p>
+                        <strong>{t('form.sex')}:</strong>{" "}
+                        <span className="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full text-xs">
+                            {sexoLabel[pet.sexo]}
+                        </span>
+                    </p>
+                )}
+
                 {pet.edad !== undefined && (
                     <p><strong>{t('table.age')}:</strong> {pet.edad} {pet.edad === 1 ? tc('year') : tc('years')}</p>
                 )}

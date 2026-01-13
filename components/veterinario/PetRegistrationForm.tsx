@@ -39,7 +39,7 @@ export function PetRegistrationForm({
         nombre: "",
         especie: "",
         raza: "",
-        sexo: undefined,
+        sexo: "macho",
         esterilizado: false,
         alergias: [],
     });
@@ -78,7 +78,7 @@ export function PetRegistrationForm({
                 nombre: "",
                 especie: "",
                 raza: "",
-                sexo: undefined,
+                sexo: "macho",
                 esterilizado: false,
                 alergias: [],
             });
@@ -235,12 +235,11 @@ export function PetRegistrationForm({
                             <label className="block text-sm font-bold text-gray-700 mb-2">{tf('sex')}</label>
                             <select
                                 name="sexo"
-                                value={formData.sexo || ""}
+                                value={formData.sexo}
                                 onChange={handleChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                                 disabled={loading}
                             >
-                                <option value="">{tf('placeholders.notSpecified')}</option>
                                 <option value="macho">{tf('placeholders.male')}</option>
                                 <option value="hembra">{tf('placeholders.female')}</option>
                             </select>

@@ -266,8 +266,16 @@
             "registerFirst": "Register my first pet"
         },
         "pets": {
+            "sexoLabel": {
+                "macho": "Male",
+                "hembra": "Female",
+                "notDefined": "Not defined",
+                "required": "Sex is required"
+            },
             "title": "My Pets",
             "newPet": "New Pet",
+            "cancel": "Cancel",
+            "loading": "Loading...",
             "noPets": "You don't have any pets registered yet.",
             "form": {
                 "registerTitle": "Register Pet",
@@ -282,7 +290,7 @@
                 "select": "Select",
                 "male": "Male",
                 "female": "Female",
-                "birthDate": "Date of Birth",
+                "birthDate": "Birth Date",
                 "weight": "Weight (kg)",
                 "color": "Color/Markings",
                 "allergies": "Known Allergies",
@@ -306,13 +314,19 @@
                 "breed": "Breed",
                 "age": "Age",
                 "sterilized": "Sterilized",
-                "allergies": "allergy(ies)"
+                "allergies": "Allergies"
             }
         },
         "appointments": {
             "title": "My Appointments",
-            "newAppt": "New Appointment",
             "noAppointments": "You don't have any scheduled appointments.",
+            "alerts": {
+                "confirm": "Are you sure you want to cancel this appointment?",
+                "error": "Error canceling appointment",
+                "success": "Appointment canceled successfully",
+                "errorSuccess": "Error canceling appointment"
+            },
+            "newAppt": "New Appointment",
             "requestFirst": "Request your first appointment →",
             "table": {
                 "dateTime": "Date and Time",
@@ -331,7 +345,24 @@
             },
             "cancelConfirm": "Are you sure you want to cancel this appointment?",
             "cancelError": "Error canceling appointment",
-            "cancelSuccess": "Appointment canceled successfully"
+            "cancelSuccess": "Appointment canceled successfully",
+            "loading": "Loading...",
+            "needPet": "You need to register at least one pet before requesting an appointment.",
+            "goToPets": "Go to My Pets",
+            "makeAppointment": "Request New Appointment",
+            "stateAppointment": "Your appointment will remain pending until a veterinarian accepts it. You will receive a notification when it is confirmed.",
+            "pet": "Pet",
+            "selectAPet": "Select a pet",
+            "date": "Date",
+            "time": "Time",
+            "advice": "Suggested time: 9:00 AM - 6:30 PM",
+            "reason": "Reason for the consultation",
+            "reasonPlaceholder": "Describe briefly the reason for the consultation...",
+            "feching": "Requesting...",
+            "success": "Appointment requested successfully. Wait for the veterinarian's confirmation.",
+            "error": "Error requesting appointment",
+            "errorSuccess": "Error requesting appointment",
+            "cancel": "Cancel"
         },
         "profile": {
             "title": "My Profile",

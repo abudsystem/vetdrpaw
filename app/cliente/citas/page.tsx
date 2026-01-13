@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { Appointment } from "@/types/appointment";
 import { AppointmentList } from "@/components/cliente/citas/AppointmentList";
 import { AppointmentHeader } from "@/components/cliente/citas/AppointmentHeader";
+import { useTranslations } from "next-intl";
 
 export default function MyAppointmentsPage() {
+  const t = useTranslations('ClientPanel.appointments');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +30,7 @@ export default function MyAppointmentsPage() {
   };
 
   const handleCancel = async (id: string) => {
-    if (!confirm("¿Estás seguro de cancelar esta cita?")) return;
+    if (!confirm(t("cancelConfirm"))) return;
 
     try {
       const res = await fetch(`/api/appointments?id=${id}`, {
@@ -40,11 +42,11 @@ export default function MyAppointmentsPage() {
       if (res.ok) {
         fetchAppointments();
       } else {
-        alert("Error al cancelar la cita");
+        alert(t("cancelError"));
       }
     } catch (error) {
       console.error("Error canceling appointment:", error);
-      alert("Error al cancelar la cita");
+      alert(t("cancelError"));
     }
   };
 
@@ -53,7 +55,7 @@ export default function MyAppointmentsPage() {
       <AppointmentHeader />
 
       {loading ? (
-        <p>Cargando...</p>
+        <p>{t("loading")}</p>
       ) : (
         <AppointmentList appointments={appointments} onCancel={handleCancel} />
       )}

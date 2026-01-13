@@ -19,6 +19,7 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
     const t = useTranslations('ClientPanel.pets');
     const tc = useTranslations('ClientPanel.common');
 
+
     const {
         paginatedItems: paginatedPets,
         currentPage,
@@ -33,6 +34,18 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
         if (especieLower.includes('gato')) return '🐈';
         return '🐾';
     };
+    const sexoLabel = {
+        macho: t('sexoLabel.macho'),
+        hembra: t('sexoLabel.hembra'),
+    } as const;
+
+    type SexoKey = keyof typeof sexoLabel; // "macho" | "hembra"
+
+    const isSexo = (value: unknown): value is SexoKey => {
+        return typeof value === 'string' && value in sexoLabel;
+    };
+
+
 
     if (pets.length === 0 && !showForm) {
         return <p className="text-gray-700 text-center py-8">{t('noPets')}</p>;
@@ -85,12 +98,19 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <div className="text-sm text-gray-600">
-                                        {pet.sexo && <p>{pet.sexo}</p>}
-                                        {pet.peso && <p>{pet.peso} kg</p>}
-                                        {pet.color && <p>{pet.color}</p>}
+                                    <div className="text-sm space-y-1">
+                                        {isSexo(pet.sexo) && (
+                                            <span className="text-xs px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">
+                                                {sexoLabel[pet.sexo]}
+                                            </span>
+                                        )}
+
+
+                                        {pet.peso && <p className="text-gray-600">{pet.peso} kg</p>}
+                                        {pet.color && <p className="text-gray-600">{pet.color}</p>}
                                     </div>
                                 </TableCell>
+
                                 <TableCell>
                                     <div className="text-sm">
                                         {pet.esterilizado && <p className="text-blue-600 text-xs">✓ {t('table.sterilized')}</p>}

@@ -36,9 +36,12 @@ export const AppointmentController = {
         return NextResponse.json(appointments);
     }, { requireAuth: true }),
 
-    update: apiHandler(async (req, { user, params }) => {
+    update: apiHandler(async (req, { user }) => {
         const body = await req.json();
-        const id = params?.id;
+
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+
         if (!id) throw new AppError("El ID es requerido", 400);
 
         const data = updateAppointmentSchema.parse(body);
@@ -46,6 +49,7 @@ export const AppointmentController = {
 
         return NextResponse.json(updated);
     }, { requireAuth: true }),
+
 
     getById: apiHandler(async (req, { user, params }) => {
         const id = params?.id;

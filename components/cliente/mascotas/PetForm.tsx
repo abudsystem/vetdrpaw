@@ -23,7 +23,7 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
         raza: "",
         edad: 0,
         peso: 0,
-        sexo: "",
+        sexo: "macho",
         fechaNacimiento: "",
         color: "",
         alergias: [] as string[],
@@ -116,7 +116,6 @@ export const PetForm = ({ initialData, onSubmit, onCancel, isEditing }: PetFormP
                                     value={formData.sexo}
                                     onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}
                                 >
-                                    <option value="">{t('form.select')}</option>
                                     <option value="macho">{t('form.male')}</option>
                                     <option value="hembra">{t('form.female')}</option>
                                 </select>
