@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import ServiceForm from "@/components/ServiceForm";
 import { useRouter, useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function EditServicePage() {
+    const t = useTranslations("VetPanel.services");
     const router = useRouter();
     const params = useParams();
     const { id } = params;
@@ -33,11 +35,12 @@ export default function EditServicePage() {
                 };
                 setInitialData(formattedData);
             } else {
-                alert("Servicio no encontrado");
+                alert(t("noFind"));
                 router.push("/veterinario/servicios");
             }
         } catch (error) {
-            console.error("Error fetching service:", error);
+            console.error(t("noFind"), error);
+            alert(t("noFind"));
         } finally {
             setLoading(false);
         }
@@ -61,16 +64,16 @@ export default function EditServicePage() {
                 alert(`Error: ${error.message}`);
             }
         } catch (error) {
-            console.error("Error updating service:", error);
-            alert("Error al actualizar el servicio");
+            console.error(t("noUpdateError"), error);
+            alert(t("noUpdateError"));
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) return <p>{t("loading")}</p>;
 
     return (
         <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold text-gray-800 mb-6">Editar Servicio</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">{t("editService")}</h1>
             {initialData && (
                 <ServiceForm
                     initialData={initialData}

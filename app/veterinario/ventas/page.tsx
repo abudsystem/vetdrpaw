@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { ISale, SalesList } from "@/components/veterinario/ventas/SalesList";
 import { SalesHeader } from "@/components/veterinario/ventas/SalesHeader";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function SalesPage() {
+    const t = useTranslations("VetPanel.sales");
     const [sales, setSales] = useState<ISale[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -46,14 +48,14 @@ export default function SalesPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por cliente o método de pago..."
+                        placeholder={t("searchPlaceholder")}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                     />
                 </div>
             </div>
 
             {loading ? (
-                <p>Cargando ventas...</p>
+                <p>{t("loading")}</p>
             ) : (
                 <SalesList sales={filteredSales} />
             )}

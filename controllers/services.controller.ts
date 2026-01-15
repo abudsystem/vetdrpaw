@@ -35,7 +35,7 @@ export const ServicesController = {
         const data = serviceSchema.parse(body);
         const service = await ServicesService.createService(data as any);
         return NextResponse.json(service, { status: 201 });
-    }, { requiredRoles: ['administrador'] }),
+    }, { requiredRoles: ['administrador', 'veterinario'] }),
 
     update: apiHandler(async (req: Request, { params }) => {
         const id = params?.id;
@@ -44,14 +44,14 @@ export const ServicesController = {
         const data = serviceSchema.partial().parse(body);
         const service = await ServicesService.updateService(id, data as any);
         return NextResponse.json(service);
-    }, { requiredRoles: ['administrador'] }),
+    }, { requiredRoles: ['administrador', 'veterinario'] }),
 
     toggleStatus: apiHandler(async (req, { params }) => {
         const id = params?.id;
         if (!id) throw new AppError("ID requerido", 400);
         const service = await ServicesService.toggleServiceStatus(id);
         return NextResponse.json(service);
-    }, { requiredRoles: ['administrador'] }),
+    }, { requiredRoles: ['administrador', 'veterinario'] }),
 
     deductSupplies: apiHandler(async (req: Request, { params, user }) => {
         const id = params?.id;

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ClientAppointmentService } from "@/services/client/client-appointment.service";
 import AppointmentForm from "./AppointmentForm";
+import { useTranslations } from "next-intl";
 
 interface Props {
   token: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function AppointmentList({ token, pets, veterinarians }: Props) {
+  const t = useTranslations("Components.AppointmentList");
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<any>(null);
@@ -22,7 +24,7 @@ export default function AppointmentList({ token, pets, veterinarians }: Props) {
       setAppointments(data);
     } catch (err) {
       console.error(err);
-      alert("Error al obtener citas");
+      alert(t("errorDefault"));
     } finally {
       setLoading(false);
     }
@@ -37,12 +39,12 @@ export default function AppointmentList({ token, pets, veterinarians }: Props) {
       fetchAppointments();
     } catch (err) {
       console.error(err);
-      alert("Error al eliminar cita");
+      alert(t("errorDelete"));
     }
   };
 
-  if (loading) return <p>Cargando citas...</p>;
-  if (appointments.length === 0) return <p>No hay citas disponibles.</p>;
+  if (loading) return <p>{t("loadingAppointments")}</p>;
+  if (appointments.length === 0) return <p>{t("noAppointments")}</p>;
 
   return (
     <div className="flex flex-col gap-4">
@@ -58,15 +60,15 @@ export default function AppointmentList({ token, pets, veterinarians }: Props) {
       )}
       {appointments.map(a => (
         <div key={a._id} className="border p-2 rounded flex flex-col gap-1">
-          <p><strong>Mascota:</strong> {a.pet.nombre}</p>
-          <p><strong>Veterinario:</strong> {a.veterinarian.name}</p>
-          <p><strong>Fecha:</strong> {new Date(a.date).toLocaleString()}</p>
-          <p><strong>Motivo:</strong> {a.reason}</p>
-          <p><strong>Estado:</strong> {a.status}</p>
+          <p><strong>{t("pet")}:</strong> {a.pet.nombre}</p>
+          <p><strong>{t("vet")}:</strong> {a.veterinarian.name}</p>
+          <p><strong>{t("date")}:</strong> {new Date(a.date).toLocaleString()}</p>
+          <p><strong>{t("reason")}:</strong> {a.reason}</p>
+          <p><strong>{t("status")}:</strong> {a.status}</p>
 
           <div className="flex gap-2 mt-1">
-            <button onClick={() => setEditing(a)} className="bg-yellow-500 text-white p-1 rounded">Editar</button>
-            <button onClick={() => handleDelete(a._id)} className="bg-red-500 text-white p-1 rounded">Eliminar</button>
+            <button onClick={() => setEditing(a)} className="bg-yellow-500 text-white p-1 rounded">{t("edit")}</button>
+            <button onClick={() => handleDelete(a._id)} className="bg-red-500 text-white p-1 rounded">{t("delete")}</button>
           </div>
         </div>
       ))}

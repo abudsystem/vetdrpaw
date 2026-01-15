@@ -2,8 +2,10 @@
 
 import ServiceForm from "@/components/ServiceForm";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function NewServicePage() {
+    const t = useTranslations("VetPanel.services");
     const router = useRouter();
 
     const handleCreate = async (data: any) => {
@@ -24,14 +26,14 @@ export default function NewServicePage() {
                 alert(`Error: ${error.message}`);
             }
         } catch (error) {
-            console.error("Error creating service:", error);
-            alert("Error al crear el servicio");
+            console.error(t("error"), error);
+            alert(t("error"));
         }
     };
 
     return (
         <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold text-gray-800 mb-6">Nuevo Servicio Veterinario</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">{t("title")}</h1>
             <ServiceForm onSubmit={handleCreate} />
         </div>
     );

@@ -11,6 +11,7 @@ import AppointmentPagination from "@/components/veterinario/citas/AppointmentPag
 import ReasonModal from "@/components/veterinario/citas/ReasonModal";
 import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function VetAppointmentsPage() {
     const {
@@ -73,18 +74,20 @@ export default function VetAppointmentsPage() {
         setSelectedReason({ reason, pet, date });
         setShowReasonModal(true);
     };
+    const t = useTranslations('VetPanel.appointments');
 
     return (
         <div className="p-4 md:p-6 lg:p-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Gestión de Citas</h1>
+                <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
                 <button
                     onClick={() => {
                         setShowForm(!showForm);
                     }}
                     className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
                 >
-                    {showForm ? "Cancelar" : "Nueva Cita"}
+                    {showForm ? t('cancel') : t('new')}
+
                 </button>
             </div>
 
@@ -97,7 +100,7 @@ export default function VetAppointmentsPage() {
             )}
 
             {loading ? (
-                <p>Cargando...</p>
+                <p>{t('loading')}</p>
             ) : (
                 <>
                     <AppointmentTabs
@@ -114,7 +117,7 @@ export default function VetAppointmentsPage() {
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Buscar por mascota o cliente..."
+                                placeholder={t('placeHolder')}
                                 className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                             />
                         </div>
@@ -122,7 +125,7 @@ export default function VetAppointmentsPage() {
 
                     {searchFilteredAppointments.length === 0 ? (
                         <div className="text-center py-12 text-gray-700 bg-white rounded-lg shadow">
-                            No hay citas {activeTab}s
+                            {t('noAppointments')} {activeTab}{t('s')}
                         </div>
                     ) : (
                         <>

@@ -6,8 +6,11 @@ import { ServiceList } from "@/components/veterinario/servicios/ServiceList";
 import { ServiceHeader } from "@/components/veterinario/servicios/ServiceHeader";
 import { ServiceFilters } from "@/components/veterinario/servicios/ServiceFilters";
 import { Search } from "lucide-react";
+import { error } from "console";
+import { useTranslations } from "next-intl";
 
 export default function VeterinarioServicesPage() {
+    const t = useTranslations("VetPanel.services");
     const [services, setServices] = useState<Service[]>([]);
     const [loading, setLoading] = useState(true);
     const [showActiveOnly, setShowActiveOnly] = useState(false);
@@ -34,7 +37,7 @@ export default function VeterinarioServicesPage() {
     }, [showActiveOnly]);
 
     const handleToggleStatus = async (id: string) => {
-        if (!confirm("¿Estás seguro de cambiar el estado de este servicio?")) return;
+        if (!confirm(t("changeStatus"))) return;
 
         try {
             const res = await fetch(`/api/services/${id}`, {
@@ -43,10 +46,10 @@ export default function VeterinarioServicesPage() {
             if (res.ok) {
                 fetchServices();
             } else {
-                alert("Error al cambiar el estado");
+                alert(t("alert"));
             }
         } catch (error) {
-            console.error("Error toggling status:", error);
+            console.error(t("alertStatus"), error);
         }
     };
 
@@ -68,7 +71,7 @@ export default function VeterinarioServicesPage() {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar por nombre o descripción..."
+                        placeholder={t("placeholder")}
                         className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
                     />
                 </div>
@@ -77,7 +80,7 @@ export default function VeterinarioServicesPage() {
             <ServiceFilters showActiveOnly={showActiveOnly} setShowActiveOnly={setShowActiveOnly} />
 
             {loading ? (
-                <p>Cargando servicios...</p>
+                <p>{t("loading")}</p>
             ) : (
                 <ServiceList services={filteredServices} onToggleStatus={handleToggleStatus} />
             )}

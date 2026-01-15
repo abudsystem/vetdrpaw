@@ -5,12 +5,14 @@ import { PatientList } from "@/components/veterinario/mascotas/PatientList";
 import { GuestUserForm } from "@/components/veterinario/GuestUserForm";
 import { Pet } from "@/types/pet";
 import { UserPlus, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function VetPatientsPage() {
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
   const [showGuestForm, setShowGuestForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const t = useTranslations("VetPanel.patients");
 
   useEffect(() => {
     fetchPets();
@@ -41,14 +43,14 @@ export default function VetPatientsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Gestión de Pacientes</h1>
+        <h1 className="text-3xl font-bold text-gray-800">{t("title")}</h1>
 
         <button
           onClick={() => setShowGuestForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition shadow-md hover:shadow-lg"
         >
           <UserPlus size={20} />
-          Registrar Nuevo Cliente
+          {t("button")}
         </button>
       </div>
 
@@ -60,14 +62,14 @@ export default function VetPatientsPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Buscar por nombre, especie o dueño..."
+            placeholder={t("searchPlaceholder")}
             className="text-black w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
           />
         </div>
       </div>
 
       {loading ? (
-        <p>Cargando...</p>
+        <p>{t("loading")}</p>
       ) : (
         <PatientList patients={filteredPets} />
       )}
@@ -77,7 +79,7 @@ export default function VetPatientsPage() {
           onClose={() => setShowGuestForm(false)}
           onSuccess={() => {
             // Optionally refresh data or show success message
-            console.log("Guest user created successfully");
+            console.log(t("newGuest"));
           }}
         />
       )}

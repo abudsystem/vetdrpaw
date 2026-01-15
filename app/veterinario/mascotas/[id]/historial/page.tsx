@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface MedicalRecord {
     _id: string;
@@ -31,6 +32,7 @@ interface Pet {
 }
 
 export default function PetHistoryPage({ params }: { params: Promise<{ id: string }> }) {
+    const t = useTranslations("VetPanel.patients");
     const { id } = use(params);
     const router = useRouter();
     const [pet, setPet] = useState<Pet | null>(null);
@@ -89,12 +91,12 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                 fetchData();
             }
         } catch (error) {
-            console.error("Error saving record:", error);
+            console.error(t("error"), error);
         }
     };
 
-    if (loading) return <div className="p-6">Cargando...</div>;
-    if (!pet) return <div className="p-6">Mascota no encontrada</div>;
+    if (loading) return <div className="p-6">{t("loading")}</div>;
+    if (!pet) return <div className="p-6">{t("petNotFound")}</div>;
 
     return (
         <div className="p-6 max-w-7xl mx-auto">
@@ -102,7 +104,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                 onClick={() => router.back()}
                 className="mb-4 text-indigo-600 hover:text-indigo-800 flex items-center"
             >
-                ← Volver
+                {t("buttonreturn")}
             </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -110,12 +112,12 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                 {/* HISTORIAL MÉDICO */}
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800">Historial Médico</h2>
+                        <h2 className="text-2xl font-bold text-gray-800">{t("historyTitle")}</h2>
                         <button
                             onClick={() => setShowForm(!showForm)}
                             className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 text-sm"
                         >
-                            {showForm ? "Cancelar" : "+ Agregar Registro"}
+                            {showForm ? t("cancel") : t("addRecord")}
                         </button>
                     </div>
 
@@ -125,7 +127,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
 
                                 {/* MOTIVO */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Motivo</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("reason")}</label>
                                     <input
                                         type="text"
                                         required
@@ -136,7 +138,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Diagnóstico</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("diagnosis")}</label>
                                     <input
                                         type="text"
                                         required
@@ -147,7 +149,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Tratamiento</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("treatment")}</label>
                                     <textarea
                                         required
                                         className="mt-1 block w-full text-black border border-gray-300 rounded-md shadow-sm p-2"
@@ -158,7 +160,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Notas Adicionales</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("notesPlus")}</label>
                                     <textarea
                                         className="mt-1 block w-full text-black border border-gray-300 rounded-md shadow-sm p-2"
                                         rows={2}
@@ -171,7 +173,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                     type="submit"
                                     className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
                                 >
-                                    Guardar Registro
+                                    {t("saveRecord")}
                                 </button>
                             </form>
                         </div>
@@ -179,7 +181,7 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
 
                     <div className="space-y-4">
                         {records.length === 0 ? (
-                            <p className="text-gray-700 italic">No hay registros médicos.</p>
+                            <p className="text-gray-700 italic">{t("noData")}</p>
                         ) : (
                             records.map((record) => (
                                 <div key={record._id} className="bg-white shadow rounded-lg p-4 border-l-4 border-indigo-500">
@@ -189,20 +191,20 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                             {new Date(record.date).toLocaleDateString()}
                                         </span>
                                         <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">
-                                            Dr. {record.veterinarian?.name}
+                                            {t("dr")} {record.veterinarian?.name}
                                         </span>
                                     </div>
 
-                                    <p className="text-gray-700"><b>Motivo:</b> {record.motivo}</p>
+                                    <p className="text-gray-700"><b>{t("reason")}:</b> {record.motivo}</p>
                                     <h3 className="font-bold text-lg text-gray-800 mb-1">{record.diagnosis}</h3>
 
                                     <p className="text-gray-600 mb-2">
-                                        <span className="font-semibold">Tratamiento:</span> {record.treatment}
+                                        <span className="font-semibold">{t("treatment")}:</span> {record.treatment}
                                     </p>
 
                                     {record.notes && (
                                         <p className="text-sm text-gray-700 bg-gray-50 p-2 rounded">
-                                            Nota: {record.notes}
+                                            {t("notesPlus")}: {record.notes}
                                         </p>
                                     )}
                                 </div>
@@ -213,11 +215,11 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
 
                 {/* HISTORIAL DE CITAS */}
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Historial de Citas</h2>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">{t("historyAppointments")}</h2>
                     <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                         <ul className="divide-y divide-gray-200">
                             {appointments.length === 0 ? (
-                                <li className="p-4 text-gray-700 italic">No hay citas registradas.</li>
+                                <li className="p-4 text-gray-700 italic">{t("noData")}</li>
                             ) : (
                                 appointments.map((appt) => (
                                     <li key={appt._id} className="p-4 hover:bg-gray-50">
@@ -237,9 +239,9 @@ export default function PetHistoryPage({ params }: { params: Promise<{ id: strin
                                             </span>
                                         </div>
                                         <div className="mt-2 text-sm text-gray-700">
-                                            <p><span className="font-semibold">Motivo:</span> {appt.reason}</p>
+                                            <p><span className="font-semibold">{t("reason")}:</span> {appt.reason}</p>
                                             <p className="text-xs text-gray-700 mt-1">
-                                                Vet: {appt.veterinarian?.name || "Sin asignar"}
+                                                Vet: {appt.veterinarian?.name || t("noAsigned")}
                                             </p>
                                         </div>
                                     </li>

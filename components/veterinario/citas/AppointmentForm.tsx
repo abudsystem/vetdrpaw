@@ -3,6 +3,7 @@ import { User, Pet, AppointmentFormData } from "./types";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
+import { useTranslations } from "next-intl";
 
 interface AppointmentFormProps {
     currentUser: User | null;
@@ -11,6 +12,7 @@ interface AppointmentFormProps {
 }
 
 export default function AppointmentForm({
+
     currentUser,
     onSubmit,
     onCancel,
@@ -80,11 +82,11 @@ export default function AppointmentForm({
         setClientSearch("");
         setClientPets([]);
     };
-
+    const t = useTranslations("VetPanel.appointments");
     return (
         <div className="bg-white p-6 rounded-lg shadow mb-8">
             <h2 className="text-xl text-black font-semibold mb-4">
-                Programar Nueva Cita
+                {t("NewAppointment")}
             </h2>
 
             <form
@@ -94,12 +96,12 @@ export default function AppointmentForm({
                 {/* Client Search */}
                 <div className="relative">
                     <Label className="block text-sm font-medium text-gray-700">
-                        Buscar Cliente
+                        {t("searchClient")}
                     </Label>
 
                     <Input
                         type="text"
-                        placeholder="Nombre o email..."
+                        placeholder={t("placeHolderClient")}
                         value={clientSearch}
                         onChange={(e) => {
                             setClientSearch(e.target.value);
@@ -134,7 +136,7 @@ export default function AppointmentForm({
                 {/* Pet Select */}
                 <div>
                     <Label className="block text-sm text-black font-medium">
-                        Mascota
+                        {t("pet")}
                     </Label>
 
                     <select
@@ -148,8 +150,8 @@ export default function AppointmentForm({
                     >
                         <option value="">
                             {selectedClient
-                                ? "Seleccione una mascota"
-                                : "Primero seleccione un cliente"}
+                                ? t("selectAPet")
+                                : t("firstClient")}
                         </option>
 
                         {clientPets.map((pet) => (
@@ -163,7 +165,7 @@ export default function AppointmentForm({
                 {/* Date and Time */}
                 <div>
                     <Label className="block text-sm font-medium text-gray-700">
-                        Fecha y Hora
+                        {t("date")}
                     </Label>
 
                     <Input
@@ -179,12 +181,13 @@ export default function AppointmentForm({
                 {/* Reason */}
                 <div className="md:col-span-2">
                     <Label className="block text-sm font-medium text-gray-700">
-                        Motivo
+                        {t("reason")}
                     </Label>
 
                     <Input
                         type="text"
                         required
+                        placeholder={t("reasonPlaceholder")}
                         value={formData.reason}
                         onChange={(e) =>
                             setFormData({ ...formData, reason: e.target.value })
@@ -199,7 +202,7 @@ export default function AppointmentForm({
                         disabled={!formData.pet}
                         className="w-full"
                     >
-                        Guardar Cita
+                        {t("saveAppointment")}
                     </Button>
                 </div>
             </form>
