@@ -95,14 +95,13 @@ export function generateMedicalRecordData() {
 
 export function generateSaleData(productId: string) {
     return {
-        items: [
+        products: [
             {
                 product: productId,
                 quantity: 2,
                 price: 50.00,
             },
         ],
-        paymentMethod: "efectivo",
-        total: 100.00,
+        paymentMethod: "Efectivo",
     };
 }

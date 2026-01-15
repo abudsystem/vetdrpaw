@@ -19,9 +19,9 @@ export const SaleService = {
         products?: any[],
         services?: any[],
         paymentMethod: "Efectivo" | "Tarjeta" | "Transferencia" | "Otro",
-        client?: string,
-        pet?: string,
-        appointment?: string,
+        client?: string | null,
+        pet?: string | null,
+        appointment?: string | null,
         userId: string
     }) => {
         const session = await mongoose.startSession();

@@ -38,7 +38,8 @@ test.describe("Veterinarian - Sales Management", () => {
 
         expect(response.status()).toBe(201);
         const sale = await response.json();
-        expect(sale.total).toBe(saleData.total);
+        // 100 + 15% IVA = 115
+        expect(sale.total).toBe(115);
         expect(sale.paymentMethod).toBe(saleData.paymentMethod);
     });
 
@@ -70,7 +71,7 @@ test.describe("Veterinarian - Sales Management", () => {
     });
 
     test("Should filter sales by payment method", async ({ request }) => {
-        const response = await request.get(`${BASE_URL}/sales?paymentMethod=efectivo`, {
+        const response = await request.get(`${BASE_URL}/sales?paymentMethod=Efectivo`, {
             headers: getAuthHeaders(vetToken),
         });
 
@@ -102,7 +103,7 @@ test.describe("Veterinarian - Sales Management", () => {
             headers: getAuthHeaders(adminToken),
         });
         const initialProduct = await initialProductResponse.json();
-        const initialStock = initialProduct.stock;
+        const initialStock = initialProduct.quantity; // it's quantity in the model
 
         // Crear venta
         const saleData = generateSaleData(productId);
@@ -117,7 +118,7 @@ test.describe("Veterinarian - Sales Management", () => {
         });
         const updatedProduct = await updatedProductResponse.json();
 
-        expect(updatedProduct.stock).toBe(initialStock - saleData.items[0].quantity);
+        expect(updatedProduct.quantity).toBe(initialStock - saleData.products[0].quantity);
     });
 
     test("Should get sales summary", async ({ request }) => {

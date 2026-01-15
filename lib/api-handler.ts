@@ -59,7 +59,7 @@ export const apiHandler = (handler: HandlerFunction, options: HandlerOptions = {
             if (err instanceof AppError) {
                 return NextResponse.json(
                     {
-                        error: "APP_ERROR",
+                        error: "Usuario ya Existente",
                         message: err.message
                     },
                     { status: err.statusCode }

@@ -15,9 +15,9 @@ const createSaleSchema = z.object({
         price: z.number().optional(),
     })).optional(),
     paymentMethod: z.enum(['Efectivo', 'Tarjeta', 'Transferencia', 'Otro']),
-    client: z.string().optional(),
-    pet: z.string().optional(),
-    appointment: z.string().optional(),
+    client: z.string().optional().nullable(),
+    pet: z.string().optional().nullable(),
+    appointment: z.string().optional().nullable(),
 });
 
 export const SalesController = {

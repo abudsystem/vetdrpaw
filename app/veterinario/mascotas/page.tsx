@@ -41,12 +41,15 @@ export default function VetPatientsPage() {
   );
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">{t("title")}</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-800">
+          {t("title")}
+        </h1>
 
         <button
-          onClick={() => setShowGuestForm(true)}
+          onClick={() => setShowGuestForm((prev) => !prev)}
           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition shadow-md hover:shadow-lg"
         >
           <UserPlus size={20} />
@@ -54,10 +57,25 @@ export default function VetPatientsPage() {
         </button>
       </div>
 
+      {/* FORMULARIO (empuja hacia abajo) */}
+      {showGuestForm && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+          <GuestUserForm
+            onClose={() => setShowGuestForm(false)}
+            onSuccess={() => {
+              console.log(t("newGuest"));
+            }}
+          />
+        </div>
+      )}
+
       {/* Search Bar */}
-      <div className="mb-6">
+      <div>
         <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             value={searchTerm}
@@ -68,21 +86,13 @@ export default function VetPatientsPage() {
         </div>
       </div>
 
+      {/* List */}
       {loading ? (
         <p>{t("loading")}</p>
       ) : (
         <PatientList patients={filteredPets} />
       )}
-
-      {showGuestForm && (
-        <GuestUserForm
-          onClose={() => setShowGuestForm(false)}
-          onSuccess={() => {
-            // Optionally refresh data or show success message
-            console.log(t("newGuest"));
-          }}
-        />
-      )}
     </div>
   );
+
 }

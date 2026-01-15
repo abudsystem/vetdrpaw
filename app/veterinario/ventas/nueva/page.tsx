@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface IProduct {
     _id: string;
@@ -48,6 +49,7 @@ interface IAppointment {
 }
 
 export default function NewSalePage() {
+    const t = useTranslations('VetPanel.sales');
     const router = useRouter();
     const [products, setProducts] = useState<IProduct[]>([]);
     const [services, setServices] = useState<IService[]>([]);
@@ -152,7 +154,7 @@ export default function NewSalePage() {
 
     const addProductToCart = (product: IProduct) => {
         if (product.quantity <= 0) {
-            alert("Producto sin stock");
+            alert(t("alertProduct"));
             return;
         }
 
@@ -160,7 +162,7 @@ export default function NewSalePage() {
             const existing = prev.find(item => item.id === product._id && item.type === 'product');
             if (existing) {
                 if (existing.quantity + 1 > product.quantity) {
-                    alert("No hay suficiente stock");
+                    alert(t("alertStock"));
                     return prev;
                 }
                 return prev.map(item =>
@@ -211,7 +213,7 @@ export default function NewSalePage() {
 
         // Check stock for products
         if (type === 'product' && item.stockAvailable && newQty > item.stockAvailable) {
-            alert("Stock insuficiente");
+            alert(t("alertStock"));
             return;
         }
 
@@ -234,7 +236,7 @@ export default function NewSalePage() {
 
     const handleCompleteSale = async () => {
         if (cart.length === 0) return;
-        if (!confirm("¿Confirmar venta?")) return;
+        if (!confirm(t("confirmSale"))) return;
 
         setLoading(true);
         try {
@@ -271,15 +273,20 @@ export default function NewSalePage() {
             });
 
             if (res.ok) {
-                alert("Venta registrada correctamente");
+                alert(t("saleSuccess"));
                 router.push("/veterinario/ventas");
             } else {
                 const err = await res.json();
-                alert(`Error: ${err.message}`);
+                if (err.error === "VALIDATION_ERROR" && err.fields) {
+                    const details = err.fields.map((f: any) => `${f.field}: ${f.message}`).join("\n");
+                    alert(`Error de validación:\n${details}`);
+                } else {
+                    alert(`Error: ${err.message || "Error desconocido"}`);
+                }
             }
         } catch (error) {
-            console.error("Error completing sale:", error);
-            alert("Error al procesar  la venta");
+            console.error(t("saleError"), error);
+            alert(t("saleError"));
         } finally {
             setLoading(false);
         }
@@ -297,7 +304,7 @@ export default function NewSalePage() {
                             : 'text-gray-700 hover:text-gray-700'
                             }`}
                     >
-                        🛒 Productos ({filteredProducts.length})
+                        🛒 {t("products")} ({filteredProducts.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('services')}
@@ -306,13 +313,13 @@ export default function NewSalePage() {
                             : 'text-gray-700 hover:text-gray-700'
                             }`}
                     >
-                        🩺 Servicios ({filteredServices.length})
+                        🩺 {t("services")} ({filteredServices.length})
                     </button>
                 </div>
 
                 <input
                     type="text"
-                    placeholder={`Buscar ${activeTab === 'products' ? 'producto' : 'servicio'}...`}
+                    placeholder={`${t("searchPlaceholderSales")} ${activeTab === 'products' ? t("searchPlaceholderProducts") : t("searchPlaceholderServices")}`}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full border border-gray-300 rounded-md p-2 mb-4 text-black"
@@ -329,7 +336,7 @@ export default function NewSalePage() {
                                         }`}
                                 >
                                     <h3 className="font-semibold text-gray-800 truncate">{product.name}</h3>
-                                    <p className="text-gray-600 text-sm">Stock: {product.quantity}</p>
+                                    <p className="text-gray-600 text-sm">{t("stock")}: {product.quantity}</p>
                                     <p className="text-blue-600 font-bold mt-2">${product.salePrice.toFixed(2)}</p>
                                 </div>
                             ))}
@@ -343,7 +350,7 @@ export default function NewSalePage() {
                                     className="border rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow bg-white"
                                 >
                                     <h3 className="font-semibold text-gray-800 truncate">{service.name}</h3>
-                                    <p className="text-green-600 text-xs mt-1">✓ Disponible</p>
+                                    <p className="text-green-600 text-xs mt-1">✓ {t("available")}</p>
                                     <p className="text-blue-600 font-bold mt-2">${service.basePrice.toFixed(2)}</p>
                                 </div>
                             ))}
@@ -354,17 +361,17 @@ export default function NewSalePage() {
 
             {/* Right: Cart & Checkout */}
             <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md flex flex-col min-h-[400px] md:min-h-0 md:h-full">
-                <h2 className="text-xl font-bold mb-4 text-gray-800">Nueva Venta</h2>
+                <h2 className="text-xl font-bold mb-4 text-gray-800">{t("newSale")}</h2>
 
                 {/* Client Select */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Cliente (Opcional)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("clientSelect")}</label>
                     <select
                         value={selectedClient}
                         onChange={(e) => setSelectedClient(e.target.value)}
                         className="w-full border border-gray-300 rounded-md p-2 text-black"
                     >
-                        <option value="">Público General</option>
+                        <option value="">{t("publicGeneral")}</option>
                         {clients.map(c => (
                             <option key={c._id} value={c._id}>{c.name}</option>
                         ))}
@@ -373,13 +380,13 @@ export default function NewSalePage() {
 
                 {/* Pet Select */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Mascota (Opcional)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("petSelect")}</label>
                     <select
                         value={selectedPet}
                         onChange={(e) => setSelectedPet(e.target.value)}
                         className="w-full border border-gray-300 rounded-md p-2 text-black"
                     >
-                        <option value="">-- Seleccionar Mascota --</option>
+                        <option value=""> -- {t("selectPet")} --</option>
                         {pets
                             .filter(p => !selectedClient || getId(p.propietario) === selectedClient)
                             .map(p => (
@@ -391,13 +398,13 @@ export default function NewSalePage() {
 
                 {/* Appointment Select */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Vincular Cita (Opcional)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("appointmentSelect")}</label>
                     <select
                         value={selectedAppointment}
                         onChange={(e) => setSelectedAppointment(e.target.value)}
                         className="w-full border border-gray-300 rounded-md p-2 text-black"
                     >
-                        <option value="">-- Seleccionar Cita --</option>
+                        <option value="">-- {t("selectAppointment")} --</option>
                         {appointments
                             .filter(a => {
                                 if (selectedPet) {
@@ -418,7 +425,7 @@ export default function NewSalePage() {
                 {/* Cart Items */}
                 <div className="md:flex-1 md:overflow-y-auto min-h-[200px] mb-4 border-t border-b border-gray-200 py-2">
                     {cart.length === 0 ? (
-                        <p className="text-gray-700 text-center py-4">Carrito vacío</p>
+                        <p className="text-gray-700 text-center py-4">{t("carEmpty")}</p>
                     ) : (
                         cart.map((item, index) => (
                             <div key={`${item.id}-${item.type}-${index}`} className="flex justify-between items-center py-2 border-b last:border-0">
@@ -458,7 +465,7 @@ export default function NewSalePage() {
                 <div className="space-y-4">
                     <div className="border-t pt-4 space-y-2">
                         <div className="flex justify-between text-sm text-gray-600">
-                            <span>Subtotal:</span>
+                            <span>{t("subtotal")}:</span>
                             <span>${calculateSubtotal().toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between text-sm text-gray-600">
@@ -466,22 +473,22 @@ export default function NewSalePage() {
                             <span>${calculateIVA().toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-2">
-                            <span>Total:</span>
+                            <span>{t("total")}:</span>
                             <span>${calculateTotal().toFixed(2)}</span>
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Método de Pago</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t("bill.paymentMethod")}</label>
                         <select
                             value={paymentMethod}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                             className="w-full border border-gray-300 rounded-md p-2 text-black"
                         >
-                            <option value="Efectivo">Efectivo</option>
-                            <option value="Tarjeta">Tarjeta</option>
-                            <option value="Transferencia">Transferencia</option>
-                            <option value="Otro">Otro</option>
+                            <option value="Efectivo">{t("cash")}</option>
+                            <option value="Tarjeta">{t("card")}</option>
+                            <option value="Transferencia">{t("transfer")}</option>
+                            <option value="Otro">{t("other")}</option>
                         </select>
                     </div>
 
@@ -490,7 +497,7 @@ export default function NewSalePage() {
                         disabled={cart.length === 0 || loading}
                         className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4"
                     >
-                        {loading ? "Procesando..." : "Completar Venta"}
+                        {loading ? t("processing") : t("confirmSales")}
                     </button>
                 </div>
             </div>

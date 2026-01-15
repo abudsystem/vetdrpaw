@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function SaleDetailPage() {
+    const t = useTranslations('VetPanel.sales.bill');
     const params = useParams();
     const router = useRouter();
     const { id } = params;
@@ -21,7 +23,7 @@ export default function SaleDetailPage() {
                 const data = await res.json();
                 setSale(data);
             } else {
-                alert("Venta no encontrada");
+                alert(t('alert'));
                 router.push("/veterinario/ventas");
             }
         } catch (error) {
@@ -35,34 +37,34 @@ export default function SaleDetailPage() {
         window.print();
     };
 
-    if (loading) return <p className="p-8">Cargando factura...</p>;
+    if (loading) return <p className="p-8">{t('loading')}</p>;
     if (!sale) return null;
 
     return (
         <div className="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg my-8 print:shadow-none print:w-full print:max-w-none print:my-0 print:rounded-none">
             {/* Header */}
             <div className="text-center border-b pb-6 mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Veterinaria DrPaw</h1>
-                <p className="text-gray-600">Clínica Veterinaria</p>
-                <p className="text-sm text-gray-700 mt-2">Comprobante de Venta</p>
+                <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
+                <p className="text-gray-600">{t('subtitle')}</p>
+                <p className="text-sm text-gray-700 mt-2">{t('purchase')}</p>
                 <p className="text-sm text-gray-700">#{sale._id.slice(-6).toUpperCase()}</p>
             </div>
 
             {/* Info */}
             <div className="flex justify-between mb-6 text-sm text-gray-700">
                 <div>
-                    <p><span className="font-bold">Fecha:</span> {new Date(sale.date).toLocaleString()}</p>
-                    <p><span className="font-bold">Atendido por:</span> {sale.user?.name}</p>
+                    <p><span className="font-bold">{t('date')}:</span> {new Date(sale.date).toLocaleString()}</p>
+                    <p><span className="font-bold">{t('attendant')}:</span> {sale.user?.name}</p>
                 </div>
                 <div className="text-right">
-                    <p><span className="font-bold">Cliente:</span> {sale.client?.name || "Público General"}</p>
+                    <p><span className="font-bold">{t('client')}:</span> {sale.client?.name || t('generalClient')}</p>
                     {/* {sale.pet && (
                         <p><span className="font-bold">Paciente:</span> {sale.pet.nombre} ({sale.pet.especie})</p>
                     )} */}
                     {/* {sale.appointment && (
                         <p><span className="font-bold">Cita:</span> {sale.appointment.reason}</p>
                     )} */}
-                    <p><span className="font-bold">Método Pago:</span> {sale.paymentMethod}</p>
+                    <p><span className="font-bold">{t('paymentMethod')}:</span> {sale.paymentMethod}</p>
                 </div>
             </div>
 
@@ -70,10 +72,10 @@ export default function SaleDetailPage() {
             <table className="w-full mb-6">
                 <thead>
                     <tr className="border-b-2 border-gray-200 text-left text-gray-600 text-sm">
-                        <th className="py-2">Producto</th>
-                        <th className="py-2 text-center">Cant.</th>
-                        <th className="py-2 text-right">Precio</th>
-                        <th className="py-2 text-right">Sub</th>
+                        <th className="py-2">{t('product')}</th>
+                        <th className="py-2 text-center">{t('quantity')}</th>
+                        <th className="py-2 text-right">{t('price')}</th>
+                        <th className="py-2 text-right">{t('subtotal')}</th>
                     </tr>
                 </thead>
                 <tbody className="text-gray-800 text-sm">
@@ -111,13 +113,13 @@ export default function SaleDetailPage() {
                     onClick={handlePrint}
                     className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
                 >
-                    Imprimir
+                    {t('printInvoice')}
                 </button>
                 <button
                     onClick={() => router.back()}
                     className="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300 transition-colors"
                 >
-                    Volver
+                    {t('returnInvoice')}
                 </button>
             </div>
         </div>
