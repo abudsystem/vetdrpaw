@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function NewAssetPage() {
+    const t = useTranslations("assets");
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -72,12 +74,12 @@ export default function NewAssetPage() {
     return (
         <div className="max-w-2xl mx-auto">
             <div className="mb-6 flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-800">Registrar Nuevo Activo</h1>
+                <h1 className="text-2xl font-bold text-gray-800">{t("title")}</h1>
                 <Link
                     href="/administrador/activos"
                     className="text-gray-600 hover:text-gray-900"
                 >
-                    Cancelar
+                    {t("cancel")}
                 </Link>
             </div>
 
@@ -92,7 +94,7 @@ export default function NewAssetPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Nombre del Activo
+                                {t("name")}
                             </label>
                             <input
                                 type="text"
@@ -101,13 +103,13 @@ export default function NewAssetPage() {
                                 onChange={handleChange}
                                 required
                                 className="w-full text-gray-700 tepx-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Ej: Mesa Quirúrgica"
+                                placeholder={t("placeHolderName")}
                             />
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Categoría
+                                {t("category")}
                             </label>
                             <select
                                 name="category"
@@ -123,7 +125,7 @@ export default function NewAssetPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Fecha de Adquisición
+                                {t("dateAcquisition")}
                             </label>
                             <input
                                 type="date"
@@ -137,7 +139,7 @@ export default function NewAssetPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Cantidad
+                                {t("amount")}
                             </label>
                             <input
                                 type="number"
@@ -152,7 +154,7 @@ export default function NewAssetPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Costo Unitario ($)
+                                {t("unitCost")} ($)
                             </label>
                             <input
                                 type="number"
@@ -178,14 +180,14 @@ export default function NewAssetPage() {
                                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             />
                             <label htmlFor="isDepreciable" className="ml-2 block text-sm text-gray-900 font-medium">
-                                ¿Es un activo depreciable?
+                                {t("isDepreciated")}
                             </label>
                         </div>
 
                         {formData.isDepreciable && (
                             <div className="bg-gray-50 p-4 rounded-md">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Vida Útil (Meses)
+                                    {t("lifeTime")}
                                 </label>
                                 <input
                                     type="number"
@@ -198,7 +200,7 @@ export default function NewAssetPage() {
                                     placeholder="Ej: 60 (5 años)"
                                 />
                                 <p className="text-xs text-gray-700 mt-1">
-                                    La depreciación se calculará mensualmente de forma automática.
+                                    {t("descriptionDepreciated")}
                                 </p>
                             </div>
                         )}
@@ -210,7 +212,7 @@ export default function NewAssetPage() {
                             disabled={loading}
                             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                         >
-                            {loading ? "Guardando..." : "Guardar Activo"}
+                            {loading ? t("saving") : t("saved")}
                         </button>
                     </div>
                 </form>

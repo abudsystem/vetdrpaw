@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface Product {
     _id: string;
@@ -31,6 +32,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     const [movementQuantity, setMovementQuantity] = useState(1);
     const [movementReason, setMovementReason] = useState("");
     const [movementLoading, setMovementLoading] = useState(false);
+    const t = useTranslations("inventory");
 
     useEffect(() => {
         fetchProduct();
@@ -118,10 +120,10 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             });
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.message || "Error en movimiento");
+                throw new Error(data.message || t("deleteInProgress"));
             }
 
-            alert("Movimiento registrado");
+            alert(t("movementRegistered"));
             setMovementQuantity(1);
             setMovementReason("");
             fetchProduct(); // Refresh data
@@ -133,29 +135,29 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     };
 
     const handleDelete = async () => {
-        if (!confirm("¿Estás seguro de eliminar este producto?")) return;
+        if (!confirm(t("deleteConfirm"))) return;
         try {
             const res = await fetch(`/api/inventory?id=${id}`, { method: "DELETE" });
-            if (!res.ok) throw new Error("Error al eliminar");
+            if (!res.ok) throw new Error(t("deleteError"));
             router.push("/administrador/inventario");
         } catch (err: any) {
             alert(err.message);
         }
     };
 
-    if (loading) return <div className="p-8">Cargando...</div>;
-    if (!product) return <div className="p-8">Producto no encontrado</div>;
+    if (loading) return <div className="p-8">{t("loading")}</div>;
+    if (!product) return <div className="p-8">{t("productNotFound")}</div>;
 
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Gestionar Producto</h1>
+                <h1 className="text-2xl font-bold text-gray-800">{t("title")}</h1>
                 <div className="space-x-2">
                     <Link href="/administrador/inventario" className="text-gray-600 hover:text-gray-900 px-3 py-2">
-                        Volver
+                        {t("return")}
                     </Link>
                     <button onClick={handleDelete} className="text-red-600 hover:text-red-800 px-3 py-2">
-                        Eliminar
+                        {t("delete")}
                     </button>
                 </div>
             </div>
@@ -170,7 +172,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                 : "border-transparent text-gray-700 hover:text-gray-700 hover:border-gray-300"
                                 } w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm`}
                         >
-                            Detalles
+                            {t("details")}
                         </button>
                         <button
                             onClick={() => setActiveTab("movement")}
@@ -179,7 +181,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                 : "border-transparent text-gray-700 hover:text-gray-700 hover:border-gray-300"
                                 } w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm`}
                         >
-                            Control de Stock
+                            {t("manageOfStock")}
                         </button>
                     </nav>
                 </div>
@@ -189,7 +191,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                         <form onSubmit={handleUpdate} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="col-span-2">
-                                    <label className="block text-sm font-medium text-black text-gray-700">Nombre</label>
+                                    <label className="block text-sm font-medium text-black text-gray-700">{t("name")}</label>
                                     <input
                                         type="text"
                                         value={product.name}
@@ -198,21 +200,21 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Categoría</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("category")}</label>
                                     <select
                                         value={product.category}
                                         onChange={(e) => setProduct({ ...product, category: e.target.value })}
                                         className="mt-1 block w-full text-black border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                     >
-                                        <option value="Medicinas">Medicinas</option>
-                                        <option value="Alimentos">Alimentos</option>
-                                        <option value="Insumos">Insumos</option>
-                                        <option value="Accesorios">Accesorios</option>
-                                        <option value="Otros">Otros</option>
+                                        <option value="Medicinas">{t("medicine")}</option>
+                                        <option value="Alimentos">{t("food")}</option>
+                                        <option value="Insumos">{t("input")}</option>
+                                        <option value="Accesorios">{t("accessories")}</option>
+                                        <option value="Otros">{t("others")}</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Stock Actual</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("currentStock")}</label>
                                     <input
                                         type="number"
                                         disabled
@@ -222,7 +224,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                 </div>
                                 {/* Add other fields similarly... keeping it brief for this tool call */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Precio Venta</label>
+                                    <label className="block text-sm font-medium text-gray-700">{t("priceOfSale")}</label>
                                     <input
                                         type="number"
                                         value={product.salePrice}
@@ -231,7 +233,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-black text-sm font-medium text-gray-700">Stock Mínimo</label>
+                                    <label className="block text-black text-sm font-medium text-gray-700">{t("stockMinimum")}</label>
                                     <input
                                         type="number"
                                         value={product.minStock}
@@ -246,30 +248,30 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                     disabled={loading}
                                     className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md shadow-sm text-sm font-medium"
                                 >
-                                    Guardar Cambios
+                                    {t("saveChanges")}
                                 </button>
                             </div>
                         </form>
                     ) : (
                         <div className="space-y-8">
                             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                <h3 className="text-lg font-medium text-gray-900 mb-4">Registrar Movimiento</h3>
+                                <h3 className="text-lg font-medium text-gray-900 mb-4">{t("registerMovement")}</h3>
                                 <form onSubmit={handleMovement} className="space-y-4">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700">Tipo</label>
+                                            <label className="block text-sm font-medium text-gray-700">{t("type")}</label>
                                             <select
                                                 value={movementType}
                                                 onChange={(e) => setMovementType(e.target.value)}
                                                 className="mt-1 text-black block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                             >
-                                                <option value="ENTRADA">Entrada (+)</option>
-                                                <option value="SALIDA">Salida (-)</option>
-                                                <option value="AJUSTE">Ajuste (Corrección)</option>
+                                                <option value="ENTRADA">{t("entrance")} (+)</option>
+                                                <option value="SALIDA">{t("exit")} (-)</option>
+                                                <option value="AJUSTE">{t("adjustment")} (Corrección)</option>
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700">Cantidad</label>
+                                            <label className="block text-sm font-medium text-gray-700">{t("quantity")}</label>
                                             <input
                                                 type="number"
                                                 min="1"
@@ -280,10 +282,10 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700">Motivo</label>
+                                            <label className="block text-sm font-medium text-gray-700">{t("reason")}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Ej. Compra, Venta, Caducidad..."
+                                                placeholder={t("placeHolderQuantity")}
                                                 value={movementReason}
                                                 onChange={(e) => setMovementReason(e.target.value)}
                                                 className="mt-1 text-black block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
@@ -296,7 +298,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                             disabled={movementLoading}
                                             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm text-sm font-medium"
                                         >
-                                            Registrar Movimiento
+                                            {t("registerMovement")}
                                         </button>
                                     </div>
                                 </form>
@@ -304,7 +306,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
                             {/* History Table could go here, but I'll skip for brevity unless requested specifically */}
                             <div className="text-sm text-gray-700 italic">
-                                * El historial de movimientos se puede consultar en la base de datos.
+                                {t("historyMovements")}
                             </div>
                         </div>
                     )}

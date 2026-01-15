@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function NewLiabilityPage() {
+    const t = useTranslations("liabilities");
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -62,12 +64,12 @@ export default function NewLiabilityPage() {
     return (
         <div className="max-w-3xl mx-auto">
             <div className="mb-6 flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-800">Registrar Nuevo Pasivo</h1>
+                <h1 className="text-2xl font-bold text-gray-800">{t("title")}</h1>
                 <Link
                     href="/administrador/pasivos"
                     className="text-gray-600 hover:text-gray-900"
                 >
-                    Cancelar
+                    {t("cancel")}
                 </Link>
             </div>
 
@@ -82,7 +84,7 @@ export default function NewLiabilityPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Tipo de Pasivo
+                                {t("type")}
                             </label>
                             <select
                                 name="type"
@@ -90,19 +92,19 @@ export default function NewLiabilityPage() {
                                 onChange={handleChange}
                                 className="w-full text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
-                                <option value="PRESTAMO">Préstamo</option>
-                                <option value="OBLIGACION">Obligación</option>
+                                <option value="PRESTAMO">{t("loan")}</option>
+                                <option value="OBLIGACION">{t("obligation")}</option>
                             </select>
                             <p className="text-xs text-gray-700 mt-1">
                                 {formData.type === 'PRESTAMO'
-                                    ? 'Deuda con entidad financiera o terceros'
-                                    : 'Pago mensual recurrente (arriendo, servicios, etc.)'}
+                                    ? t("loanDescription")
+                                    : t("obligationDescription")}
                             </p>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Fecha de Inicio
+                                {t("dateStart")}
                             </label>
                             <input
                                 type="date"
@@ -116,7 +118,7 @@ export default function NewLiabilityPage() {
 
                         <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Descripción
+                                {t("description")}
                             </label>
                             <textarea
                                 name="description"
@@ -125,13 +127,13 @@ export default function NewLiabilityPage() {
                                 required
                                 rows={2}
                                 className="w-full text-gray-700 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Ej: Préstamo bancario para equipamiento médico"
+                                placeholder={t("descriptionPlaceHolder")}
                             />
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Monto Principal ($)
+                                {t("principalAmount")} ($)
                             </label>
                             <input
                                 type="number"
@@ -147,7 +149,7 @@ export default function NewLiabilityPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Tasa de Interés Mensual (%)
+                                {t("interestRateMonthly")} (%)
                             </label>
                             <input
                                 type="number"
@@ -159,13 +161,13 @@ export default function NewLiabilityPage() {
                                 className="w-full px-3 text-gray-700 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                             <p className="text-xs text-gray-700 mt-1">
-                                Dejar en 0 si no genera intereses
+                                {t("note")}
                             </p>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Plazo (Meses)
+                                {t("termMonths")}
                             </label>
                             <input
                                 type="number"
@@ -180,7 +182,7 @@ export default function NewLiabilityPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Monto Ya Pagado ($)
+                                {t("amountAlreadyPaid")} ($)
                             </label>
                             <input
                                 type="number"
@@ -192,7 +194,7 @@ export default function NewLiabilityPage() {
                                 className="w-full px-3 text-gray-700 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                             <p className="text-xs text-gray-700 mt-1">
-                                Opcional: si ya se han realizado pagos
+                                {t("option")}
                             </p>
                         </div>
                     </div>
@@ -200,35 +202,35 @@ export default function NewLiabilityPage() {
                     {/* Preview Section */}
                     {formData.amount > 0 && (
                         <div className="border-t pt-6 mt-6">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 Vista Previa de Cálculos</h3>
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 {t("preView")}</h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="bg-blue-50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-600 mb-1">Interés Total</p>
+                                    <p className="text-xs text-gray-600 mb-1">{t("totalInterest")}</p>
                                     <p className="text-xl font-bold text-blue-700">
                                         ${totalInterest.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                                 <div className="bg-red-50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-600 mb-1">Deuda Total</p>
+                                    <p className="text-xs text-gray-600 mb-1">{t("totalDebt")}</p>
                                     <p className="text-xl font-bold text-red-700">
                                         ${totalDebt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                                 <div className="bg-purple-50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-600 mb-1">Pago Mensual</p>
+                                    <p className="text-xs text-gray-600 mb-1">{t("monthlyPayment")}</p>
                                     <p className="text-xl font-bold text-purple-700">
                                         ${monthlyPayment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                                 <div className="bg-orange-50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-600 mb-1">Monto Pendiente</p>
+                                    <p className="text-xs text-gray-600 mb-1">{t("outstandingAmount")}</p>
                                     <p className="text-xl font-bold text-orange-700">
                                         ${pendingAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                             </div>
                             <p className="text-xs text-gray-700 mt-3">
-                                * Estos cálculos son estimados basados en interés simple mensual
+                                {t("noteCalculation")}
                             </p>
                         </div>
                     )}
@@ -239,7 +241,7 @@ export default function NewLiabilityPage() {
                             disabled={loading}
                             className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50"
                         >
-                            {loading ? "Guardando..." : "Guardar Pasivo"}
+                            {loading ? t("saving") : t("savePassive")}
                         </button>
                     </div>
                 </form>
