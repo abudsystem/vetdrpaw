@@ -151,7 +151,7 @@ export default function EditAssetPage({ params }: { params: Promise<{ id: string
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Categoría
                             </label>
@@ -168,7 +168,7 @@ export default function EditAssetPage({ params }: { params: Promise<{ id: string
                             </select>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Fecha de Adquisición
                             </label>
@@ -183,7 +183,7 @@ export default function EditAssetPage({ params }: { params: Promise<{ id: string
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Cantidad
                             </label>
@@ -199,7 +199,7 @@ export default function EditAssetPage({ params }: { params: Promise<{ id: string
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Costo Unitario ($)
                             </label>

@@ -914,6 +914,7 @@
         "petCare": {
             "errorCreate": "Error al crear el artículo",
             "successCreate": "Artículo creado exitosamente",
+            "noArticles": "No hay artículos registrados.",
             "errorUpdate": "Error al actualizar el artículo",
             "successUpdate": "Artículo actualizado exitosamente",
             "errorDelete": "Error al eliminar el artículo",
@@ -1066,7 +1067,7 @@
             },
             "filtered": {
                 "noData": "No se encontraron transacciones",
-                "noDataTransaction": "No hay transacciones registradas. Registra tu primera transacción usando el botón superior."
+                "noDataTransactions": "No hay transacciones registradas. Registra tu primera transacción usando el botón superior."
             }
         },
         "inventoryBackup": {
@@ -1092,6 +1093,7 @@
             "totalSize": "Tamaño Total",
             "search": "Buscar por nombre de archivo o tipo...",
             "lastCopy": "Ultima Copia",
+            "noCopies": "No hay copias de seguridad registradas.",
             "title": "Copias de Inventario",
             "description": "Gestion de backups y copias de seguridad de inventario",
             "loading": "Cargando...",

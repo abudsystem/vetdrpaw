@@ -116,7 +116,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
                         <h3 className="text-lg font-semibold text-gray-800 mb-4">📈 Progreso de Pago</h3>
                         <div className="space-y-4">
-                            <div>
+                            <div className="col-span-2">
                                 <div className="flex justify-between text-sm mb-2">
                                     <span className="text-gray-600">Pagado</span>
                                     <span className="font-semibold text-gray-900">
@@ -154,7 +154,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Tipo de Pasivo
                             </label>
@@ -169,7 +169,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                             </select>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Fecha de Inicio
                             </label>
@@ -197,7 +197,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Monto Principal ($)
                             </label>
@@ -213,7 +213,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Tasa de Interés Mensual (%)
                             </label>
@@ -228,7 +228,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Plazo (Meses)
                             </label>
@@ -243,7 +243,7 @@ export default function EditLiabilityPage({ params }: { params: Promise<{ id: st
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Monto Ya Pagado ($)
                             </label>

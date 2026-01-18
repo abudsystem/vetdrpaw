@@ -183,76 +183,78 @@ export default function CashFlowPage() {
             </div>
 
             {/* Transactions Table */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.date")}</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.type")}</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.category")}</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.description")}</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.amount")}</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.actions")}</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {filteredTransactions.map((transaction) => (
-                            <tr key={transaction._id} className="hover:bg-gray-50">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                    {new Date(transaction.date).toLocaleDateString()}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${transaction.type === 'INGRESO'
-                                        ? 'bg-green-100 text-green-800'
-                                        : 'bg-red-100 text-red-800'
-                                        }`}>
-                                        {transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                        {transaction.category}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div className="text-sm text-gray-900">{transaction.description}</div>
-                                    <div className="text-xs text-gray-700">
-                                        Por: {transaction.createdBy}
-                                        {transaction.relatedDocument && (
-                                            <span className="ml-2 text-blue-600">🤖 {t('span.auto')}</span>
-                                        )}
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`text-lg font-bold ${transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')
-                                        }`}>
-                                        {transaction.type === 'INGRESO' ? t('span.plus') : t('span.minus')}
-                                        ${transaction.amount.toLocaleString()}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    {transaction.relatedDocument ? (
-                                        <span className="text-gray-600 cursor-not-allowed" title="Entrada automática - no se puede eliminar">
-                                            🔒 {t('span.auto')}
-                                        </span>
-                                    ) : (
-                                        <button
-                                            onClick={() => handleDelete(transaction._id)}
-                                            className="text-red-600 hover:text-red-900"
-                                        >
-                                            {t('button.Delete')}
-                                        </button>
-                                    )}
-                                </td>
+            <div className="bg-white rounded-lg shadow">
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.date")}</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.type")}</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.category")}</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.description")}</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.amount")}</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">{t("form.actions")}</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {filteredTransactions.length === 0 && (
-                    <div className="p-6 text-center text-gray-700">
-                        {searchTerm ? t('filtered.noData') : t('filtered.noDataTransactions')}
-                    </div>
-                )}
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {filteredTransactions.map((transaction) => (
+                                <tr key={transaction._id} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        {new Date(transaction.date).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${transaction.type === 'INGRESO'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-red-100 text-red-800'
+                                            }`}>
+                                            {transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            {transaction.category}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm text-gray-900">{transaction.description}</div>
+                                        <div className="text-xs text-gray-700">
+                                            Por: {transaction.createdBy}
+                                            {transaction.relatedDocument && (
+                                                <span className="ml-2 text-blue-600">🤖 {t('span.auto')}</span>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-black">
+                                        <span className={`text-lg font-bold ${transaction.type === 'INGRESO' ? t('span.income') : t('span.expense')
+                                            }`}>
+                                            {transaction.type === 'INGRESO' ? t('span.plus') : t('span.minus')}
+                                            ${transaction.amount.toLocaleString()}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        {transaction.relatedDocument ? (
+                                            <span className="text-gray-600 cursor-not-allowed" title="Entrada automática - no se puede eliminar">
+                                                🔒 {t('span.auto')}
+                                            </span>
+                                        ) : (
+                                            <button
+                                                onClick={() => handleDelete(transaction._id)}
+                                                className="text-red-600 hover:text-red-900"
+                                            >
+                                                {t('button.Delete')}
+                                            </button>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {filteredTransactions.length === 0 && (
+                        <div className="p-6 text-center text-gray-700">
+                            {searchTerm ? t('filtered.noData') : t('filtered.noDataTransactions')}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

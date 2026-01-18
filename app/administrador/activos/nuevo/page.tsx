@@ -107,7 +107,7 @@ export default function NewAssetPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("category")}
                             </label>
@@ -123,7 +123,7 @@ export default function NewAssetPage() {
                             </select>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("dateAcquisition")}
                             </label>
@@ -137,7 +137,7 @@ export default function NewAssetPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("amount")}
                             </label>
@@ -152,7 +152,7 @@ export default function NewAssetPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("unitCost")} ($)
                             </label>
@@ -212,7 +212,7 @@ export default function NewAssetPage() {
                             disabled={loading}
                             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                         >
-                            {loading ? t("saving") : t("saved")}
+                            {loading ? t("saving") : t("save")}
                         </button>
                     </div>
                 </form>

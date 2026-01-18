@@ -106,7 +106,7 @@ export default function NewCashFlowPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Tipo de Transacción
                             </label>
@@ -124,7 +124,7 @@ export default function NewCashFlowPage() {
                             </select>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Categoría
                             </label>
@@ -145,7 +145,7 @@ export default function NewCashFlowPage() {
                             </p>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Fecha
                             </label>
@@ -159,7 +159,7 @@ export default function NewCashFlowPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Monto ($)
                             </label>

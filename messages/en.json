@@ -919,6 +919,7 @@
             "errorUpdate": "Error updating article",
             "successUpdate": "Article updated successfully",
             "errorDelete": "Error deleting article",
+            "noArticles": "No articles registered.",
             "successDelete": "Article deleted successfully",
             "title": "Pet Care",
             "description": "Manage articles and informative tips for clients",
@@ -1066,7 +1067,7 @@
             },
             "filtered": {
                 "noData": "No transactions found",
-                "noDataTransaction": "No transactions registered. Register your first transaction using the button above."
+                "noDataTransactions": "No transactions registered. Register your first transaction using the button above."
             }
         },
         "inventoryBackup": {
@@ -1075,6 +1076,7 @@
             "confirmCopy": "Create a backup of the inventory?",
             "successCopy": "Backup created and downloaded successfully",
             "errorCopy": "Error creating backup",
+            "noCopies": "No backups registered.",
             "confirmDeleteBackup": "Delete this backup?",
             "successDeleteBackup": "Backup deleted successfully",
             "errorDeleteBackup": "Error deleting backup",

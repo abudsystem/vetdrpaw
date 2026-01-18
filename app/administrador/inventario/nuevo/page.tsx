@@ -74,7 +74,7 @@ export default function NewProductPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Nombre del Producto</label>
                         <input
@@ -98,7 +98,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Categoría</label>
                         <select
                             name="category"
@@ -116,7 +116,7 @@ export default function NewProductPage() {
                         </select>
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Ubicación Física</label>
                         <input
                             type="text"
@@ -127,7 +127,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Costo Unitario ($)</label>
                         <input
                             type="number"
@@ -141,7 +141,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Precio Venta ($)</label>
                         <input
                             type="number"
@@ -155,7 +155,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Cantidad Inicial</label>
                         <input
                             type="number"
@@ -168,7 +168,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Stock Mínimo</label>
                         <input
                             type="number"
@@ -181,7 +181,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Proveedor</label>
                         <input
                             type="text"
@@ -192,7 +192,7 @@ export default function NewProductPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Fecha de Caducidad</label>
                         <input
                             type="date"

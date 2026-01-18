@@ -82,7 +82,7 @@ export default function NewLiabilityPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("type")}
                             </label>
@@ -102,7 +102,7 @@ export default function NewLiabilityPage() {
                             </p>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("dateStart")}
                             </label>
@@ -131,7 +131,7 @@ export default function NewLiabilityPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("principalAmount")} ($)
                             </label>
@@ -147,7 +147,7 @@ export default function NewLiabilityPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("interestRateMonthly")} (%)
                             </label>
@@ -165,7 +165,7 @@ export default function NewLiabilityPage() {
                             </p>
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("termMonths")}
                             </label>
@@ -180,7 +180,7 @@ export default function NewLiabilityPage() {
                             />
                         </div>
 
-                        <div>
+                        <div className="col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {t("amountAlreadyPaid")} ($)
                             </label>
