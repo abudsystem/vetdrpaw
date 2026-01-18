@@ -1,9 +1,12 @@
 import { Pet } from "../models/Pet";
 import { User } from "../models/User";
 import mongoose from "mongoose";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
+if (!process.env.MONGODB_URI) {
+    dotenv.config({ path: ".env" });
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
