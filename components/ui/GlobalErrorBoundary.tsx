@@ -18,7 +18,7 @@ export function GlobalErrorBoundary({ error, resetErrorBoundary }: FallbackProps
                 Ha ocurrido un error inesperado. Hemos sido notificados y estamos trabajando en ello.
             </p>
 
-            {process.env.NODE_ENV === 'development' && (
+            {process.env.NODE_ENV === 'development' && error instanceof Error && (
                 <div className="w-full max-w-2xl bg-gray-50 p-4 rounded-lg mb-8 overflow-auto text-left">
                     <p className="text-sm font-mono text-red-600 break-all">
                         {error.message}
