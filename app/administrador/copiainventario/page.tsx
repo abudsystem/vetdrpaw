@@ -10,7 +10,7 @@ interface Backup {
     _id: string;
     filename: string;
     type: 'MANUAL' | 'DAILY' | 'WEEKLY';
-    createdBy: string;
+    createdBy: string | { name: string };
     recordCount: number;
     fileSize: number;
     createdAt: string;

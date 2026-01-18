@@ -4,7 +4,7 @@ import dbConnect from "@/lib/db";
 export const BackupRepository = {
     find: async (query: any = {}) => {
         await dbConnect();
-        return Backup.find(query).sort({ createdAt: -1 });
+        return Backup.find(query).sort({ createdAt: -1 }).populate('createdBy', 'name');
     },
     findById: async (id: string) => {
         await dbConnect();

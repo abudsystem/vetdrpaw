@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 export interface IBackup extends Document {
     filename: string;
     type: 'MANUAL' | 'DAILY' | 'WEEKLY';
-    createdBy: string; // User email or name
+    createdBy: mongoose.Types.ObjectId; // User ID
     recordCount: number;
     fileSize: number; // in bytes
     createdAt: Date;
@@ -18,7 +18,7 @@ const backupSchema = new Schema<IBackup>(
             required: true,
             default: 'MANUAL'
         },
-        createdBy: { type: String, required: true },
+        createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         recordCount: { type: Number, required: true, default: 0 },
         fileSize: { type: Number, required: true, default: 0 },
     },

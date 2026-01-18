@@ -10,7 +10,7 @@ interface Backup {
     _id: string;
     filename: string;
     type: 'MANUAL' | 'DAILY' | 'WEEKLY';
-    createdBy: string;
+    createdBy: string | { name: string };
     recordCount: number;
     fileSize: number;
     createdAt: string;
@@ -88,7 +88,7 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                                     {new Date(backup.createdAt).toLocaleString()}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
-                                    {backup.createdBy}
+                                    {typeof backup.createdBy === 'object' ? backup.createdBy.name : backup.createdBy}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
                                     {backup.recordCount} {t('table.products')}
@@ -116,6 +116,6 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                 totalItems={totalItems}
                 onPageChange={handlePageChange}
             />
-        </div>
+        </div >
     );
 };

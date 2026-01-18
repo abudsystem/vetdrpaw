@@ -4,7 +4,7 @@ interface Backup {
     _id: string;
     filename: string;
     type: 'MANUAL' | 'DAILY' | 'WEEKLY';
-    createdBy: string;
+    createdBy: string | { name: string };
     recordCount: number;
     fileSize: number;
     createdAt: string;
@@ -42,7 +42,7 @@ export const BackupMobileCard = ({ backup, formatBytes, onDelete }: BackupMobile
                 </div>
                 <div className="flex flex-col col-span-2 mt-2 pt-2 border-t border-gray-200">
                     <span className="text-xs text-gray-700">Creado Por</span>
-                    <span className="font-medium">{backup.createdBy}</span>
+                    <span className="font-medium">{typeof backup.createdBy === 'object' ? backup.createdBy.name : backup.createdBy}</span>
                 </div>
             </div>
 
