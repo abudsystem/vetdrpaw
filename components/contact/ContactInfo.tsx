@@ -45,7 +45,7 @@ export const ContactInfo = () => {
                             <MapPin className="w-6 h-6" />
                         </div>
                         <a
-                            href="https://www.google.com/maps?sca_esv=2286ae5c4aad172f&hl=es-419&authuser=0&kgs=d684a9a79c5868da&daddr=WH88%2B4J9,+Av.+Cacha,+Quito+170155"
+                            href="https://maps.app.goo.gl/Zkupxkj23bzto3du5"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-lg font-bold text-teal-700 hover:text-teal-800 hover:underline transition-colors"
