@@ -74,7 +74,7 @@ export const ContactInfo = () => {
                     <motion.a
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        href="https://www.instagram.com/vet_drpaw?utm_source=qr&igsh=dzA1NXdmN2lqYmE5"
+                        href="https://www.instagram.com/vet_drpaw/"
                         target="_blank"
                         className="p-4 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 text-pink-600 shadow-sm border border-pink-100"
                     >
