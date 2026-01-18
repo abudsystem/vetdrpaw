@@ -222,9 +222,11 @@
     },
     "ClientPanel": {
         "common": {
+            "select": "Select",
             "loading": "Loading...",
             "cancel": "Cancel",
             "save": "Save",
+            "saving": "saving...",
             "update": "Update",
             "edit": "Edit",
             "delete": "Delete",
@@ -278,6 +280,24 @@
             "loading": "Loading...",
             "noPets": "You don't have any pets registered yet.",
             "form": {
+                "placeholders": {
+                    "name": "Name",
+                    "dog": "Dog",
+                    "cat": "Cat",
+                    "other": "Other",
+                    "male": "Male",
+                    "female": "Female",
+                    "species": "Species",
+                    "breed": "Breed",
+                    "sex": "Sex",
+                    "weight": "Weight (kg)",
+                    "color": "Color/Markings",
+                    "allergies": "Allergies Known",
+                    "sterilized": "Sterilized/Castrated",
+                    "microchip": "Microchip Number",
+                    "notes": "Special Notes",
+                    "birthDate": "Birth Date"
+                },
                 "registerTitle": "Register Pet",
                 "editTitle": "Edit Pet",
                 "basicInfo": "Basic Information",
@@ -919,7 +939,6 @@
             "errorUpdate": "Error updating article",
             "successUpdate": "Article updated successfully",
             "errorDelete": "Error deleting article",
-            "noArticles": "No articles registered.",
             "successDelete": "Article deleted successfully",
             "title": "Pet Care",
             "description": "Manage articles and informative tips for clients",
@@ -1067,7 +1086,7 @@
             },
             "filtered": {
                 "noData": "No transactions found",
-                "noDataTransactions": "No transactions registered. Register your first transaction using the button above."
+                "noDataTransaction": "No transactions registered. Register your first transaction using the button above."
             }
         },
         "inventoryBackup": {
@@ -1076,7 +1095,6 @@
             "confirmCopy": "Create a backup of the inventory?",
             "successCopy": "Backup created and downloaded successfully",
             "errorCopy": "Error creating backup",
-            "noCopies": "No backups registered.",
             "confirmDeleteBackup": "Delete this backup?",
             "successDeleteBackup": "Backup deleted successfully",
             "errorDeleteBackup": "Error deleting backup",

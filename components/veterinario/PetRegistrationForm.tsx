@@ -129,8 +129,8 @@ export function PetRegistrationForm({
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 my-8 relative">
+        <div className="relative w-full mt-4">
+            <div className="bg-white">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
