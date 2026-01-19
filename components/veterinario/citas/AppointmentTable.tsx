@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { calculateAge } from "@/lib/dateUtils";
 
 interface AppointmentTableProps {
     appointments: Appointment[];
@@ -103,7 +104,7 @@ export default function AppointmentTable({
                                             </div>
 
                                             <div>
-                                                {t('age')}: {app.pet?.edad ? `${app.pet.edad} ${Number(app.pet.edad) === 1 ? tc('year') : tc('years')}` : t('notDefined')}
+                                                {t('age')}: {calculateAge(app.pet?.fechaNacimiento, app.pet?.edad ? Number(app.pet.edad) : undefined, tc)}
                                             </div>
                                         </div>
                                     )}

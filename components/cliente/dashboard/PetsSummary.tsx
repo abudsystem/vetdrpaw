@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Pet } from '@/types/pet';
+import { calculateAge } from '@/lib/dateUtils';
 import { useTranslations } from 'next-intl';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -75,7 +76,7 @@ export const PetsSummary = ({ pets, loading }: { pets: Pet[], loading?: boolean 
                                         <p className="text-xs font-bold text-gray-400 uppercase tracking-tighter">{pet.especie}</p>
                                         {pet.edad !== undefined && (
                                             <p className="text-sm font-bold text-gray-600 mt-1">
-                                                {pet.edad} <span className="text-gray-400">{pet.edad === 1 ? tc('year') : tc('years')}</span>
+                                                {calculateAge(pet.fechaNacimiento, pet.edad, tc)}
                                             </p>
                                         )}
                                     </div>

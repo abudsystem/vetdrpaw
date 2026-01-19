@@ -7,6 +7,7 @@ import { PetMobileCard } from './PetMobileCard';
 import { Pagination } from '@/components/ui/Pagination';
 import { usePagination } from '@/hooks/usePagination';
 import { useTranslations } from 'next-intl';
+import { calculateAge } from '@/lib/dateUtils';
 
 interface PetListProps {
     pets: Pet[];
@@ -94,7 +95,7 @@ export const PetList = ({ pets, onEdit, onDelete, showForm }: PetListProps) => {
                                 <TableCell>
                                     <div className="text-sm text-gray-600">
                                         <p><span className="font-medium">{t('table.breed')}:</span> {pet.raza}</p>
-                                        <p><span className="font-medium">{t('table.age')}:</span> {pet.edad} {pet.edad === 1 ? tc('year') : tc('years')}</p>
+                                        <p><span className="font-medium">{t('table.age')}:</span> {calculateAge(pet.fechaNacimiento, pet.edad, tc)}</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>

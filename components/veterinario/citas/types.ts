@@ -9,6 +9,7 @@ export interface Appointment {
         especie?: string;
         raza?: string;
         edad?: string;
+        fechaNacimiento?: string;
         propietario: {
             name: string;
             telefono?: string;

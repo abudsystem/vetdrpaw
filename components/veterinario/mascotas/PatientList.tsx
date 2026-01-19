@@ -3,6 +3,7 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 import { Pet } from '@/types/pet';
 import { useTranslations } from 'next-intl';
+import { calculateAge } from '@/lib/dateUtils';
 
 interface PatientListProps {
     patients: Pet[];
@@ -29,7 +30,7 @@ export const PatientList = ({ patients = [] }: PatientListProps) => {
                             <TableCell className="whitespace-nowrap">
                                 <div className="text-sm font-medium text-gray-900">{pet.nombre}</div>
                                 <div className="text-sm text-gray-700">
-                                    {pet.edad} {pet.edad === 1 ? tc('year') : tc('years')}
+                                    {calculateAge(pet.fechaNacimiento, pet.edad, tc)}
                                 </div>
                             </TableCell>
                             <TableCell className="whitespace-nowrap">

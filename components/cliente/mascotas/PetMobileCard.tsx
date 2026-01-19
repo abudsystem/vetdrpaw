@@ -1,6 +1,7 @@
 import { Pet } from '@/types/pet';
 import { Button } from '@/components/ui/Button';
 import { useTranslations } from 'next-intl';
+import { calculateAge } from '@/lib/dateUtils';
 
 interface PetMobileCardProps {
     pet: Pet;
@@ -57,7 +58,7 @@ export const PetMobileCard = ({ pet, onEdit, onDelete }: PetMobileCardProps) => 
                 )}
 
                 {pet.edad !== undefined && (
-                    <p><strong>{t('table.age')}:</strong> {pet.edad} {pet.edad === 1 ? tc('year') : tc('years')}</p>
+                    <p><strong>{t('table.age')}:</strong> {calculateAge(pet.fechaNacimiento, pet.edad, tc)}</p>
                 )}
                 {pet.peso && <p><strong>{t('form.weight')}:</strong> {pet.peso} kg</p>}
                 {pet.color && <p><strong>{t('form.color')}:</strong> {pet.color}</p>}
