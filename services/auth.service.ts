@@ -61,7 +61,7 @@ export const AuthService = {
     // Generate activation token
     const activationToken = EmailService.generateToken();
     const activationExpires = new Date();
-    activationExpires.setDate(activationExpires.getDate() + 7); // 7 days
+    activationExpires.setDate(activationExpires.getDate() + 1000); // 7 days|
 
     // Create guest user without password
     const user = await UserRepository.create({
