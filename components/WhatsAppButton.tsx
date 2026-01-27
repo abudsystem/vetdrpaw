@@ -61,8 +61,9 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
         minute: '2-digit'
     });
 
-    // Very simple message
-    const message = `Hola ${clientName}, le recordamos su cita: ${petName} ${petSpecies}, ${appointmentDate} ${appointmentTime}. Motivo: ${appointment.reason}`;
+    // Simplified but friendly message
+    const message = `Hola, ${clientName} 👋\nTe recordamos con gusto tu próxima cita con nosotros:\n\n📅 Para el día ${appointmentDate}\n⏰ A esta hora ${appointmentTime}\n💉 con el motivo de: ${appointment.reason}\n Con tu mascota ${petName} \n\n¡Te esperamos para cuidar la salud de tu peludito! Si necesitas reprogramar o tienes alguna consulta, no dudes en contactarnos 💙 \n\n Con gusto te esperamos en la veterinaria ubicada en: \nhttps://maps.app.goo.gl/Zkupxkj23bzto3du5
+    `;
 
 
     {/* WhatsApp Móvil */ }
