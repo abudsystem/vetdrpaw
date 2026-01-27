@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Appointment, AppointmentFormData, AppointmentStatus } from "@/components/veterinario/citas/types";
-import { filterByStatus, getPaginatedData, getTotalPages } from "@/components/veterinario/citas/utils";
+import { filterByStatus, getPaginatedData, getTotalPages, sortAppointmentsByDate } from "@/components/veterinario/citas/utils";
 import { AppointmentServices } from "@/services/client/appointment.service";
 import { UserServices } from "@/services/client/user.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 export const useVetAppointments = () => {
     const queryClient = useQueryClient();
     const [activeTab, setActiveTab] = useState<AppointmentStatus>("pendiente");
+    const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState<{ [key in AppointmentStatus]: number }>({
         pendiente: 1,
         aceptada: 1,
@@ -25,6 +26,17 @@ export const useVetAppointments = () => {
         queryKey: ['user', 'veterinarian'],
         queryFn: () => UserServices.getUserVeterinarianProfile(),
     });
+
+    // Reset to page 1 when searching
+    useEffect(() => {
+        setCurrentPage((prev) => {
+            const reset: any = { ...prev };
+            Object.keys(reset).forEach(key => {
+                reset[key] = 1;
+            });
+            return reset;
+        });
+    }, [searchTerm]);
 
     const loading = loadingAppointments || loadingUser;
 
@@ -69,11 +81,24 @@ export const useVetAppointments = () => {
         }
     };
 
-    // Filter and Pagination Logic
-    const filteredAppointments = filterByStatus(appointments, activeTab);
-    const totalPages = getTotalPages(filteredAppointments.length);
+    // 1. Filter by Status and Sort by Date (Newest First)
+    const statusFiltered = filterByStatus(appointments, activeTab);
+
+    // 2. Global Search (within the current tab)
+    const searchFiltered = statusFiltered.filter(app => {
+        if (!searchTerm) return true;
+        const term = searchTerm.toLowerCase();
+        return (
+            (app.pet?.nombre && app.pet.nombre.toLowerCase().includes(term)) ||
+            (app.pet?.propietario?.name && app.pet.propietario.name.toLowerCase().includes(term)) ||
+            (app.reason && app.reason.toLowerCase().includes(term))
+        );
+    });
+
+    // 3. Pagination of the filtered results
+    const totalPages = getTotalPages(searchFiltered.length);
     const paginatedAppointments = getPaginatedData(
-        filteredAppointments,
+        searchFiltered,
         currentPage[activeTab]
     );
 
@@ -87,9 +112,11 @@ export const useVetAppointments = () => {
         loading,
         activeTab,
         setActiveTab,
+        searchTerm,
+        setSearchTerm,
         currentPage: currentPage[activeTab],
         totalPages,
-        totalItems: filteredAppointments.length,
+        totalItems: searchFiltered.length,
         paginatedAppointments,
         handlePageChange,
         updateStatus,

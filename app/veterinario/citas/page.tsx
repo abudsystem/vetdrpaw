@@ -26,7 +26,9 @@ export default function VetAppointmentsPage() {
         paginatedAppointments,
         handlePageChange,
         updateStatus,
-        createAppointment
+        createAppointment,
+        searchTerm,
+        setSearchTerm
     } = useVetAppointments();
 
     const searchParams = useSearchParams();
@@ -35,7 +37,6 @@ export default function VetAppointmentsPage() {
     const [showForm, setShowForm] = useState(false);
     const [showReasonModal, setShowReasonModal] = useState(false);
     const [selectedReason, setSelectedReason] = useState<ReasonModalData | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
 
     // Scroll to and highlight appointment if highlight parameter is present
     useEffect(() => {
@@ -56,12 +57,8 @@ export default function VetAppointmentsPage() {
         }
     }, [highlightId, appointments, setActiveTab]);
 
-    // Filter appointments by search term
-    const searchFilteredAppointments = paginatedAppointments.filter(
-        (appointment) =>
-            (appointment.pet?.nombre && appointment.pet.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (appointment.pet?.propietario?.name && appointment.pet.propietario.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    // Filter appointments by search term - Now handled by the hook
+    const searchFilteredAppointments = paginatedAppointments;
 
     const handleSubmit = async (formData: any) => {
         const success = await createAppointment(formData);

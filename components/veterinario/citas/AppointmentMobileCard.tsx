@@ -37,19 +37,28 @@ export default function AppointmentMobileCard({
         }
     };
 
+    const isOverdue = new Date(appointment.date).getTime() < Date.now() && appointment.status !== 'completado' && appointment.status !== 'cancelada';
+
     return (
-        <div className="bg-white p-4 rounded-lg shadow border overflow-hidden">
+        <div className={`p-4 rounded-lg shadow border overflow-hidden ${isOverdue ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
             {/* FECHA */}
-            <p className="text-sm font-semibold text-gray-700 capitalize">
-                {new Date(appointment.date).toLocaleString(locale === 'es' ? 'es-ES' : 'en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                })}
-            </p>
+            <div className="mb-2">
+                <p className={`text-sm font-bold capitalize ${isOverdue ? 'text-red-600 underline' : 'text-gray-700'}`}>
+                    {new Date(appointment.date).toLocaleString(locale === 'es' ? 'es-ES' : 'en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}
+                </p>
+                {isOverdue && (
+                    <p className="text-[10px] text-red-600 font-black mt-1 uppercase tracking-tight">
+                        ⚠ {t('overdueMessage')}
+                    </p>
+                )}
+            </div>
 
             {/* PACIENTE */}
             <p className="mt-2 text-gray-900 font-medium">

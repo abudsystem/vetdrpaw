@@ -29,6 +29,7 @@ export default function AppointmentTable({
     const t = useTranslations('VetPanel.appointments.table');
     const tc = useTranslations('ClientPanel.common');
     const ta = useTranslations('ClientPanel.appointments.table');
+    const tp = useTranslations('VetPanel.appointments');
     const locale = useLocale();
 
     // ✅ EL STATE VA AQUÍ
@@ -66,18 +67,27 @@ export default function AppointmentTable({
                         const horaTexto = fecha.toLocaleTimeString(locale === 'es' ? 'es-ES' : 'en-US', { hour: "2-digit", minute: "2-digit" });
 
                         const isHighlighted = highlightId === app._id;
+                        const isOverdue = fecha.getTime() < Date.now() && app.status !== 'completado' && app.status !== 'cancelada';
 
                         return (
                             <TableRow
                                 key={app._id}
                                 id={`appointment-${app._id}`}
-                                className={isHighlighted ? 'bg-teal-50 ring-4 ring-teal-400 animate-pulse' : ''}
+                                className={`
+                                    ${isHighlighted ? 'ring-4 ring-teal-400 animate-pulse bg-teal-50' : ''} 
+                                    ${isOverdue ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-gray-50'}
+                                `}
                             >
                                 {/* FECHA */}
-                                <TableCell className="whitespace-nowrap text-sm text-gray-900">
+                                <TableCell className="whitespace-nowrap text-sm">
                                     <div className="flex flex-col">
-                                        <span className="font-medium">{fechaTexto}</span>
-                                        <span className="text-gray-700">{horaTexto}</span>
+                                        <span className={`font-semibold ${isOverdue ? 'text-red-600' : 'text-gray-900'}`}>{fechaTexto}</span>
+                                        <span className={`${isOverdue ? 'text-red-500 font-medium' : 'text-gray-700'}`}>{horaTexto}</span>
+                                        {isOverdue && (
+                                            <span className="text-[10px] text-red-600 font-bold mt-1 max-w-[120px] whitespace-normal">
+                                                ⚠ {tp('overdueMessage')}
+                                            </span>
+                                        )}
                                     </div>
                                 </TableCell>
 

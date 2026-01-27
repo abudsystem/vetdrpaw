@@ -481,6 +481,7 @@
             "reason": "Reason",
             "saveAppointment": "Save Appointment",
             "reasonPlaceholder": "Describe briefly the reason for the consultation...",
+            "overdueMessage": "Appointment time has already passed",
             "tabs": {
                 "pending": "Pending",
                 "accepted": "Accepted",

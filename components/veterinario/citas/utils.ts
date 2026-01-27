@@ -1,12 +1,33 @@
 import { Appointment } from "./types";
 
 /**
- * Filter appointments by status and sort by date (newest first)
+ * Sort appointments chronologically (oldest/soonest first)
+ */
+export const sortAppointmentsByDate = (appointments: Appointment[]): Appointment[] => {
+    return [...appointments].sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateA - dateB;
+    });
+};
+
+/**
+ * Filter appointments by status and sort
  */
 export const filterByStatus = (appointments: Appointment[], status: string): Appointment[] => {
-    return appointments
-        .filter((app) => app.status === status)
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const filtered = appointments.filter((app) => app.status === status);
+
+    // For historical tabs, newest first
+    if (status === 'completado' || status === 'cancelada') {
+        return filtered.sort((a, b) => {
+            const dateA = a.date ? new Date(a.date).getTime() : 0;
+            const dateB = b.date ? new Date(b.date).getTime() : 0;
+            return dateB - dateA;
+        });
+    }
+
+    // For active tabs, chronological (puts overdue at the top)
+    return sortAppointmentsByDate(filtered);
 };
 
 /**

@@ -482,6 +482,7 @@
             "reason": "Motivo",
             "saveAppointment": "Guardar Cita",
             "reasonPlaceholder": "Describe brevemente el motivo de la consulta...",
+            "overdueMessage": "El tiempo de la cita ya ha pasado",
             "tabs": {
                 "pending": "Pendientes",
                 "accepted": "Aceptadas",
