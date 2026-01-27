@@ -49,6 +49,7 @@ export const SalesList = ({ sales }: SalesListProps) => {
                 <table className="min-w-full bg-white border border-gray-200">
                     <thead>
                         <tr className="bg-gray-50 text-left">
+                            <th className="py-3 px-4 border-b font-semibold text-gray-700">{t('invoiceManual') || "Factura #"}</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">{t('table.date')}</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">{t('table.client')}</th>
                             <th className="py-3 px-4 border-b font-semibold text-gray-700">{t('table.total')}</th>
@@ -63,6 +64,13 @@ export const SalesList = ({ sales }: SalesListProps) => {
                     <tbody>
                         {paginatedSales.map((sale) => (
                             <tr key={sale._id} className="hover:bg-gray-50">
+                                <td className="py-3 px-4 border-b">
+                                    {sale.invoiceNumber ? (
+                                        <span className="font-bold text-black bg-white px-2 py-1 rounded border border-black">{sale.invoiceNumber}</span>
+                                    ) : (
+                                        <span className="text-gray-400 text-xs italic">N/A</span>
+                                    )}
+                                </td>
                                 <td className="py-3 px-4 border-b text-gray-800">
                                     {new Date(sale.date).toLocaleString(locale === 'es' ? 'es-ES' : 'en-US')}
                                 </td>

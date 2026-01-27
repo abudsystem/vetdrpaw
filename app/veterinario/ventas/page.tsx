@@ -33,7 +33,9 @@ export default function SalesPage() {
     const filteredSales = sales.filter(
         (sale) =>
             (sale.client?.name && sale.client.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (sale.paymentMethod && sale.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase()))
+            (sale.paymentMethod && sale.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (sale.invoiceNumber && sale.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (sale._id.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     return (

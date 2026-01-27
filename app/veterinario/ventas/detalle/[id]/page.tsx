@@ -47,7 +47,20 @@ export default function SaleDetailPage() {
                 <h1 className="text-3xl font-bold text-gray-800">{t('title')}</h1>
                 <p className="text-gray-600">{t('subtitle')}</p>
                 <p className="text-sm text-gray-700 mt-2">{t('purchase')}</p>
-                <p className="text-sm text-gray-700">#{sale._id.slice(-6).toUpperCase()}</p>
+                <div className="mt-2">
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">{t('invoiceInternal') || "Venta #"}</p>
+                    <p className="text-sm font-mono font-bold text-gray-800">#{sale._id.slice(-8).toUpperCase()}</p>
+                </div>
+                {sale.invoiceNumber && (
+                    <div className="mt-2 py-1 px-3 bg-white inline-block rounded-md border border-blue-100">
+                        <p className="text-[10px] text-black uppercase font-bold tracking-tighter leading-none mb-1">
+                            {t('invoiceManual') || "Factura/Nota #"}
+                        </p>
+                        <p className="text-lg font-black text-black leading-none">
+                            {sale.invoiceNumber}
+                        </p>
+                    </div>
+                )}
             </div>
 
             {/* Info */}

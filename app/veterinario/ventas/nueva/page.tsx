@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Modal } from "@/components/ui/Modal";
+import { CheckCircle, FileText, Plus, History, Eye } from "lucide-react";
+import Link from "next/link";
 
 interface IProduct {
     _id: string;
@@ -66,7 +69,10 @@ export default function NewSalePage() {
     const [pets, setPets] = useState<IPet[]>([]);
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
     const [paymentMethod, setPaymentMethod] = useState("Efectivo");
+    const [invoiceNumber, setInvoiceNumber] = useState(""); // NEW
     const [loading, setLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [createdSale, setCreatedSale] = useState<any>(null);
 
     const getId = useCallback((item: any) => {
         if (!item) return "";
@@ -263,6 +269,7 @@ export default function NewSalePage() {
                 client: selectedClient || null,
                 pet: selectedPet || null,
                 appointment: selectedAppointment || null,
+                invoiceNumber: invoiceNumber || undefined, // NEW
                 userId: me._id
             };
 
@@ -273,8 +280,15 @@ export default function NewSalePage() {
             });
 
             if (res.ok) {
-                alert(t("saleSuccess"));
-                router.push("/veterinario/ventas");
+                const saleData = await res.json();
+                setCreatedSale(saleData);
+                setShowSuccessModal(true);
+                // Reset form
+                setCart([]);
+                setSelectedClient("");
+                setSelectedPet("");
+                setSelectedAppointment("");
+                setInvoiceNumber("");
             } else {
                 const err = await res.json();
                 if (err.error === "VALIDATION_ERROR" && err.fields) {
@@ -478,6 +492,20 @@ export default function NewSalePage() {
                         </div>
                     </div>
 
+                    {/* Invoice Number Input - NEW */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            {t("invoiceNumber") || "Número de Factura / Nota"} <span className="text-gray-400 font-normal">({t("optional") || "Opcional"})</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Ej: A-0001"
+                            value={invoiceNumber}
+                            onChange={(e) => setInvoiceNumber(e.target.value)}
+                            className="w-full border border-gray-300 rounded-md p-2 text-black"
+                        />
+                    </div>
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">{t("bill.paymentMethod")}</label>
                         <select
@@ -501,6 +529,66 @@ export default function NewSalePage() {
                     </button>
                 </div>
             </div>
+
+            {/* Success Modal */}
+            <Modal
+                isOpen={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                title={t("successModalTitle")}
+                size="md"
+            >
+                <div className="flex flex-col items-center text-center p-2">
+                    <div className="bg-green-100 p-4 rounded-full mb-4">
+                        <CheckCircle className="text-green-600 w-12 h-12" />
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                        {t("saleSuccess")}
+                    </h3>
+
+                    <div className="w-full bg-gray-50 rounded-lg p-4 mb-6 text-left border border-gray-100">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-500 text-sm font-medium">{t("invoiceInternal")}</span>
+                            <span className="text-gray-900 font-bold">#{(createdSale as any)?._id?.slice(-8).toUpperCase()}</span>
+                        </div>
+                        {createdSale?.invoiceNumber && (
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-gray-500 text-sm font-medium">{t("invoiceManual")}</span>
+                                <span className="text-black font-bold">{createdSale.invoiceNumber}</span>
+                            </div>
+                        )}
+                        <div className="flex justify-between items-center mb-2 border-t pt-2 mt-2">
+                            <span className="text-gray-500 text-sm font-medium">{t("total")}</span>
+                            <span className="text-black font-extrabold text-xl">${createdSale?.total?.toFixed(2)}</span>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3 w-full">
+                        <Link
+                            href={`/veterinario/ventas/detalle/${createdSale?._id}`}
+                            className="flex items-center justify-center gap-2 bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
+                        >
+                            <Eye size={20} /> {t("table.viewInvoice")}
+                        </Link>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={() => setShowSuccessModal(false)}
+                                className="flex items-center justify-center gap-2 bg-gray-100 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors border border-gray-200"
+                            >
+                                <Plus size={20} /> {t("nextSale")}
+                            </button>
+
+                            <Link
+                                href="/veterinario/ventas"
+                                className="flex items-center justify-center gap-2 bg-white text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-50 transition-colors border border-gray-200"
+                            >
+                                <History size={20} /> {t("backToList")}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }

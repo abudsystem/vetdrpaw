@@ -22,6 +22,7 @@ export const SaleService = {
         client?: string | null,
         pet?: string | null,
         appointment?: string | null,
+        invoiceNumber?: string, // NEW
         userId: string
     }) => {
         const session = await mongoose.startSession();
@@ -89,6 +90,7 @@ export const SaleService = {
                 client: data.client as any,
                 pet: data.pet as any,
                 appointment: data.appointment as any,
+                invoiceNumber: data.invoiceNumber, // NEW
                 user: data.userId as any,
                 date: new Date()
             }, session);
@@ -98,11 +100,17 @@ export const SaleService = {
             if (saleProducts.length > 0) itemsDesc.push(`${saleProducts.length} prod.`);
             if (saleServices.length > 0) itemsDesc.push(`${saleServices.length} serv.`);
 
+            let description = `Venta #${(sale as any)._id.toString().slice(-8)}`;
+            if (data.invoiceNumber) {
+                description += ` (Factura: ${data.invoiceNumber})`;
+            }
+            description += ` - ${data.paymentMethod} - ${itemsDesc.join(' + ')}`;
+
             await CashFlowRepository.create({
                 date: new Date(),
                 type: 'INGRESO',
                 category: 'VENTA',
-                description: `Venta #${(sale as any)._id.toString().slice(-8)} - ${data.paymentMethod} - ${itemsDesc.join(' + ')}`,
+                description,
                 amount: total,
                 relatedDocument: (sale as any)._id.toString(),
                 createdBy: data.userId || 'Sistema'

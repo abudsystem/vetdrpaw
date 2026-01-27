@@ -11,6 +11,7 @@ export interface ISale {
     appointment?: { reason: string; date: string };
     user: { name: string };
     products: any[];
+    invoiceNumber?: string;
 }
 
 interface SalesMobileCardProps {
@@ -65,6 +66,12 @@ export const SalesMobileCard = ({ sale }: SalesMobileCardProps) => {
                     <span className="text-xs text-gray-700">{tb('registeredBy')}</span>
                     <span className="font-medium text-black">{sale.user?.name || tc('notAvailable')}</span>
                 </div>
+                {sale.invoiceNumber && (
+                    <div className="flex flex-col col-span-2 mt-2 pt-2 border-t border-gray-200">
+                        <span className="text-xs text-gray-700 font-bold text-blue-600">{t('invoiceManual') || "Factura/Nota #"}</span>
+                        <span className="font-bold text-blue-800">{sale.invoiceNumber}</span>
+                    </div>
+                )}
             </div>
 
             <div className="flex justify-end mt-4 pt-3 border-t border-gray-100">

@@ -26,6 +26,7 @@ export interface ISale extends Document {
     user: mongoose.Types.ObjectId; // Admin/Vet who registered the sale
     subtotal: number; // NEW: Subtotal without IVA
     iva: number; // NEW: IVA amount
+    invoiceNumber?: string; // NEW: Manual invoice number
     createdAt: Date;
     updatedAt: Date;
 }
@@ -51,6 +52,7 @@ const saleSchema = new Schema<ISale>(
         total: { type: Number, required: true },
         subtotal: { type: Number, required: true },
         iva: { type: Number, required: true },
+        invoiceNumber: { type: String, required: false }, // Optional field for physical invoice linkage
         paymentMethod: {
             type: String,
             enum: ["Efectivo", "Tarjeta", "Transferencia", "Otro"],

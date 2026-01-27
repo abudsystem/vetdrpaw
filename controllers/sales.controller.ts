@@ -18,6 +18,7 @@ const createSaleSchema = z.object({
     client: z.string().optional().nullable(),
     pet: z.string().optional().nullable(),
     appointment: z.string().optional().nullable(),
+    invoiceNumber: z.string().optional(),
 });
 
 export const SalesController = {

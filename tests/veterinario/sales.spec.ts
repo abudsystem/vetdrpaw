@@ -131,4 +131,19 @@ test.describe("Veterinarian - Sales Management", () => {
         expect(summary).toHaveProperty("totalSales");
         expect(summary).toHaveProperty("totalRevenue");
     });
+
+    test("Should create a sale with invoice number", async ({ request }) => {
+        const saleData = generateSaleData(productId);
+        const invoiceNumber = "FACT-001";
+        const saleWithInvoice = { ...saleData, invoiceNumber };
+
+        const response = await request.post(`${BASE_URL}/sales`, {
+            headers: getAuthHeaders(vetToken),
+            data: saleWithInvoice,
+        });
+
+        expect(response.status()).toBe(201);
+        const sale = await response.json();
+        expect(sale.invoiceNumber).toBe(invoiceNumber);
+    });
 });
