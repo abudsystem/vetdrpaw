@@ -88,7 +88,7 @@ export const BackupList = ({ backups, formatBytes, onDelete }: BackupListProps) 
                                     {new Date(backup.createdAt).toLocaleString()}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
-                                    {typeof backup.createdBy === 'object' ? backup.createdBy.name : backup.createdBy}
+                                    {backup.createdBy && typeof backup.createdBy === 'object' ? backup.createdBy.name : (backup.createdBy || 'N/A')}
                                 </TableCell>
                                 <TableCell className="text-sm text-gray-700">
                                     {backup.recordCount} {t('table.products')}
